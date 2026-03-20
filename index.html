@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Bugi Bud — Budget Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #f5f4f1;
@@ -99,7 +99,7 @@
   }
   .header-top { display: flex; justify-content: space-between; align-items: center; }
   .logo {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'DM Mono', 'Courier New', monospace;
     font-weight: 600;
     font-size: 26px;
     letter-spacing: -0.3px;
@@ -182,9 +182,9 @@
     font-weight: 500;
   }
   .card-value {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-weight: 600;
-    font-size: 26px;
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-weight: 400;
+    font-size: 24px;
     letter-spacing: -0.5px;
     line-height: 1;
   }
@@ -255,13 +255,33 @@
     border: none;
     color: var(--muted-light);
     cursor: pointer;
-    padding: 6px;
-    font-size: 14px;
-    margin-left: 2px;
-    border-radius: 6px;
+    padding: 8px;
+    font-size: 15px;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 8px;
     transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .tx-delete:hover { color: var(--red); background: var(--red-bg); }
+  .tx-delete:hover, .tx-delete:active { color: var(--red); background: var(--red-bg); }
+  .tx-edit {
+    background: none;
+    border: none;
+    color: var(--muted-light);
+    cursor: pointer;
+    padding: 8px;
+    font-size: 15px;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 8px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tx-edit:hover, .tx-edit:active { color: var(--accent-gold); background: var(--accent-gold-light); }
 
   .empty-state { text-align: center; padding: 48px 20px; color: var(--muted); }
   .empty-state .emoji { font-size: 36px; margin-bottom: 14px; opacity: 0.6; }
@@ -277,7 +297,7 @@
     border-radius: 16px;
     background: var(--text);
     border: none;
-    color: #ffffff;
+    color: var(--bg);
     font-size: 26px;
     cursor: pointer;
     box-shadow: 0 6px 24px rgba(0,0,0,0.22);
@@ -356,9 +376,9 @@
   .modal-overlay.open .modal { transform: translateY(0); }
   .modal-handle { width: 36px; height: 4px; background: var(--surface3); border-radius: 99px; margin: 0 auto 22px; }
   .modal-title {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 20px;
     letter-spacing: -0.3px;
     margin-bottom: 22px;
     color: var(--text);
@@ -520,6 +540,46 @@
   }
   .theme-toggle:active { transform: scale(0.88) rotate(20deg); }
 
+  /* Trip checklist */
+  .trip-group { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; box-shadow: var(--shadow-sm); }
+  .trip-group-header { display: flex; align-items: center; gap: 10px; padding: 13px 16px; cursor: pointer; user-select: none; }
+  .trip-group-icon { font-size: 18px; flex-shrink: 0; }
+  .trip-group-title { font-weight: 600; font-size: 13px; flex: 1; color: var(--text); }
+  .trip-group-count { font-size: 11px; color: var(--muted); font-weight: 500; }
+  .trip-group-chevron { font-size: 11px; color: var(--muted); transition: transform 0.2s; }
+  .trip-group-chevron.open { transform: rotate(90deg); }
+  .trip-group-items { border-top: 1px solid var(--border); }
+  .trip-item { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
+  .trip-item:last-child { border-bottom: none; }
+  .trip-item:active { background: var(--surface2); }
+  .trip-check { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--border-strong); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; background: var(--surface2); }
+  .trip-check.checked { background: var(--accent-gold); border-color: var(--accent-gold); }
+  .trip-check.checked::after { content: '✓'; font-size: 11px; color: white; font-weight: 700; }
+  .trip-item-label { font-size: 13px; color: var(--text2); flex: 1; transition: all 0.2s; }
+  .trip-item-label.checked { color: var(--muted); text-decoration: line-through; }
+  .trip-item-note { font-size: 11px; color: var(--muted); }
+
+  /* Monthly bar chart */
+  .bar-chart { display: flex; align-items: flex-end; gap: 5px; height: 100px; padding: 0 2px; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .bar-pair { display: flex; gap: 2px; align-items: flex-end; width: 100%; justify-content: center; }
+  .bar { border-radius: 4px 4px 0 0; min-height: 3px; transition: height 0.4s cubic-bezier(0.4,0,0.2,1); }
+  .bar-label { font-size: 9px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .bar-col.current-month .bar-label { color: var(--accent-gold); font-weight: 700; }
+
+  /* Yearly month table */
+  .year-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 4px; cursor: pointer; transition: background 0.15s; border: 1px solid transparent; }
+  .year-row:hover { background: var(--surface2); }
+  .year-row.active-month { background: var(--accent-gold-light); border-color: var(--accent-gold); }
+  .year-row-month { font-size: 13px; font-weight: 500; color: var(--text); width: 72px; flex-shrink: 0; }
+  .year-row-bars { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .year-mini-bar-wrap { background: var(--surface3); border-radius: 99px; height: 4px; overflow: hidden; width: 100%; }
+  .year-mini-bar { height: 100%; border-radius: 99px; transition: width 0.5s ease; }
+  .year-row-amounts { text-align: right; min-width: 68px; }
+  .year-row-spent { font-size: 13px; font-weight: 600; color: var(--text); }
+  .year-row-income { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .year-row-saved { font-size: 11px; font-weight: 500; }
+
   /* Divider */
   hr { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
 </style>
@@ -528,7 +588,7 @@
 
 <div class="header">
   <div class="header-top">
-    <div class="logo">Bugi <span>Bud</span></div>
+    <div class="logo" style="font-family:'Inter',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;text-transform:uppercase;">BUGI <span>BUD</span></div>
     <div style="display:flex;align-items:center;gap:10px;">
       <div id="netBadge" style="font-family:'Inter',sans-serif;font-weight:600;font-size:13px;"></div>
       <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
@@ -582,7 +642,7 @@
         <canvas id="pieChart" width="200" height="200"></canvas>
         <div id="pieCenter" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;">
           <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-family:'Inter',sans-serif;">Total</div>
-          <div id="pieCenterAmt" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:22px;color:var(--text);letter-spacing:-0.3px;"></div>
+          <div id="pieCenterAmt" style="font-family:'DM Mono','Courier New',monospace;font-weight:400;font-size:20px;color:var(--text);letter-spacing:-0.5px;"></div>
         </div>
       </div>
       <div id="pieLegend" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px;width:100%;"></div>
@@ -594,6 +654,49 @@
     <div class="section-title">By Category</div>
     <div id="catBreakdown"><div class="empty-state"><div class="emoji">📊</div><p>No expenses yet this month.</p></div></div>
   </div>
+
+  <!-- MONTHLY BAR CHART -->
+  <div class="section">
+    <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
+      <span>Monthly at a Glance</span>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--green);font-weight:500;"><span style="width:8px;height:8px;border-radius:2px;background:var(--green);display:inline-block;"></span>Income</span>
+        <span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--red);font-weight:500;"><span style="width:8px;height:8px;border-radius:2px;background:var(--red);display:inline-block;"></span>Spent</span>
+      </div>
+    </div>
+    <div id="monthlyBarChart" style="padding:4px 0 8px;"></div>
+  </div>
+
+  <!-- YEARLY SUMMARY -->
+  <div class="section" style="padding-bottom:32px;">
+    <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
+      <span>Yearly Summary — <span id="yearLabel"></span></span>
+      <div style="display:flex;gap:6px;">
+        <button onclick="changeYear(-1)" style="background:var(--surface2);border:1px solid var(--border-strong);color:var(--text2);border-radius:8px;padding:3px 9px;cursor:pointer;font-size:13px;">‹</button>
+        <button onclick="changeYear(1)" style="background:var(--surface2);border:1px solid var(--border-strong);color:var(--text2);border-radius:8px;padding:3px 9px;cursor:pointer;font-size:13px;">›</button>
+      </div>
+    </div>
+
+    <!-- Yearly totals cards -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+      <div class="card" style="padding:14px;text-align:center;">
+        <div class="card-label">Income</div>
+        <div id="yearTotalIncome" style="font-family:'DM Mono','Courier New',monospace;font-weight:400;font-size:17px;color:var(--green);letter-spacing:-0.3px;">$0</div>
+      </div>
+      <div class="card" style="padding:14px;text-align:center;">
+        <div class="card-label">Spent</div>
+        <div id="yearTotalSpent" style="font-family:'DM Mono','Courier New',monospace;font-weight:400;font-size:17px;color:var(--red);letter-spacing:-0.3px;">$0</div>
+      </div>
+      <div class="card" style="padding:14px;text-align:center;">
+        <div class="card-label">Saved</div>
+        <div id="yearTotalSaved" style="font-family:'DM Mono','Courier New',monospace;font-weight:400;font-size:17px;letter-spacing:-0.3px;">$0</div>
+      </div>
+    </div>
+
+    <!-- Month-by-month table -->
+    <div id="yearMonthTable"></div>
+  </div>
+
 </div>
 
 <!-- TRANSACTIONS TAB -->
@@ -634,6 +737,70 @@
     <div class="section-title">Spending Habits</div>
     <div id="habitsList"></div>
   </div>
+
+  <!-- TRIP EXPENSE TRACKER -->
+  <div class="section" style="padding-bottom:32px;">
+    <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
+      <span>✈️ &nbsp;Trip Expense Tracker</span>
+      <span id="tripTotalBadge" style="font-family:'DM Mono',monospace;font-size:12px;color:var(--accent-gold);font-weight:500;"></span>
+    </div>
+
+    <!-- Trip Info -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;gap:10px;">
+        <div style="flex:1;">
+          <div class="form-label">Trip Name</div>
+          <input type="text" class="form-input" id="tripName" placeholder="e.g. Road Trip 2025" oninput="saveTripMeta()" style="padding:10px 12px;font-size:14px;">
+        </div>
+        <div style="flex:1;">
+          <div class="form-label">Trip Budget ($)</div>
+          <input type="number" class="form-input" id="tripBudget" placeholder="0.00" step="0.01" oninput="saveTripMeta()" style="padding:10px 12px;font-size:14px;">
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:10px;">
+        <div style="flex:1;">
+          <div class="form-label">Departure</div>
+          <input type="date" class="form-input" id="tripDep" oninput="saveTripMeta()" style="padding:10px 12px;font-size:14px;">
+        </div>
+        <div style="flex:1;">
+          <div class="form-label">Return</div>
+          <input type="date" class="form-input" id="tripRet" oninput="saveTripMeta()" style="padding:10px 12px;font-size:14px;">
+        </div>
+      </div>
+      <div id="tripCountdown" style="margin-top:12px;font-size:12px;color:var(--accent-gold);font-weight:600;text-align:center;letter-spacing:0.5px;"></div>
+      <!-- Budget progress -->
+      <div id="tripBudgetBar" style="margin-top:12px;display:none;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px;">
+          <span id="tripSpentLabel">$0 spent</span>
+          <span id="tripRemainingLabel">$0 remaining</span>
+        </div>
+        <div class="progress-bar" style="height:5px;">
+          <div class="progress-fill" id="tripBudgetFill" style="width:0%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Expense Row -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:14px;box-shadow:var(--shadow-sm);">
+      <div class="form-label" style="margin-bottom:10px;">Add Trip Expense</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <!-- Category picker -->
+        <div style="overflow-x:auto;display:flex;gap:6px;padding-bottom:2px;scrollbar-width:none;flex:1 1 100%;" id="tripCatPicker"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <input type="text" id="tripExpDesc" class="form-input" placeholder="Description (optional)" style="flex:2;padding:10px 12px;font-size:14px;">
+        <input type="number" id="tripExpAmt" class="form-input" placeholder="$0.00" step="0.01" min="0" style="flex:1;padding:10px 12px;font-size:14px;">
+      </div>
+      <button onclick="addTripExpense()" style="width:100%;margin-top:10px;padding:12px;border-radius:var(--radius-sm);border:none;background:var(--text);color:var(--bg);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:0.3px;">+ Add Expense</button>
+    </div>
+
+    <!-- Expense list by category -->
+    <div id="tripExpenseList"></div>
+
+    <!-- Clear all -->
+    <button onclick="clearTripExpenses()" style="width:100%;margin-top:10px;padding:11px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:11px;font-weight:500;cursor:pointer;letter-spacing:0.8px;text-transform:uppercase;">Clear All Trip Expenses</button>
+  </div>
+
 </div>
 
 <!-- ACCOUNTS TAB -->
@@ -643,7 +810,7 @@
   <div class="summary">
     <div class="card wide" style="flex-direction:column;align-items:stretch;gap:6px;">
       <div class="card-label">Total Net Worth</div>
-      <div class="card-value income" id="netWorth" style="font-size:32px;font-family:'Cormorant Garamond',Georgia,serif;">$0.00</div>
+      <div class="card-value income" id="netWorth" style="font-size:28px;font-family:'DM Mono','Courier New',monospace;font-weight:400;">$0.00</div>
       <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;">
         <div><div class="card-label" style="margin-bottom:2px;">Total Balances</div><div style="font-family:'Inter',sans-serif;font-weight:500;font-size:14px;" id="totalBalances">$0.00</div></div>
         <div><div class="card-label" style="margin-bottom:2px;">Est. Annual Interest</div><div style="font-family:'Inter',sans-serif;font-weight:500;font-size:14px;color:var(--green);" id="totalAnnualInterest">$0.00</div></div>
@@ -776,7 +943,7 @@
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Add Transaction</div>
+    <div class="modal-title" id="modalTitle">Add Transaction</div>
 
     <div class="form-group">
       <label class="form-label">Type</label>
@@ -816,7 +983,7 @@
       <input type="date" id="txDate" class="form-input">
     </div>
 
-    <button class="submit-btn" onclick="addTransaction()">Add Transaction</button>
+    <button class="submit-btn" id="submitBtn" onclick="addTransaction()">Add Transaction</button>
   </div>
 </div>
 
@@ -843,6 +1010,8 @@ let selectedCat = 'food';
 let selectedFreq = 'once';
 let txFilter = 'all';
 let currentTab = 'overview';
+let viewYear = new Date().getFullYear();
+let editingTxId = null;
 
 function loadData() {
   return JSON.parse(localStorage.getItem('spendly_data') || '{"transactions":[],"budgetGoal":""}');
@@ -873,6 +1042,7 @@ function changeMonth(dir) {
   currentMonth += dir;
   if (currentMonth > 11) { currentMonth = 0; currentYear++; }
   if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+  viewYear = currentYear;
   updateMonthLabel();
   renderAll();
 }
@@ -881,6 +1051,8 @@ function renderAll() {
   renderSummary();
   renderPieChart();
   renderCatBreakdown();
+  renderMonthlyBarChart();
+  renderYearlySummary();
   renderTransactions();
   renderBudgetTab();
   renderAccounts();
@@ -895,7 +1067,16 @@ function renderPieChart() {
   const centerAmt = document.getElementById('pieCenterAmt');
   const pieCenter = document.getElementById('pieCenter');
 
-  ctx.clearRect(0, 0, 200, 200);
+  // Crisp rendering on retina / mobile screens
+  const dpr = window.devicePixelRatio || 1;
+  const size = 200;
+  canvas.width = size * dpr;
+  canvas.height = size * dpr;
+  canvas.style.width = size + 'px';
+  canvas.style.height = size + 'px';
+  ctx.scale(dpr, dpr);
+
+  ctx.clearRect(0, 0, size, size);
 
   if (!txs.length) {
     canvas.style.display = 'none';
@@ -916,22 +1097,37 @@ function renderPieChart() {
   centerAmt.textContent = fmt(total);
 
   const sorted = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+
+  // 12 colors evenly spaced across the hue wheel — no two are visually similar
   const catColorMap = {
-    food: '#c9913a', transport: '#4a7fb5', bills: '#7a5bb5', shopping: '#b5664a',
-    health: '#3a8c62', entertainment: '#b54a75', housing: '#3a8c8c',
-    education: '#8c863a', savings: '#4a8c5b', subscriptions: '#7a6cb5',
-    travel: '#4a9bb5', other: '#888888'
+    food:          '#FF3B30',   // red
+    transport:     '#FF9500',   // orange
+    bills:         '#FFCC00',   // yellow
+    shopping:      '#34C759',   // green
+    health:        '#00C7BE',   // teal / cyan
+    entertainment: '#007AFF',   // blue
+    housing:       '#5856D6',   // indigo
+    education:     '#AF52DE',   // purple
+    savings:       '#FF2D92',   // magenta / pink
+    subscriptions: '#A2845E',   // brown / tan
+    travel:        '#FF6B35',   // deep orange (distinct from orange above)
+    other:         '#8E8E93'    // neutral grey
   };
 
-  const cx = 100, cy = 100, outerR = 90, innerR = 54;
+  // Fallback: hue-wheel colors for any extra categories
+  const fallbackColors = ['#FF3B30','#FF9500','#FFCC00','#34C759','#00C7BE','#007AFF','#5856D6','#AF52DE','#FF2D92','#A2845E'];
+  let fallbackIdx = 0;
+
+  const cx = 100, cy = 100, outerR = 88, innerR = 52;
   let startAngle = -Math.PI / 2;
-  const gap = 0.03;
+  const gap = 0.025;
 
   sorted.forEach(([catId, amt]) => {
     const slice = (amt / total) * (Math.PI * 2);
-    const color = catColorMap[catId] || '#a0a0b0';
+    const color = catColorMap[catId] || fallbackColors[fallbackIdx++ % fallbackColors.length];
     const s = startAngle + gap / 2;
     const e = startAngle + slice - gap / 2;
+
     ctx.beginPath();
     ctx.moveTo(cx + innerR * Math.cos(s), cy + innerR * Math.sin(s));
     ctx.arc(cx, cy, outerR, s, e);
@@ -939,17 +1135,20 @@ function renderPieChart() {
     ctx.closePath();
     ctx.fillStyle = color;
     ctx.fill();
+
     startAngle += slice;
   });
 
+  // Legend pills — reset fallback index for consistent color matching
+  fallbackIdx = 0;
   legendEl.innerHTML = sorted.map(([catId, amt]) => {
     const cat = CATEGORIES.find(c => c.id === catId) || { label: catId, emoji: '📦' };
-    const color = catColorMap[catId] || '#888888';
+    const color = catColorMap[catId] || fallbackColors[fallbackIdx++ % fallbackColors.length];
     const pct = Math.round((amt / total) * 100);
-    return `<div style="display:flex;align-items:center;gap:6px;font-size:12px;background:var(--surface);border-radius:99px;padding:5px 10px;border:1px solid var(--border);box-shadow:var(--shadow-sm);">
-      <span style="width:7px;height:7px;border-radius:50%;background:${color};flex-shrink:0;display:inline-block;"></span>
+    return `<div style="display:flex;align-items:center;gap:6px;font-size:12px;background:var(--surface);border-radius:99px;padding:5px 11px;border:1px solid var(--border);box-shadow:var(--shadow-sm);">
+      <span style="width:9px;height:9px;border-radius:50%;background:${color};flex-shrink:0;display:inline-block;box-shadow:0 0 0 2px ${color}33;"></span>
       <span style="color:var(--text2);">${cat.emoji} ${cat.label}</span>
-      <span style="font-family:'Inter',sans-serif;font-weight:600;color:var(--text);margin-left:2px;">${pct}%</span>
+      <span style="font-family:'Inter',sans-serif;font-weight:700;color:${color};margin-left:1px;">${pct}%</span>
     </div>`;
   }).join('');
 }
@@ -1002,6 +1201,99 @@ function renderCatBreakdown() {
   }).join('');
 }
 
+function changeYear(dir) {
+  viewYear += dir;
+  renderYearlySummary();
+  renderMonthlyBarChart();
+}
+
+function getYearMonthData(year) {
+  const data = loadData();
+  const months = [];
+  for (let m = 0; m < 12; m++) {
+    const key = `${year}-${String(m+1).padStart(2,'0')}`;
+    const txs = data.transactions.filter(t => t.date && t.date.startsWith(key));
+    const income = txs.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+    const spent = txs.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+    months.push({ month: m, income, spent, saved: income - spent, hasData: txs.length > 0 });
+  }
+  return months;
+}
+
+function renderMonthlyBarChart() {
+  const el = document.getElementById('monthlyBarChart');
+  if (!el) return;
+  const months = getYearMonthData(currentYear);
+  const SHORT = ['J','F','M','A','M','J','J','A','S','O','N','D'];
+  const maxVal = Math.max(...months.flatMap(m => [m.income, m.spent]), 1);
+  const chartH = 80;
+
+  el.innerHTML = `<div class="bar-chart">${months.map((m, i) => {
+    const iH = Math.round((m.income / maxVal) * chartH);
+    const sH = Math.round((m.spent / maxVal) * chartH);
+    const isCurrent = i === currentMonth && currentYear === viewYear;
+    return `<div class="bar-col ${isCurrent ? 'current-month' : ''}" onclick="jumpToMonth(${i},${currentYear})">
+      <div class="bar-pair">
+        <div class="bar" style="width:10px;height:${iH || 3}px;background:var(--green);opacity:${m.hasData ? 1 : 0.2};"></div>
+        <div class="bar" style="width:10px;height:${sH || 3}px;background:var(--red);opacity:${m.hasData ? 1 : 0.2};"></div>
+      </div>
+      <div class="bar-label">${SHORT[i]}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function renderYearlySummary() {
+  const yearLabelEl = document.getElementById('yearLabel');
+  if (yearLabelEl) yearLabelEl.textContent = viewYear;
+
+  const months = getYearMonthData(viewYear);
+  const totIncome = months.reduce((s, m) => s + m.income, 0);
+  const totSpent = months.reduce((s, m) => s + m.spent, 0);
+  const totSaved = totIncome - totSpent;
+
+  const yi = document.getElementById('yearTotalIncome');
+  const ys = document.getElementById('yearTotalSpent');
+  const yv = document.getElementById('yearTotalSaved');
+  if (yi) yi.textContent = fmt(totIncome);
+  if (ys) ys.textContent = fmt(totSpent);
+  if (yv) {
+    yv.textContent = fmt(totSaved);
+    yv.style.color = totSaved >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+
+  const tableEl = document.getElementById('yearMonthTable');
+  if (!tableEl) return;
+
+  const MONTH_SHORT = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const maxSpent = Math.max(...months.map(m => m.spent), 1);
+  const maxIncome = Math.max(...months.map(m => m.income), 1);
+
+  tableEl.innerHTML = months.map((m, i) => {
+    const isCurrentMonth = i === currentMonth && viewYear === currentYear;
+    const savedColor = m.saved >= 0 ? 'var(--green)' : 'var(--red)';
+    const savedSign = m.saved >= 0 ? '+' : '-';
+    return `<div class="year-row ${isCurrentMonth ? 'active-month' : ''}" onclick="jumpToMonth(${i},${viewYear})">
+      <div class="year-row-month">${MONTH_SHORT[i]}</div>
+      <div class="year-row-bars">
+        <div class="year-mini-bar-wrap"><div class="year-mini-bar" style="width:${m.income > 0 ? Math.round((m.income/maxIncome)*100) : 0}%;background:var(--green);"></div></div>
+        <div class="year-mini-bar-wrap"><div class="year-mini-bar" style="width:${m.spent > 0 ? Math.round((m.spent/maxSpent)*100) : 0}%;background:var(--red);"></div></div>
+      </div>
+      <div class="year-row-amounts">
+        <div class="year-row-spent">${m.hasData ? fmt(m.spent) : '—'}</div>
+        ${m.hasData ? `<div class="year-row-saved" style="color:${savedColor};">${savedSign}${fmt(m.saved)}</div>` : '<div class="year-row-income">No data</div>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function jumpToMonth(month, year) {
+  currentMonth = month;
+  currentYear = year;
+  updateMonthLabel();
+  renderAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function renderTransactions() {
   const txs = getMonthTx().filter(t => txFilter === 'all' || t.type === txFilter)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -1021,9 +1313,24 @@ function renderTransactions() {
         <div class="tx-meta">${cat.label}${freqBadge} · ${dateStr}</div>
       </div>
       <span class="tx-amount ${t.type}">${t.type === 'expense' ? '-' : '+'}${fmt(t.amount)}</span>
-      <button class="tx-delete" onclick="deleteTransaction('${t.id}')">✕</button>
+      <button class="tx-edit" data-edit="${t.id}" title="Edit">✎</button>
+      <button class="tx-delete" data-delete="${t.id}" title="Delete">✕</button>
     </div>`;
   }).join('');
+
+  // Attach listeners after rendering
+  el.querySelectorAll('.tx-delete').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteTransaction(btn.getAttribute('data-delete'));
+    });
+  });
+  el.querySelectorAll('.tx-edit').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      editTransaction(btn.getAttribute('data-edit'));
+    });
+  });
 }
 
 function renderBudgetTab() {
@@ -1107,16 +1414,46 @@ function setFreq(el) {
 }
 
 function openModal() {
+  editingTxId = null;
   buildCatGrid();
+  setType('expense');
+  selectedFreq = 'once';
+  document.querySelectorAll('.freq-btn').forEach(b => b.classList.toggle('selected', b.dataset.freq === 'once'));
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('txDate').value = today;
   document.getElementById('txDesc').value = '';
   document.getElementById('txAmount').value = '';
+  document.getElementById('modalTitle').textContent = 'Add Transaction';
+  document.getElementById('submitBtn').textContent = 'Add Transaction';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function editTransaction(id) {
+  const data = loadData();
+  const tx = data.transactions.find(t => t.id === id);
+  if (!tx) return;
+  editingTxId = id;
+  buildCatGrid();
+  setType(tx.type);
+  if (tx.type === 'expense') {
+    selectedCat = tx.category;
+    document.querySelectorAll('.cat-btn').forEach(b => {
+      b.classList.toggle('selected', b.getAttribute('onclick').includes(`'${tx.category}'`));
+    });
+  }
+  selectedFreq = tx.freq || 'once';
+  document.querySelectorAll('.freq-btn').forEach(b => b.classList.toggle('selected', b.dataset.freq === selectedFreq));
+  document.getElementById('txDesc').value = tx.desc || '';
+  document.getElementById('txAmount').value = tx.amount;
+  document.getElementById('txDate').value = tx.date;
+  document.getElementById('modalTitle').textContent = 'Edit Transaction';
+  document.getElementById('submitBtn').textContent = 'Save Changes';
   document.getElementById('modalOverlay').classList.add('open');
 }
 
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('open');
+  editingTxId = null;
 }
 
 function handleOverlayClick(e) {
@@ -1132,25 +1469,45 @@ function addTransaction() {
   if (!date) { alert('Please select a date.'); return; }
 
   const data = loadData();
-  const tx = {
-    id: Date.now().toString(),
-    type: selectedType,
-    desc: desc || null,
-    amount,
-    category: selectedType === 'expense' ? selectedCat : 'income',
-    freq: selectedFreq,
-    date
-  };
-  data.transactions.push(tx);
+
+  if (editingTxId) {
+    // Update existing
+    const idx = data.transactions.findIndex(t => t.id === editingTxId);
+    if (idx !== -1) {
+      data.transactions[idx] = {
+        ...data.transactions[idx],
+        type: selectedType,
+        desc: desc || null,
+        amount,
+        category: selectedType === 'expense' ? selectedCat : 'income',
+        freq: selectedFreq,
+        date
+      };
+    }
+  } else {
+    // Add new
+    const tx = {
+      id: Date.now().toString(),
+      type: selectedType,
+      desc: desc || null,
+      amount,
+      category: selectedType === 'expense' ? selectedCat : 'income',
+      freq: selectedFreq,
+      date
+    };
+    data.transactions.push(tx);
+  }
+
   saveData(data);
   closeModal();
   renderAll();
 }
 
 function deleteTransaction(id) {
-  if (!confirm('Remove this transaction?')) return;
   const data = loadData();
-  data.transactions = data.transactions.filter(t => t.id !== id);
+  const idx = data.transactions.findIndex(t => t.id === id);
+  if (idx === -1) return;
+  data.transactions.splice(idx, 1);
   saveData(data);
   renderAll();
 }
@@ -1180,6 +1537,7 @@ function switchTab(tab, btn, navId) {
   }
   renderAll();
   if (tab === 'accounts') loadAccountFields();
+  if (tab === 'budget') { buildTripCatPicker(); renderTripExpenses(); loadTripMeta(); }
 }
 
 // ---- ACCOUNTS ----
@@ -1258,6 +1616,192 @@ function renderAccounts() {
   }
 }
 
+// ---- TRIP EXPENSE TRACKER ----
+const TRIP_EXP_CATS = [
+  { id: 'airbnb',     label: 'Airbnb',      emoji: '🏠', color: '#FF5A5F' },
+  { id: 'hotel',      label: 'Hotel',       emoji: '🏨', color: '#FF9500' },
+  { id: 'flights',    label: 'Flights',     emoji: '✈️', color: '#007AFF' },
+  { id: 'carrental',  label: 'Car Rental',  emoji: '🚗', color: '#34C759' },
+  { id: 'gas',        label: 'Gas',         emoji: '⛽', color: '#FF6B35' },
+  { id: 'food',       label: 'Food',        emoji: '🍔', color: '#FFCC00' },
+  { id: 'groceries',  label: 'Groceries',   emoji: '🛒', color: '#5AC8FA' },
+  { id: 'activities', label: 'Activities',  emoji: '🎡', color: '#AF52DE' },
+  { id: 'transport',  label: 'Transport',   emoji: '🚌', color: '#4CD964' },
+  { id: 'shopping',   label: 'Shopping',    emoji: '🛍️', color: '#FF2D92' },
+  { id: 'parking',    label: 'Parking',     emoji: '🅿️', color: '#8E8E93' },
+  { id: 'tips',       label: 'Tips',        emoji: '💵', color: '#A2845E' },
+  { id: 'insurance',  label: 'Insurance',   emoji: '🛡️', color: '#5856D6' },
+  { id: 'other',      label: 'Other',       emoji: '📦', color: '#636366' },
+];
+
+let selectedTripCat = 'airbnb';
+
+function loadTripData() {
+  return JSON.parse(localStorage.getItem('bugibud_trip') || '{"expenses":[],"meta":{}}');
+}
+function saveTripData(data) {
+  localStorage.setItem('bugibud_trip', JSON.stringify(data));
+}
+
+function saveTripMeta() {
+  const data = loadTripData();
+  data.meta = {
+    name:   document.getElementById('tripName').value,
+    budget: document.getElementById('tripBudget').value,
+    dep:    document.getElementById('tripDep').value,
+    ret:    document.getElementById('tripRet').value,
+  };
+  saveTripData(data);
+  updateTripCountdown(data.meta);
+  renderTripExpenses();
+}
+
+function updateTripCountdown(meta) {
+  const el = document.getElementById('tripCountdown');
+  if (!el) return;
+  if (!meta || !meta.dep) { el.textContent = ''; return; }
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dep = new Date(meta.dep + 'T00:00:00');
+  const diff = Math.round((dep - today) / (1000*60*60*24));
+  if (diff < 0) { el.textContent = ''; return; }
+  if (diff === 0) { el.textContent = '🛫 Departure day — have an amazing trip!'; return; }
+  el.textContent = `🗓 ${diff} day${diff !== 1 ? 's' : ''} until departure`;
+}
+
+function buildTripCatPicker() {
+  const el = document.getElementById('tripCatPicker');
+  if (!el) return;
+  el.innerHTML = TRIP_EXP_CATS.map(c => `
+    <button data-tripcat="${c.id}" onclick="selectTripCat('${c.id}')"
+      style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 10px;border-radius:10px;border:1.5px solid ${c.id === selectedTripCat ? c.color : 'var(--border-strong)'};background:${c.id === selectedTripCat ? c.color+'22' : 'var(--surface2)'};cursor:pointer;transition:all 0.15s;">
+      <span style="font-size:18px;">${c.emoji}</span>
+      <span style="font-size:9px;font-weight:600;color:${c.id === selectedTripCat ? c.color : 'var(--muted)'};text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">${c.label}</span>
+    </button>`).join('');
+}
+
+function selectTripCat(id) {
+  selectedTripCat = id;
+  buildTripCatPicker();
+}
+
+function addTripExpense() {
+  const amt = parseFloat(document.getElementById('tripExpAmt').value);
+  const desc = document.getElementById('tripExpDesc').value.trim();
+  if (!amt || amt <= 0) { alert('Please enter a valid amount.'); return; }
+
+  const data = loadTripData();
+  if (!data.expenses) data.expenses = [];
+  data.expenses.push({
+    id: Date.now().toString(),
+    catId: selectedTripCat,
+    desc: desc || null,
+    amount: amt,
+    date: new Date().toISOString().split('T')[0]
+  });
+  saveTripData(data);
+  document.getElementById('tripExpAmt').value = '';
+  document.getElementById('tripExpDesc').value = '';
+  renderTripExpenses();
+}
+
+function deleteTripExpense(id) {
+  const data = loadTripData();
+  data.expenses = (data.expenses || []).filter(e => e.id !== id);
+  saveTripData(data);
+  renderTripExpenses();
+}
+
+function renderTripExpenses() {
+  const data = loadTripData();
+  const expenses = data.expenses || [];
+  const budget = parseFloat(data.meta && data.meta.budget) || 0;
+
+  const totalSpent = expenses.reduce((s, e) => s + e.amount, 0);
+
+  // Header badge
+  const badge = document.getElementById('tripTotalBadge');
+  if (badge) badge.textContent = expenses.length ? fmt(totalSpent) + ' total' : '';
+
+  // Budget progress bar
+  const barWrap = document.getElementById('tripBudgetBar');
+  if (barWrap) {
+    if (budget > 0) {
+      barWrap.style.display = '';
+      const pct = Math.min(100, (totalSpent / budget) * 100);
+      const fill = document.getElementById('tripBudgetFill');
+      fill.style.width = pct + '%';
+      fill.className = 'progress-fill' + (pct > 90 ? ' danger' : pct > 70 ? ' warn' : '');
+      document.getElementById('tripSpentLabel').textContent = fmt(totalSpent) + ' spent';
+      const rem = budget - totalSpent;
+      const remEl = document.getElementById('tripRemainingLabel');
+      remEl.textContent = (rem >= 0 ? fmt(rem) + ' remaining' : fmt(Math.abs(rem)) + ' over budget');
+      remEl.style.color = rem >= 0 ? 'var(--muted)' : 'var(--red)';
+    } else {
+      barWrap.style.display = 'none';
+    }
+  }
+
+  const el = document.getElementById('tripExpenseList');
+  if (!el) return;
+
+  if (!expenses.length) {
+    el.innerHTML = `<div class="empty-state" style="padding:28px 0;"><div class="emoji">🗺️</div><p>No trip expenses yet.<br>Add your first one above.</p></div>`;
+    return;
+  }
+
+  // Group by category
+  const grouped = {};
+  expenses.forEach(e => {
+    if (!grouped[e.catId]) grouped[e.catId] = [];
+    grouped[e.catId].push(e);
+  });
+
+  el.innerHTML = Object.entries(grouped).map(([catId, items]) => {
+    const cat = TRIP_EXP_CATS.find(c => c.id === catId) || { label: catId, emoji: '📦', color: '#888' };
+    const catTotal = items.reduce((s, e) => s + e.amount, 0);
+    return `<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);background:${cat.color}11;">
+        <span style="font-size:20px;">${cat.emoji}</span>
+        <span style="font-weight:600;font-size:14px;color:var(--text);flex:1;">${cat.label}</span>
+        <span style="font-family:'DM Mono',monospace;font-weight:500;font-size:14px;color:${cat.color};">${fmt(catTotal)}</span>
+      </div>
+      ${items.sort((a,b) => new Date(b.date)-new Date(a.date)).map(e => `
+        <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);" class="trip-exp-row">
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:500;color:var(--text);">${e.desc || cat.label}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">${new Date(e.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
+          </div>
+          <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--text);">${fmt(e.amount)}</span>
+          <button data-tripdelete="${e.id}" style="background:none;border:none;color:var(--muted-light);cursor:pointer;padding:6px;font-size:14px;border-radius:6px;min-width:28px;min-height:28px;display:flex;align-items:center;justify-content:center;">✕</button>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+
+  // Attach delete listeners
+  el.querySelectorAll('[data-tripdelete]').forEach(btn => {
+    btn.addEventListener('click', () => deleteTripExpense(btn.getAttribute('data-tripdelete')));
+  });
+}
+
+function clearTripExpenses() {
+  const data = loadTripData();
+  data.expenses = [];
+  saveTripData(data);
+  renderTripExpenses();
+}
+
+function loadTripMeta() {
+  const data = loadTripData();
+  if (!data.meta) return;
+  const m = data.meta;
+  const fields = { tripName: m.name, tripBudget: m.budget, tripDep: m.dep, tripRet: m.ret };
+  Object.entries(fields).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el && val) el.value = val;
+  });
+  updateTripCountdown(m);
+}
+
 // ---- THEME ----
 function toggleTheme() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -1282,6 +1826,9 @@ updateMonthLabel();
 initTheme();
 renderAll();
 loadAccountFields();
+buildTripCatPicker();
+renderTripExpenses();
+loadTripMeta();
 </script>
 </body>
 </html>
