@@ -4,6 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Bugi Bud — Budget Tracker</title>
+
+<!-- PWA / Home Screen -->
+<meta name="application-name" content="Bugi Bud">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Bugi Bud">
+<meta name="theme-color" content="#f5f4f1" id="themeColorMeta">
+<meta name="description" content="Your personal budget tracker. Free, secure, and beautifully simple.">
+
+<!-- Inline SVG app icon for home screen (iOS & Android) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23f5f4f1'/><text y='62' x='50' text-anchor='middle' font-size='54' font-family='Arial Black,sans-serif' font-weight='900' fill='%231a1a1a'>B</text><text y='78' x='50' text-anchor='middle' font-size='18' font-family='Arial,sans-serif' font-weight='700' fill='%23b8975a' letter-spacing='2'>BUD</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231a1a1a'/><text y='62' x='50' text-anchor='middle' font-size='54' font-family='Arial Black,sans-serif' font-weight='900' fill='%23f5f4f1'>B</text><text y='80' x='50' text-anchor='middle' font-size='18' font-family='Arial,sans-serif' font-weight='700' fill='%23b8975a' letter-spacing='2'>BUD</text></svg>">
+
+<!-- PWA Manifest inline -->
+<script>
+  const _manifest = {
+    name: 'Bugi Bud — Budget Tracker',
+    short_name: 'Bugi Bud',
+    description: 'Your personal budget tracker. Free, secure, beautifully simple.',
+    start_url: window.location.href,
+    display: 'standalone',
+    background_color: '#f5f4f1',
+    theme_color: '#f5f4f1',
+    icons: [{
+      src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231a1a1a'/><text y='62' x='50' text-anchor='middle' font-size='54' font-family='Arial Black,sans-serif' font-weight='900' fill='%23f5f4f1'>B</text><text y='80' x='50' text-anchor='middle' font-size='18' font-family='Arial,sans-serif' font-weight='700' fill='%23b8975a' letter-spacing='2'>BUD</text></svg>",
+      sizes: '192x192', type: 'image/svg+xml'
+    }]
+  };
+  const _blob = new Blob([JSON.stringify(_manifest)], { type: 'application/json' });
+  const _mLink = document.createElement('link');
+  _mLink.rel = 'manifest';
+  _mLink.href = URL.createObjectURL(_blob);
+  document.currentScript.after(_mLink);
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -67,6 +102,110 @@
     --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
     --header-bg: rgba(15,15,15,0.92);
     --nav-bg: rgba(20,20,20,0.97);
+  }
+
+  /* ===== THEME: Ocean Blue ===== */
+  [data-theme="ocean"] {
+    --bg: #f0f6ff;
+    --surface: #ffffff;
+    --surface2: #e8f0fe;
+    --surface3: #d8e6fd;
+    --border: rgba(0,80,200,0.08);
+    --border-strong: rgba(0,80,200,0.15);
+    --accent: #1a3a6b;
+    --accent-gold: #2563eb;
+    --accent-gold-light: rgba(37,99,235,0.1);
+    --text: #0f2040;
+    --text2: #3a5080;
+    --muted: #7a96b8;
+    --muted-light: #b0c4de;
+    --green: #0d7a55;
+    --green-bg: rgba(13,122,85,0.08);
+    --red: #c0392b;
+    --red-bg: rgba(192,57,43,0.08);
+    --shadow-sm: 0 1px 4px rgba(0,80,200,0.08);
+    --shadow-md: 0 4px 20px rgba(0,80,200,0.1);
+    --shadow-lg: 0 12px 40px rgba(0,80,200,0.14);
+    --header-bg: rgba(240,246,255,0.92);
+    --nav-bg: rgba(255,255,255,0.96);
+  }
+
+  /* ===== THEME: Forest Green ===== */
+  [data-theme="forest"] {
+    --bg: #f2f7f2;
+    --surface: #ffffff;
+    --surface2: #e8f2e8;
+    --surface3: #d8ebd8;
+    --border: rgba(0,100,40,0.08);
+    --border-strong: rgba(0,100,40,0.15);
+    --accent: #1a3d1a;
+    --accent-gold: #2d7a2d;
+    --accent-gold-light: rgba(45,122,45,0.1);
+    --text: #0f2a0f;
+    --text2: #3a6040;
+    --muted: #7aaa80;
+    --muted-light: #b0d4b4;
+    --green: #1a7a40;
+    --green-bg: rgba(26,122,64,0.08);
+    --red: #c0392b;
+    --red-bg: rgba(192,57,43,0.08);
+    --shadow-sm: 0 1px 4px rgba(0,100,40,0.08);
+    --shadow-md: 0 4px 20px rgba(0,100,40,0.1);
+    --shadow-lg: 0 12px 40px rgba(0,100,40,0.14);
+    --header-bg: rgba(242,247,242,0.92);
+    --nav-bg: rgba(255,255,255,0.96);
+  }
+
+  /* ===== THEME: Rose / Blush ===== */
+  [data-theme="rose"] {
+    --bg: #fff5f7;
+    --surface: #ffffff;
+    --surface2: #fde8ed;
+    --surface3: #fad5de;
+    --border: rgba(180,0,60,0.08);
+    --border-strong: rgba(180,0,60,0.14);
+    --accent: #6b1a2a;
+    --accent-gold: #c0395a;
+    --accent-gold-light: rgba(192,57,90,0.1);
+    --text: #3d0a14;
+    --text2: #7a3040;
+    --muted: #c08090;
+    --muted-light: #ddb0bc;
+    --green: #2a7d4f;
+    --green-bg: rgba(42,125,79,0.08);
+    --red: #c0392b;
+    --red-bg: rgba(192,57,43,0.08);
+    --shadow-sm: 0 1px 4px rgba(180,0,60,0.08);
+    --shadow-md: 0 4px 20px rgba(180,0,60,0.1);
+    --shadow-lg: 0 12px 40px rgba(180,0,60,0.14);
+    --header-bg: rgba(255,245,247,0.92);
+    --nav-bg: rgba(255,255,255,0.96);
+  }
+
+  /* ===== THEME: Midnight Purple ===== */
+  [data-theme="midnight"] {
+    --bg: #0e0b1a;
+    --surface: #1a1528;
+    --surface2: #231d36;
+    --surface3: #2d2644;
+    --border: rgba(160,130,255,0.08);
+    --border-strong: rgba(160,130,255,0.15);
+    --accent: #e0d8ff;
+    --accent-gold: #9b7fe8;
+    --accent-gold-light: rgba(155,127,232,0.15);
+    --text: #e8e0ff;
+    --text2: #a89dcc;
+    --muted: #6a5e8a;
+    --muted-light: #4a3e6a;
+    --green: #4aad78;
+    --green-bg: rgba(74,173,120,0.1);
+    --red: #d95f72;
+    --red-bg: rgba(217,95,114,0.1);
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.5);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
+    --header-bg: rgba(14,11,26,0.92);
+    --nav-bg: rgba(20,16,34,0.97);
   }
 
   *, *::before, *::after { transition: background-color 0.25s ease, border-color 0.25s ease, color 0.15s ease, box-shadow 0.25s ease; }
@@ -163,16 +302,112 @@
     font-weight: 600;
   }
 
-  /* Summary cards */
-  .summary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 20px 24px; }
+  /* ---- TAB CONTENT TRANSITIONS ---- */
+  .tab-panel {
+    animation: tabFadeIn 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+  @keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- ANIMATED COUNTER ---- */
+  .card-value[data-counter] {
+    transition: color 0.3s;
+  }
+
+  /* ---- ENHANCED GLASSMORPHISM CARDS ---- */
   .card {
-    background: var(--surface);
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
     border-radius: var(--radius);
     padding: 18px;
     border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
-  .card.wide { grid-column: span 2; display: flex; justify-content: space-between; align-items: center; }
+  .card:active { transform: scale(0.985); }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
+    pointer-events: none;
+  }
+  .card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+    background: linear-gradient(to top, rgba(255,255,255,0.03), transparent);
+    pointer-events: none;
+  }
+
+  /* ---- FAB ENHANCED PULSE ---- */
+  .fab {
+    position: fixed; bottom: 96px; right: 20px;
+    width: 56px; height: 56px; border-radius: 18px;
+    background: var(--text); border: none; color: var(--bg);
+    font-size: 26px; cursor: pointer;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    z-index: 100; display: flex; align-items: center; justify-content: center;
+    font-weight: 300;
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+    animation: fabPulse 3s ease-in-out infinite;
+  }
+  @keyframes fabPulse {
+    0%,100% { transform: scale(1);    box-shadow: 0 6px 24px rgba(0,0,0,0.25), 0 0 0 0px rgba(0,0,0,0.12); }
+    50%      { transform: scale(1.04); box-shadow: 0 8px 28px rgba(0,0,0,0.28), 0 0 0 8px rgba(0,0,0,0.0); }
+  }
+  .fab:hover  { transform: scale(1.08) !important; box-shadow: 0 10px 32px rgba(0,0,0,0.3) !important; animation: none; }
+  .fab:active { transform: scale(0.90) !important; box-shadow: 0 2px 10px rgba(0,0,0,0.18) !important; animation: none; }
+
+  /* ---- BETTER EMPTY STATES ---- */
+  .empty-state {
+    text-align: center; padding: 44px 20px; color: var(--muted);
+    animation: fadeIn 0.4s ease;
+  }
+  .empty-state .emoji {
+    font-size: 52px; margin-bottom: 12px; display: block;
+    animation: floatBob 3.5s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));
+  }
+  @keyframes floatBob {
+    0%,100% { transform: translateY(0) rotate(-2deg); }
+    50%      { transform: translateY(-9px) rotate(2deg); }
+  }
+  .empty-state .empty-title {
+    font-size: 16px; font-weight: 700; color: var(--text);
+    margin-bottom: 6px; letter-spacing: -0.3px;
+  }
+  .empty-state p { font-size: 13px; line-height: 1.75; color: var(--muted); font-weight: 400; }
+  .empty-state .empty-action {
+    display: inline-block; margin-top: 18px; padding: 11px 24px;
+    border-radius: 99px; background: var(--accent-gold-light);
+    color: var(--accent-gold); font-size: 13px; font-weight: 600;
+    cursor: pointer; border: 1px solid var(--accent-gold);
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s; letter-spacing: 0.3px;
+  }
+  .empty-state .empty-action:hover  { background: var(--accent-gold); color: var(--bg); }
+  .empty-state .empty-action:active { opacity: 0.85; transform: scale(0.97); }
+
+  /* ---- TX CATEGORY COLOR ACCENT ---- */
+  .tx-item {
+    display: flex; align-items: center; gap: 13px;
+    padding: 11px 12px; margin-bottom: 2px;
+    border-bottom: 1px solid var(--border);
+    border-left: 3.5px solid transparent;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    animation: txSlideIn 0.22s ease both;
+    transition: background 0.15s, border-left-color 0.2s;
+    background: var(--surface);
+  }
+  .tx-item:hover { background: var(--surface2); }
+  @keyframes txSlideIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
   .card-label {
     font-size: 10px;
     color: var(--muted);
@@ -200,8 +435,9 @@
   .progress-fill.danger { background: var(--red); }
   .progress-fill.warn { background: #c49a3a; }
 
-  /* Section */
-  .section { padding: 0 24px 20px; }
+  /* Summary cards */
+  .summary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 20px 24px; }
+  .card.wide { grid-column: span 2; display: flex; justify-content: space-between; align-items: center; }
   .section-title {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
@@ -229,20 +465,13 @@
     color: var(--text);
   }
 
-  /* Transaction list */
-  .tx-item { display: flex; align-items: center; gap: 13px; padding: 13px 0; border-bottom: 1px solid var(--border); animation: fadeIn 0.25s ease; }
+  /* tx helpers (kept here — .tx-item defined above) */
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   .tx-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    background: var(--surface2);
-    border: 1px solid var(--border);
+    width: 40px; height: 40px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+    background: var(--surface2); border: 1px solid var(--border);
   }
   .tx-info { flex: 1; min-width: 0; }
   .tx-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
@@ -251,64 +480,19 @@
   .tx-amount.expense { color: var(--red); }
   .tx-amount.income { color: var(--green); }
   .tx-delete {
-    background: none;
-    border: none;
-    color: var(--muted-light);
-    cursor: pointer;
-    padding: 8px;
-    font-size: 15px;
-    min-width: 32px;
-    min-height: 32px;
-    border-radius: 8px;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: none; border: none; color: var(--muted-light);
+    cursor: pointer; padding: 8px; font-size: 15px;
+    min-width: 32px; min-height: 32px; border-radius: 8px;
+    transition: all 0.15s; display: flex; align-items: center; justify-content: center;
   }
   .tx-delete:hover, .tx-delete:active { color: var(--red); background: var(--red-bg); }
   .tx-edit {
-    background: none;
-    border: none;
-    color: var(--muted-light);
-    cursor: pointer;
-    padding: 8px;
-    font-size: 15px;
-    min-width: 32px;
-    min-height: 32px;
-    border-radius: 8px;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: none; border: none; color: var(--muted-light);
+    cursor: pointer; padding: 8px; font-size: 15px;
+    min-width: 32px; min-height: 32px; border-radius: 8px;
+    transition: all 0.15s; display: flex; align-items: center; justify-content: center;
   }
   .tx-edit:hover, .tx-edit:active { color: var(--accent-gold); background: var(--accent-gold-light); }
-
-  .empty-state { text-align: center; padding: 48px 20px; color: var(--muted); }
-  .empty-state .emoji { font-size: 36px; margin-bottom: 14px; opacity: 0.6; }
-  .empty-state p { font-size: 14px; line-height: 1.7; color: var(--muted); font-weight: 400; }
-
-  /* FAB */
-  .fab {
-    position: fixed;
-    bottom: 96px;
-    right: 20px;
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    background: var(--text);
-    border: none;
-    color: var(--bg);
-    font-size: 26px;
-    cursor: pointer;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.22);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 300;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .fab:active { transform: scale(0.93); box-shadow: 0 2px 10px rgba(0,0,0,0.18); }
 
   /* Bottom nav */
   .bottom-nav {
@@ -461,7 +645,7 @@
     border-radius: var(--radius);
     background: var(--text);
     border: none;
-    color: #ffffff;
+    color: var(--bg);
     font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 15px;
@@ -580,18 +764,664 @@
   .year-row-income { font-size: 11px; color: var(--muted); margin-top: 1px; }
   .year-row-saved { font-size: 11px; font-weight: 500; }
 
-  /* Divider */
-  hr { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+  .theme-picker { display: flex; gap: 10px; flex-wrap: wrap; padding: 4px 0; }
+  .theme-swatch {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    cursor: pointer; flex: 1; min-width: 52px;
+  }
+  .theme-swatch-dot {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 3px solid transparent;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .theme-swatch.active .theme-swatch-dot {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px var(--accent-gold-light), 0 2px 8px rgba(0,0,0,0.15);
+    transform: scale(1.1);
+  }
+  .theme-swatch-label { font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: 0.3px; text-align: center; }
+
+  /* ---- LOADING SPINNER ---- */
+  #loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    transition: opacity 0.35s ease;
+  }
+  #loadingScreen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .spinner-logo {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .spinner-logo span { color: var(--accent-gold); }
+  .spinner {
+    width: 36px;
+    height: 36px;
+    border: 2.5px solid var(--border-strong);
+    border-top-color: var(--accent-gold);
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner-msg {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    font-weight: 400;
+  }
+
+  /* ---- WELCOME SCREEN ---- */
+  #welcomeScreen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 8000;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 28px 60px;
+    max-width: 480px;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    overflow-y: auto;
+  }
+  #welcomeScreen.visible { display: flex; }
+  #welcomeScreen.fade-out {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.97);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+  .welcome-emoji { font-size: 56px; margin-bottom: 16px; }
+  .welcome-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .welcome-title span { color: var(--accent-gold); }
+  .welcome-sub {
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 300px;
+  }
+  .welcome-features {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .welcome-feature {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .welcome-feature-icon { font-size: 24px; flex-shrink: 0; }
+  .welcome-feature-text { flex: 1; }
+  .welcome-feature-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .welcome-feature-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .welcome-btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: var(--radius);
+    border: none;
+    background: var(--text);
+    color: var(--bg);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .welcome-btn:active { opacity: 0.88; transform: scale(0.99); }
+  #authScreen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 28px 56px;
+    max-width: 480px;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    overflow-y: auto;
+  }
+  #authScreen.slide-out {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-16px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+  .auth-logo {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .auth-logo span { color: var(--accent-gold); }
+  .auth-tagline {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    letter-spacing: 0.4px;
+    text-align: center;
+  }
+  .auth-card {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: var(--shadow-md);
+  }
+  .auth-tabs {
+    display: flex;
+    gap: 0;
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 28px;
+  }
+  .auth-tab {
+    flex: 1;
+    padding: 9px;
+    border-radius: 9px;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .auth-tab.active {
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+  }
+  .auth-field-group { margin-bottom: 16px; }
+  .auth-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 7px;
+  }
+  .auth-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 13px 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .auth-input:focus {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px var(--accent-gold-light);
+  }
+  .auth-input::placeholder { color: var(--muted-light); }
+  .auth-submit {
+    width: 100%;
+    padding: 15px;
+    margin-top: 8px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: var(--text);
+    color: var(--bg);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .auth-submit:active { opacity: 0.88; transform: scale(0.99); }
+  .auth-msg {
+    margin-top: 14px;
+    font-size: 13px;
+    text-align: center;
+    min-height: 18px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 0;
+    transition: all 0.2s;
+  }
+  .auth-msg.error { color: var(--red); }
+  .auth-msg.success { color: var(--green); }
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .auth-footer {
+    margin-top: 28px;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.7;
+    letter-spacing: 0.2px;
+  }
+  .pw-wrap { position: relative; }
+  .pw-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--muted);
+    padding: 4px;
+    line-height: 1;
+  }
+
+  /* ---- OFFLINE BANNER ---- */
+  #offlineBanner {
+    display: none;
+    position: fixed;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 480px;
+    background: var(--red);
+    color: #fff;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    z-index: 9998;
+    letter-spacing: 0.3px;
+  }
+  #offlineBanner.show { display: block; }
+
+  /* ---- CONFIRM MODAL ---- */
+  .confirm-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+    z-index: 9000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .confirm-overlay.open { opacity: 1; pointer-events: all; }
+  .confirm-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px 24px;
+    width: 100%; max-width: 320px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+  }
+  .confirm-icon { font-size: 36px; margin-bottom: 12px; }
+  .confirm-title { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 17px; color: var(--text); margin-bottom: 8px; }
+  .confirm-msg { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 22px; }
+  .confirm-actions { display: flex; gap: 10px; }
+  .confirm-btn { flex: 1; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .confirm-btn.cancel { background: var(--surface2); color: var(--text2); }
+  .confirm-btn.danger { background: var(--red); color: #fff; border-color: var(--red); }
+  .confirm-btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  /* ---- SETTINGS PAGE ---- */
+  .settings-section { padding: 0 24px 20px; }
+  .settings-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    box-shadow: var(--shadow-sm);
+  }
+  .settings-row:active { background: var(--surface2); }
+  .settings-row-icon { font-size: 20px; flex-shrink: 0; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--surface2); border-radius: 10px; }
+  .settings-row-text { flex: 1; }
+  .settings-row-title { font-size: 14px; font-weight: 500; color: var(--text); }
+  .settings-row-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .settings-row-arrow { color: var(--muted-light); font-size: 16px; }
+  .settings-row.danger .settings-row-title { color: var(--red); }
+  .settings-row.danger .settings-row-icon { background: var(--red-bg); }
 </style>
 </head>
 <body>
+
+<!-- ====== LOADING SPINNER ====== -->
+<div id="loadingScreen" style="display:none;">
+  <div class="spinner-logo">BUGI <span>BUD</span></div>
+  <div class="spinner"></div>
+  <div class="spinner-msg">Loading your finances…</div>
+</div>
+
+<!-- ====== OFFLINE BANNER ====== -->
+<div id="offlineBanner">⚡ You're offline — changes won't save until you reconnect.</div>
+
+<!-- ====== CONFIRM MODAL ====== -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-icon" id="confirmIcon">⚠️</div>
+    <div class="confirm-title" id="confirmTitle">Are you sure?</div>
+    <div class="confirm-msg" id="confirmMsg"></div>
+    <div class="confirm-actions">
+      <button class="confirm-btn cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="confirm-btn danger" id="confirmOkBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== CSV IMPORT MODAL ====== -->
+<div class="modal-overlay" id="csvModalOverlay" onclick="if(event.target===this)closeCsvModal()" style="z-index:300;">
+  <div class="modal" style="max-height:92vh;overflow-y:auto;">
+    <div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div class="modal-title" style="margin-bottom:0;">Import Transactions</div>
+      <button onclick="closeCsvModal()" style="background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:4px;">✕</button>
+    </div>
+
+    <!-- Bank detected -->
+    <div id="csvBankDetected" style="display:none;background:var(--green-bg);border:1px solid rgba(42,125,79,0.2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--green);font-weight:500;"></div>
+
+    <!-- Column mapper -->
+    <div id="csvMapper" style="display:none;margin-bottom:18px;">
+      <div class="section-title" style="margin-bottom:10px;">Map your columns</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label class="form-label">Date column</label>
+          <select id="csvColDate" class="form-input" style="padding:10px 12px;font-size:13px;"></select>
+        </div>
+        <div>
+          <label class="form-label">Description column</label>
+          <select id="csvColDesc" class="form-input" style="padding:10px 12px;font-size:13px;"></select>
+        </div>
+        <div>
+          <label class="form-label">Amount column</label>
+          <select id="csvColAmt" class="form-input" style="padding:10px 12px;font-size:13px;"></select>
+        </div>
+        <div>
+          <label class="form-label">Type (optional)</label>
+          <select id="csvColType" class="form-input" style="padding:10px 12px;font-size:13px;"><option value="">Auto-detect</option></select>
+        </div>
+      </div>
+      <button onclick="previewCsv()" style="width:100%;margin-top:12px;padding:11px;border-radius:var(--radius-sm);border:none;background:var(--surface2);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border-strong);">Preview Import →</button>
+    </div>
+
+    <!-- Preview table -->
+    <div id="csvPreview" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div class="section-title" style="margin-bottom:0;">Preview</div>
+        <div id="csvPreviewCount" style="font-size:12px;color:var(--muted);font-weight:500;"></div>
+      </div>
+      <div id="csvPreviewTable" style="max-height:260px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:16px;"></div>
+
+      <!-- Duplicate warning -->
+      <div id="csvDuplicateWarn" style="display:none;background:var(--red-bg);border:1px solid rgba(192,57,43,0.2);border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;color:var(--red);margin-bottom:14px;"></div>
+
+      <button onclick="importCsv()" id="csvImportBtn" style="width:100%;padding:15px;border-radius:var(--radius-sm);border:none;background:var(--text);color:var(--bg);font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:0.3px;">Import All Transactions</button>
+      <button onclick="closeCsvModal()" style="width:100%;margin-top:8px;padding:11px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
+      <div id="csvImportMsg" class="auth-msg" style="margin-top:10px;text-align:center;"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== WELCOME SCREEN (first-time users) ====== -->
+<div id="welcomeScreen">
+  <div class="welcome-emoji">👋</div>
+  <div class="welcome-title">Welcome to <span>Bugi Bud</span></div>
+  <div class="welcome-sub">Your free, secure personal budget tracker. Here's what you can do:</div>
+
+  <div class="welcome-features">
+    <div class="welcome-feature">
+      <div class="welcome-feature-icon">📊</div>
+      <div class="welcome-feature-text">
+        <div class="welcome-feature-title">Track every dollar</div>
+        <div class="welcome-feature-desc">Log income and expenses by category, see monthly and yearly trends.</div>
+      </div>
+    </div>
+    <div class="welcome-feature">
+      <div class="welcome-feature-icon">🥧</div>
+      <div class="welcome-feature-text">
+        <div class="welcome-feature-title">Visualize your spending</div>
+        <div class="welcome-feature-desc">Live pie chart and bar graphs show exactly where your money goes.</div>
+      </div>
+    </div>
+    <div class="welcome-feature">
+      <div class="welcome-feature-icon">🏦</div>
+      <div class="welcome-feature-text">
+        <div class="welcome-feature-title">Manage your accounts</div>
+        <div class="welcome-feature-desc">Track checking, savings, HYSA, and investments with interest calculators.</div>
+      </div>
+    </div>
+    <div class="welcome-feature">
+      <div class="welcome-feature-icon">✈️</div>
+      <div class="welcome-feature-text">
+        <div class="welcome-feature-title">Plan trips too</div>
+        <div class="welcome-feature-desc">Dedicated trip expense tracker for flights, Airbnb, gas, and more.</div>
+      </div>
+    </div>
+    <div class="welcome-feature">
+      <div class="welcome-feature-icon">🔒</div>
+      <div class="welcome-feature-text">
+        <div class="welcome-feature-title">100% free & secure</div>
+        <div class="welcome-feature-desc">No ads, no subscription. Your data is encrypted and private.</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="welcome-btn" onclick="dismissWelcome()">Let's get started →</button>
+</div>
+
+<!-- ====== AUTH SCREEN ====== -->
+<div id="authScreen" style="display:none;">
+
+  <div class="auth-logo">BUGI <span>BUD</span></div>
+  <div class="auth-tagline">Your personal budget, beautifully tracked.</div>
+
+  <!-- Free badge -->
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:28px;flex-wrap:wrap;justify-content:center;">
+    <div style="display:flex;align-items:center;gap:6px;background:var(--green-bg);border:1px solid rgba(42,125,79,0.2);border-radius:99px;padding:6px 14px;">
+      <span style="font-size:14px;">🎉</span>
+      <span style="font-size:12px;font-weight:700;color:var(--green);letter-spacing:0.5px;text-transform:uppercase;">100% Free — Always</span>
+    </div>
+  </div>
+
+  <!-- Feature pills -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:28px;max-width:340px;">
+    <div style="font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:5px 12px;">✦ No subscription</div>
+    <div style="font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:5px 12px;">✦ No ads</div>
+    <div style="font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:5px 12px;">✦ No hidden fees</div>
+    <div style="font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:5px 12px;">✦ Secure cloud sync</div>
+  </div>
+
+  <div class="auth-card">
+
+    <!-- Login / Sign Up tabs -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Log In</button>
+      <button class="auth-tab" id="tabSignup" onclick="switchAuthTab('signup')">Sign Up Free</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <div class="auth-field-group">
+        <label class="auth-label">Email</label>
+        <input type="email" id="loginEmail" class="auth-input" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="auth-field-group">
+        <label class="auth-label">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="loginPassword" class="auth-input" placeholder="Enter your password" autocomplete="current-password" style="padding-right:44px;" onkeydown="if(event.key==='Enter') authLogin()">
+          <button class="pw-toggle" onclick="togglePw('loginPassword', this)" tabindex="-1">👁</button>
+        </div>
+      </div>
+      <button class="auth-submit" onclick="authLogin()">Log In</button>
+      <div class="auth-msg" id="loginMsg"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;flex-wrap:wrap;gap:6px;">
+        <p style="font-size:12px;color:var(--muted);margin:0;">Don't have an account? <button onclick="switchAuthTab('signup')" style="background:none;border:none;color:var(--accent-gold);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;padding:0;">Sign up free →</button></p>
+        <button onclick="switchAuthTab('reset')" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;padding:0;text-decoration:underline;text-underline-offset:3px;">Forgot password?</button>
+      </div>
+    </div>
+
+    <!-- SIGN UP FORM -->
+    <div id="signupForm" style="display:none;">
+      <div class="auth-field-group">
+        <label class="auth-label">Email</label>
+        <input type="email" id="signupEmail" class="auth-input" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="auth-field-group">
+        <label class="auth-label">Create Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="signupPassword" class="auth-input" placeholder="Min. 6 characters" autocomplete="new-password" style="padding-right:44px;">
+          <button class="pw-toggle" onclick="togglePw('signupPassword', this)" tabindex="-1">👁</button>
+        </div>
+      </div>
+      <div class="auth-field-group">
+        <label class="auth-label">Confirm Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="signupConfirm" class="auth-input" placeholder="Re-enter password" autocomplete="new-password" style="padding-right:44px;" onkeydown="if(event.key==='Enter') authSignup()">
+          <button class="pw-toggle" onclick="togglePw('signupConfirm', this)" tabindex="-1">👁</button>
+        </div>
+      </div>
+      <button class="auth-submit" onclick="authSignup()">Create Free Account</button>
+      <div class="auth-msg" id="signupMsg"></div>
+      <p style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted);">Already have an account? <button onclick="switchAuthTab('login')" style="background:none;border:none;color:var(--accent-gold);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;padding:0;">Log in →</button></p>
+    </div>
+
+    <!-- RESET PASSWORD FORM -->
+    <div id="resetForm" style="display:none;">
+      <div style="text-align:center;margin-bottom:20px;">
+        <div style="font-size:32px;margin-bottom:10px;">🔑</div>
+        <div style="font-weight:600;font-size:16px;color:var(--text);margin-bottom:6px;">Reset your password</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6;">Enter your email and we'll send you a link to reset your password.</div>
+      </div>
+      <div class="auth-field-group">
+        <label class="auth-label">Email Address</label>
+        <input type="email" id="resetEmail" class="auth-input" placeholder="you@example.com" autocomplete="email" onkeydown="if(event.key==='Enter') authResetPassword()">
+      </div>
+      <button class="auth-submit" onclick="authResetPassword()">Send Reset Link</button>
+      <div class="auth-msg" id="resetMsg"></div>
+      <p style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted);">
+        <button onclick="switchAuthTab('login')" style="background:none;border:none;color:var(--accent-gold);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;padding:0;">← Back to log in</button>
+      </p>
+    </div>
+
+    <div class="auth-divider">your data is safe</div>
+    <div class="auth-footer">
+      🔒 Passwords encrypted · Data secured by Supabase<br>No credit card ever required.
+    </div>
+
+  </div>
+</div>
+<!-- ====== END AUTH SCREEN ====== -->
+
+<!-- ====== SET NEW PASSWORD SCREEN (password reset redirect) ====== -->
+<div id="resetPasswordScreen" style="display:none; position:fixed; inset:0; background:var(--bg); z-index:9999; display:none; flex-direction:column; align-items:center; justify-content:center; padding:40px 28px 56px; max-width:480px; margin:0 auto; left:50%; transform:translateX(-50%); width:100%;">
+
+  <div style="font-size:48px; margin-bottom:16px;">🔐</div>
+  <div style="font-family:'Inter',sans-serif; font-weight:800; font-size:22px; letter-spacing:2px; text-transform:uppercase; color:var(--text); margin-bottom:4px;">BUGI <span style="color:var(--accent-gold);">BUD</span></div>
+  <div style="font-size:13px; color:var(--muted); margin-bottom:36px; text-align:center; line-height:1.6;">Create a new password for your account.</div>
+
+  <div class="auth-card" style="width:100%;">
+    <div style="text-align:center; margin-bottom:22px;">
+      <div style="font-weight:700; font-size:17px; color:var(--text); margin-bottom:6px;">Set New Password</div>
+      <div style="font-size:12px; color:var(--muted);">Choose something secure and memorable.</div>
+    </div>
+
+    <div class="auth-field-group">
+      <label class="auth-label">New Password</label>
+      <div class="pw-wrap">
+        <input type="password" id="newResetPw" class="auth-input" placeholder="Min. 6 characters" autocomplete="new-password" style="padding-right:44px;">
+        <button class="pw-toggle" onclick="togglePw('newResetPw',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+
+    <div class="auth-field-group">
+      <label class="auth-label">Confirm New Password</label>
+      <div class="pw-wrap">
+        <input type="password" id="confirmResetPw" class="auth-input" placeholder="Re-enter your new password" autocomplete="new-password" style="padding-right:44px;" onkeydown="if(event.key==='Enter') submitNewPassword()">
+        <button class="pw-toggle" onclick="togglePw('confirmResetPw',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+
+    <!-- Password strength indicator -->
+    <div id="pwStrengthBar" style="height:4px; border-radius:99px; background:var(--surface3); margin-bottom:16px; overflow:hidden;">
+      <div id="pwStrengthFill" style="height:100%; width:0%; border-radius:99px; transition:width 0.3s ease, background 0.3s ease;"></div>
+    </div>
+    <div id="pwStrengthLabel" style="font-size:11px; color:var(--muted); margin-top:-12px; margin-bottom:14px; letter-spacing:0.3px;"></div>
+
+    <button class="auth-submit" onclick="submitNewPassword()">Save New Password</button>
+    <div class="auth-msg" id="resetPwMsg" style="margin-top:12px;"></div>
+  </div>
+</div>
+<!-- ====== END SET NEW PASSWORD SCREEN ====== -->
 
 <div class="header">
   <div class="header-top">
     <div class="logo" style="font-family:'Inter',sans-serif;font-weight:800;font-size:20px;letter-spacing:2px;text-transform:uppercase;">BUGI <span>BUD</span></div>
     <div style="display:flex;align-items:center;gap:10px;">
       <div id="netBadge" style="font-family:'Inter',sans-serif;font-weight:600;font-size:13px;"></div>
-      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+      <button class="theme-toggle" id="themeToggle" onclick="cycleTheme()" title="Change theme">🌙</button>
     </div>
   </div>
   <div class="month-nav">
@@ -606,10 +1436,11 @@
   <button class="tab" onclick="switchTab('transactions',this)" style="font-size:11px;">Transactions</button>
   <button class="tab" onclick="switchTab('budget',this)" style="font-size:11px;">Budget</button>
   <button class="tab" onclick="switchTab('accounts',this)" style="font-size:11px;">Accounts</button>
+  <button class="tab" onclick="switchTab('settings',this)" style="font-size:11px;">Settings</button>
 </div>
 
 <!-- OVERVIEW TAB -->
-<div id="tab-overview">
+<div id="tab-overview" class="tab-panel">
   <div class="summary">
     <div class="card">
       <div class="card-label">Income</div>
@@ -700,8 +1531,19 @@
 </div>
 
 <!-- TRANSACTIONS TAB -->
-<div id="tab-transactions" style="display:none;">
-  <div class="filter-row" id="filterRow">
+<div id="tab-transactions" class="tab-panel" style="display:none;">
+
+  <!-- CSV Import Banner -->
+  <div style="padding:14px 24px 0;">
+    <div id="csvImportBanner" style="background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer;transition:all 0.2s;" onclick="document.getElementById('csvFileInput').click()" ondragover="csvDragOver(event)" ondrop="csvDrop(event)">
+      <div style="font-size:28px;margin-bottom:6px;">📥</div>
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;">Import from your bank</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.6;">Tap to upload a CSV · Works with Chase, BofA,<br>Wells Fargo, Citi, Amex, and most US banks</div>
+      <input type="file" id="csvFileInput" accept=".csv" style="display:none;" onchange="handleCsvFile(event)">
+    </div>
+  </div>
+
+  <div class="filter-row" id="filterRow" style="margin-top:12px;">
     <div class="chip active" onclick="setFilter('all',this)">All</div>
     <div class="chip" onclick="setFilter('expense',this)">Expenses</div>
     <div class="chip" onclick="setFilter('income',this)">Income</div>
@@ -712,7 +1554,7 @@
 </div>
 
 <!-- BUDGET TAB -->
-<div id="tab-budget" style="display:none;">
+<div id="tab-budget" class="tab-panel" style="display:none;">
   <div class="summary">
     <div class="card wide" style="flex-direction:column;align-items:stretch;gap:14px;">
       <div>
@@ -804,17 +1646,26 @@
 </div>
 
 <!-- ACCOUNTS TAB -->
-<div id="tab-accounts" style="display:none;">
+<div id="tab-accounts" class="tab-panel" style="display:none;">
 
   <!-- Net Worth Summary -->
   <div class="summary">
     <div class="card wide" style="flex-direction:column;align-items:stretch;gap:6px;">
-      <div class="card-label">Total Net Worth</div>
-      <div class="card-value income" id="netWorth" style="font-size:28px;font-family:'DM Mono','Courier New',monospace;font-weight:400;">$0.00</div>
+      <div class="card-label">Net Worth</div>
+      <div class="card-value" id="netWorth" style="font-size:28px;font-family:'DM Mono','Courier New',monospace;font-weight:400;">$0.00</div>
       <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;">
-        <div><div class="card-label" style="margin-bottom:2px;">Total Balances</div><div style="font-family:'Inter',sans-serif;font-weight:500;font-size:14px;" id="totalBalances">$0.00</div></div>
+        <div><div class="card-label" style="margin-bottom:2px;">Total Assets</div><div style="font-family:'Inter',sans-serif;font-weight:500;font-size:14px;color:var(--green);" id="totalBalances">$0.00</div></div>
+        <div><div class="card-label" style="margin-bottom:2px;">Total Debt</div><div style="font-family:'Inter',sans-serif;font-weight:500;font-size:14px;color:var(--red);" id="totalDebt">$0.00</div></div>
         <div><div class="card-label" style="margin-bottom:2px;">Est. Annual Interest</div><div style="font-family:'Inter',sans-serif;font-weight:500;font-size:14px;color:var(--green);" id="totalAnnualInterest">$0.00</div></div>
-        <div><div class="card-label" style="margin-bottom:2px;">Est. Monthly Interest</div><div style="font-family:'Inter',sans-serif;font-weight:500;font-size:14px;color:var(--green);" id="totalMonthlyInterest">$0.00</div></div>
+      </div>
+      <!-- Net worth progress bar: assets vs debt -->
+      <div style="margin-top:10px;">
+        <div class="progress-bar" style="height:6px;">
+          <div id="netWorthBar" class="progress-fill" style="width:100%;background:var(--green);"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--muted);">
+          <span>Assets</span><span>Debt</span>
+        </div>
       </div>
     </div>
   </div>
@@ -840,30 +1691,6 @@
         </div>
       </div>
       <div class="acct-info" id="acct-checking-info"></div>
-    </div>
-  </div>
-
-  <!-- Savings Account -->
-  <div class="section" style="padding-bottom:8px;">
-    <div class="section-title" style="display:flex;align-items:center;gap:8px;">💰 Savings Account</div>
-    <div class="acct-card" id="acct-savings">
-      <div class="acct-row">
-        <div class="form-group" style="flex:1;margin-bottom:0;">
-          <label class="form-label">Bank Name</label>
-          <input type="text" class="form-input acct-field" data-acct="savings" data-field="bank" placeholder="e.g. Wells Fargo, Ally" oninput="saveAccount('savings')">
-        </div>
-      </div>
-      <div class="acct-row" style="margin-top:10px;">
-        <div class="form-group" style="flex:1;margin-bottom:0;">
-          <label class="form-label">Current Balance ($)</label>
-          <input type="number" class="form-input acct-field" data-acct="savings" data-field="balance" placeholder="0.00" step="0.01" oninput="saveAccount('savings')">
-        </div>
-        <div class="form-group" style="flex:1;margin-bottom:0;">
-          <label class="form-label">APY (%)</label>
-          <input type="number" class="form-input acct-field" data-acct="savings" data-field="apy" placeholder="e.g. 0.50" step="0.01" min="0" oninput="saveAccount('savings')">
-        </div>
-      </div>
-      <div class="acct-info" id="acct-savings-info"></div>
     </div>
   </div>
 
@@ -894,30 +1721,210 @@
     </div>
   </div>
 
-  <!-- Investment / Brokerage (bonus) -->
-  <div class="section" style="padding-bottom:24px;">
-    <div class="section-title" style="display:flex;align-items:center;gap:8px;">📊 Investment / Brokerage</div>
-    <div class="acct-card" id="acct-invest">
-      <div class="acct-row">
-        <div class="form-group" style="flex:1;margin-bottom:0;">
-          <label class="form-label">Platform / Broker</label>
-          <input type="text" class="form-input acct-field" data-acct="invest" data-field="bank" placeholder="e.g. Fidelity, Vanguard, Robinhood" oninput="saveAccount('invest')">
-        </div>
+  <!-- DEBT SECTION -->
+  <div class="section" style="padding-bottom:8px;">
+    <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
+      <span>💳 Debt Tracker</span>
+      <button onclick="addDebtRow()" style="background:var(--surface2);border:1px solid var(--border-strong);color:var(--text2);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">+ Add Debt</button>
+    </div>
+
+    <!-- Debt summary bar -->
+    <div id="debtSummaryCard" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:12px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.8px;">Total Debt</span>
+        <span id="debtTotalAmt" style="font-family:'DM Mono',monospace;font-size:18px;font-weight:400;color:var(--red);">$0.00</span>
       </div>
-      <div class="acct-row" style="margin-top:10px;">
-        <div class="form-group" style="flex:1;margin-bottom:0;">
-          <label class="form-label">Portfolio Value ($)</label>
-          <input type="number" class="form-input acct-field" data-acct="invest" data-field="balance" placeholder="0.00" step="0.01" oninput="saveAccount('invest')">
-        </div>
-        <div class="form-group" style="flex:1;margin-bottom:0;">
-          <label class="form-label">Est. Annual Return (%)</label>
-          <input type="number" class="form-input acct-field" data-acct="invest" data-field="apy" placeholder="e.g. 7.00" step="0.01" min="0" oninput="saveAccount('invest')">
-        </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:6px;">
+        <span id="debtMonthlyLabel">$0 / month minimum</span>
+        <span id="debtInterestLabel">$0 / yr interest</span>
       </div>
-      <div class="acct-info" id="acct-invest-info"></div>
+      <div class="progress-bar" style="height:4px;">
+        <div id="debtProgressFill" class="progress-fill danger" style="width:100%;"></div>
+      </div>
+    </div>
+
+    <!-- Debt rows list -->
+    <div id="debtList"></div>
+
+    <div id="debtEmpty" class="empty-state" style="padding:28px 0;">
+      <div class="emoji">💳</div>
+      <p>No debts added yet.<br>Tap "+ Add Debt" to track what you owe.</p>
     </div>
   </div>
 
+  <!-- Add Debt Modal trigger area (inline form) -->
+  <div id="debtFormWrap" style="display:none;" class="section" style="padding-bottom:24px;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);">
+      <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:var(--text);margin-bottom:16px;" id="debtFormTitle">Add Debt</div>
+      <div class="form-group">
+        <label class="form-label">Debt Type</label>
+        <select id="debtType" class="form-input" style="padding:12px 14px;">
+          <option value="credit_card">💳 Credit Card</option>
+          <option value="student_loan">🎓 Student Loan</option>
+          <option value="car_loan">🚗 Car Loan</option>
+          <option value="mortgage">🏠 Mortgage</option>
+          <option value="personal_loan">💵 Personal Loan</option>
+          <option value="medical">🏥 Medical Debt</option>
+          <option value="other">📦 Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Name / Lender</label>
+        <input type="text" id="debtName" class="form-input" placeholder="e.g. Chase Sapphire, Sallie Mae">
+      </div>
+      <div style="display:flex;gap:10px;">
+        <div class="form-group" style="flex:1;">
+          <label class="form-label">Balance Owed ($)</label>
+          <input type="number" id="debtBalance" class="form-input" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label class="form-label">Interest Rate (%)</label>
+          <input type="number" id="debtRate" class="form-input" placeholder="e.g. 19.99" step="0.01" min="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Min. Monthly Payment ($)</label>
+        <input type="number" id="debtMinPayment" class="form-input" placeholder="0.00" step="0.01" min="0">
+      </div>
+      <input type="hidden" id="debtEditId">
+      <div style="display:flex;gap:8px;">
+        <button onclick="saveDebt()" style="flex:1;padding:13px;border-radius:var(--radius-sm);border:none;background:var(--text);color:var(--bg);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;" id="debtSaveBtn">Save Debt</button>
+        <button onclick="cancelDebtForm()" style="padding:13px 16px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:14px;cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SETTINGS TAB -->
+<div id="tab-settings" class="tab-panel" style="display:none;">
+  <div class="summary">
+    <div class="card wide" style="flex-direction:column;align-items:stretch;gap:6px;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="width:52px;height:52px;border-radius:16px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">👤</div>
+        <div>
+          <div class="card-label" style="margin-bottom:3px;">Logged in as</div>
+          <div id="settingsEmail" style="font-size:14px;font-weight:600;color:var(--text);word-break:break-all;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="section-title">Account</div>
+
+    <div class="settings-row" onclick="showChangePwPanel()">
+      <div class="settings-row-icon">🔑</div>
+      <div class="settings-row-text">
+        <div class="settings-row-title">Change Password</div>
+        <div class="settings-row-sub">Update your account password</div>
+      </div>
+      <div class="settings-row-arrow">›</div>
+    </div>
+
+    <div class="settings-row" onclick="confirmLogout()">
+      <div class="settings-row-icon">↩</div>
+      <div class="settings-row-text">
+        <div class="settings-row-title">Log Out</div>
+        <div class="settings-row-sub">Sign out of your account</div>
+      </div>
+      <div class="settings-row-arrow">›</div>
+    </div>
+  </div>
+
+  <!-- Change Password Panel -->
+  <div id="changePwPanel" style="display:none;" class="settings-section">
+    <div class="section-title">Change Password</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);">
+      <div class="form-group">
+        <label class="form-label">New Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="newPw" class="form-input" placeholder="Min. 6 characters" style="padding-right:44px;">
+          <button class="pw-toggle" onclick="togglePw('newPw',this)" tabindex="-1">👁</button>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">Confirm New Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="confirmNewPw" class="form-input" placeholder="Re-enter password" style="padding-right:44px;">
+          <button class="pw-toggle" onclick="togglePw('confirmNewPw',this)" tabindex="-1">👁</button>
+        </div>
+      </div>
+      <div class="auth-msg" id="changePwMsg" style="margin-top:12px;"></div>
+      <button onclick="changePassword()" style="width:100%;margin-top:14px;padding:13px;border-radius:var(--radius-sm);border:none;background:var(--text);color:var(--bg);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Update Password</button>
+      <button onclick="document.getElementById('changePwPanel').style.display='none'" style="width:100%;margin-top:8px;padding:11px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="section-title">App</div>
+
+    <!-- Theme Picker -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:8px;box-shadow:var(--shadow-sm);">
+      <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:14px;letter-spacing:0.3px;">🎨 Choose Theme</div>
+      <div class="theme-picker" id="themePicker">
+
+        <div class="theme-swatch" data-theme-id="light" onclick="applyTheme('light')">
+          <div class="theme-swatch-dot" style="background:linear-gradient(135deg,#f5f4f1 50%,#b8975a 50%);">
+          </div>
+          <span class="theme-swatch-label">Classic</span>
+        </div>
+
+        <div class="theme-swatch" data-theme-id="dark" onclick="applyTheme('dark')">
+          <div class="theme-swatch-dot" style="background:linear-gradient(135deg,#1a1a1a 50%,#c9a96e 50%);">
+          </div>
+          <span class="theme-swatch-label">Dark</span>
+        </div>
+
+        <div class="theme-swatch" data-theme-id="ocean" onclick="applyTheme('ocean')">
+          <div class="theme-swatch-dot" style="background:linear-gradient(135deg,#f0f6ff 50%,#2563eb 50%);">
+          </div>
+          <span class="theme-swatch-label">Ocean</span>
+        </div>
+
+        <div class="theme-swatch" data-theme-id="forest" onclick="applyTheme('forest')">
+          <div class="theme-swatch-dot" style="background:linear-gradient(135deg,#f2f7f2 50%,#2d7a2d 50%);">
+          </div>
+          <span class="theme-swatch-label">Forest</span>
+        </div>
+
+        <div class="theme-swatch" data-theme-id="rose" onclick="applyTheme('rose')">
+          <div class="theme-swatch-dot" style="background:linear-gradient(135deg,#fff5f7 50%,#c0395a 50%);">
+          </div>
+          <span class="theme-swatch-label">Rose</span>
+        </div>
+
+        <div class="theme-swatch" data-theme-id="midnight" onclick="applyTheme('midnight')">
+          <div class="theme-swatch-dot" style="background:linear-gradient(135deg,#0e0b1a 50%,#9b7fe8 50%);">
+          </div>
+          <span class="theme-swatch-label">Midnight</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="settings-row" onclick="showAppInfo()">
+      <div class="settings-row-icon">ℹ️</div>
+      <div class="settings-row-text">
+        <div class="settings-row-title">About Bugi Bud</div>
+        <div class="settings-row-sub">Version 1.0 · Free forever</div>
+      </div>
+      <div class="settings-row-arrow">›</div>
+    </div>
+  </div>
+
+  <div class="settings-section" style="padding-bottom:40px;">
+    <div class="section-title">Danger Zone</div>
+
+    <div class="settings-row danger" onclick="confirmDeleteAccount()">
+      <div class="settings-row-icon">🗑️</div>
+      <div class="settings-row-text">
+        <div class="settings-row-title">Delete My Account</div>
+        <div class="settings-row-sub" style="color:var(--muted);">Permanently delete all your data</div>
+      </div>
+      <div class="settings-row-arrow" style="color:var(--red);">›</div>
+    </div>
+  </div>
 </div>
 
 <!-- FAB -->
@@ -936,6 +1943,9 @@
   </button>
   <button class="nav-btn" id="nav-accounts" onclick="switchTab('accounts',null,'nav-accounts')">
     <span class="nav-icon">🏦</span>Accounts
+  </button>
+  <button class="nav-btn" id="nav-settings" onclick="switchTab('settings',null,'nav-settings')">
+    <span class="nav-icon">⚙️</span>Settings
   </button>
 </div>
 
@@ -987,6 +1997,16 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ====== SUPABASE CONFIG ======
+const SUPA_URL = 'https://vosdaczbfntjfwhuqnzf.supabase.co';
+const SUPA_KEY = 'sb_publishable_4bjHVDJATfxsFAFma_DoJA_FZiMsZ1H';
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+let currentUser = null;
+
+// ====== MAIN APP SCRIPT ======
+</script>
 <script>
 const CATEGORIES = [
   { id: 'food', label: 'Food & Dining', emoji: '🍔', color: 'var(--cat-food)' },
@@ -1013,23 +2033,51 @@ let currentTab = 'overview';
 let viewYear = new Date().getFullYear();
 let editingTxId = null;
 
+// ====== DATA LAYER (Supabase + local cache) ======
+let _txCache = [];
+let _budgetGoalCache = '';
+let _accountsCache = {};
+let _tripExpensesCache = [];
+let _tripMetaCache = {};
+
 function loadData() {
-  return JSON.parse(localStorage.getItem('spendly_data') || '{"transactions":[],"budgetGoal":""}');
+  return { transactions: _txCache, budgetGoal: _budgetGoalCache };
 }
-function saveData(data) {
-  localStorage.setItem('spendly_data', JSON.stringify(data));
-}
+function saveData() { /* no-op — writes go direct to Supabase */ }
 
-function fmt(n) {
-  return '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
+async function fetchAllData() {
+  if (!currentUser) return;
+  const uid = currentUser.id;
 
-function monthKey() { return `${currentYear}-${String(currentMonth+1).padStart(2,'0')}`; }
+  const [{ data: txRows }, { data: goalRow }, { data: acctRow }] = await Promise.all([
+    supa.from('transactions').select('*').eq('user_id', uid).order('date', { ascending: false }),
+    supa.from('budget_goals').select('*').eq('user_id', uid).maybeSingle(),
+    supa.from('accounts').select('*').eq('user_id', uid).maybeSingle(),
+  ]);
+
+  _txCache = (txRows || []).map(r => ({
+    id: r.id, type: r.type, desc: r.description, amount: parseFloat(r.amount),
+    category: r.category, freq: r.frequency, date: r.date
+  }));
+  _budgetGoalCache = goalRow ? goalRow.monthly_goal : '';
+  _accountsCache = acctRow ? (acctRow.data || {}) : {};
+}
 
 function getMonthTx() {
-  const data = loadData();
   const key = monthKey();
-  return data.transactions.filter(t => t.date && t.date.startsWith(key));
+  return _txCache.filter(t => t.date && t.date.startsWith(key));
+}
+
+function getYearMonthData(year) {
+  const months = [];
+  for (let m = 0; m < 12; m++) {
+    const key = `${year}-${String(m+1).padStart(2,'0')}`;
+    const txs = _txCache.filter(t => t.date && t.date.startsWith(key));
+    const income = txs.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+    const spent  = txs.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+    months.push({ month: m, income, spent, saved: income - spent, hasData: txs.length > 0 });
+  }
+  return months;
 }
 
 const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1153,6 +2201,24 @@ function renderPieChart() {
   }).join('');
 }
 
+function animateCounter(el, targetValue, prefix = '$', isNegative = false) {
+  const start = 0;
+  const duration = 600;
+  const startTime = performance.now();
+  const sign = isNegative ? '-' : (prefix === '+' ? '+' : '');
+  function step(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const current = Math.abs(targetValue) * ease;
+    el.textContent = sign + '$' + current.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = sign + fmt(Math.abs(targetValue));
+  }
+  requestAnimationFrame(step);
+}
+
 function renderSummary() {
   const txs = getMonthTx();
   const income = txs.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
@@ -1160,12 +2226,12 @@ function renderSummary() {
   const remaining = income - spent;
   const pct = income > 0 ? Math.min(100, Math.round((spent / income) * 100)) : (spent > 0 ? 100 : 0);
 
-  document.getElementById('totalIncome').textContent = fmt(income);
-  document.getElementById('totalSpent').textContent = fmt(spent);
+  animateCounter(document.getElementById('totalIncome'), income);
+  animateCounter(document.getElementById('totalSpent'), spent);
 
   const remEl = document.getElementById('remaining');
-  remEl.textContent = fmt(remaining);
   remEl.className = 'card-value balance ' + (remaining >= 0 ? 'positive' : 'negative');
+  animateCounter(remEl, Math.abs(remaining), remaining >= 0 ? '' : '-');
 
   document.getElementById('pctLabel').textContent = pct + '%';
   const fill = document.getElementById('progressFill');
@@ -1173,7 +2239,7 @@ function renderSummary() {
   fill.className = 'progress-fill' + (pct > 90 ? ' danger' : pct > 70 ? ' warn' : '');
 
   const netBadge = document.getElementById('netBadge');
-  netBadge.textContent = (remaining >= 0 ? '+' : '-') + fmt(remaining);
+  netBadge.textContent = (remaining >= 0 ? '+' : '-') + fmt(Math.abs(remaining));
   netBadge.style.color = remaining >= 0 ? 'var(--green)' : 'var(--red)';
 }
 
@@ -1181,7 +2247,11 @@ function renderCatBreakdown() {
   const txs = getMonthTx().filter(t => t.type === 'expense');
   const el = document.getElementById('catBreakdown');
   if (!txs.length) {
-    el.innerHTML = '<div class="empty-state"><div class="emoji">📊</div><p>No expenses yet this month.</p></div>';
+    el.innerHTML = `<div class="empty-state">
+      <span class="emoji">📊</span>
+      <div class="empty-title">Nothing to show yet</div>
+      <p>Add an expense to see your spending breakdown.</p>
+    </div>`;
     return;
   }
   const totals = {};
@@ -1207,18 +2277,10 @@ function changeYear(dir) {
   renderMonthlyBarChart();
 }
 
-function getYearMonthData(year) {
-  const data = loadData();
-  const months = [];
-  for (let m = 0; m < 12; m++) {
-    const key = `${year}-${String(m+1).padStart(2,'0')}`;
-    const txs = data.transactions.filter(t => t.date && t.date.startsWith(key));
-    const income = txs.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
-    const spent = txs.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
-    months.push({ month: m, income, spent, saved: income - spent, hasData: txs.length > 0 });
-  }
-  return months;
+function fmt(n) {
+  return '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
+function monthKey() { return `${currentYear}-${String(currentMonth+1).padStart(2,'0')}`; }
 
 function renderMonthlyBarChart() {
   const el = document.getElementById('monthlyBarChart');
@@ -1294,20 +2356,47 @@ function jumpToMonth(month, year) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function setFilter(f, el) {
+  txFilter = f;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderTransactions();
+}
+
 function renderTransactions() {
   const txs = getMonthTx().filter(t => txFilter === 'all' || t.type === txFilter)
     .sort((a, b) => new Date(b.date) - new Date(a.date));
   const el = document.getElementById('txList');
   if (!txs.length) {
-    el.innerHTML = '<div class="empty-state"><div class="emoji">💸</div><p>No transactions this month.<br>Tap + to add one.</p></div>';
+    const msgs = {
+      all:     { emoji: '💸', title: 'No transactions yet', sub: 'Tap <strong>+</strong> to log your first one.' },
+      expense: { emoji: '🛍️', title: 'No expenses this month', sub: 'Looks like a clean month!' },
+      income:  { emoji: '💰', title: 'No income logged yet', sub: 'Add your income to track savings.' },
+    };
+    const m = msgs[txFilter] || msgs.all;
+    el.innerHTML = `<div class="empty-state">
+      <span class="emoji">${m.emoji}</span>
+      <div class="empty-title">${m.title}</div>
+      <p>${m.sub}</p>
+      ${txFilter === 'all' ? `<button class="empty-action" onclick="openModal()">+ Add Transaction</button>` : ''}
+    </div>`;
     return;
   }
-  el.innerHTML = txs.map(t => {
+
+  // Color map matching pie chart colors
+  const accentColor = {
+    food:'#FF3B30', transport:'#FF9500', bills:'#A855F7', shopping:'#F97316',
+    health:'#22C55E', entertainment:'#EC4899', housing:'#14B8A6', education:'#EAB308',
+    savings:'#06B6D4', subscriptions:'#8B5CF6', travel:'#10B981', other:'#94A3B8', income:'#22C55E'
+  };
+
+  el.innerHTML = txs.map((t, i) => {
     const cat = CATEGORIES.find(c => c.id === t.category) || { emoji: '📦', color: 'var(--cat-other)', label: 'Other' };
     const dateStr = new Date(t.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     const freqBadge = t.freq && t.freq !== 'once' ? ` · ${t.freq}` : '';
-    return `<div class="tx-item">
-      <div class="tx-icon" style="background:${cat.color}22;">${cat.emoji}</div>
+    const color = accentColor[t.category] || '#94A3B8';
+    return `<div class="tx-item" style="border-left-color:${color};animation-delay:${i * 0.04}s;">
+      <div class="tx-icon" style="background:${color}18;border-color:${color}30;">${cat.emoji}</div>
       <div class="tx-info">
         <div class="tx-name">${t.desc || cat.label}</div>
         <div class="tx-meta">${cat.label}${freqBadge} · ${dateStr}</div>
@@ -1320,16 +2409,10 @@ function renderTransactions() {
 
   // Attach listeners after rendering
   el.querySelectorAll('.tx-delete').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      deleteTransaction(btn.getAttribute('data-delete'));
-    });
+    btn.addEventListener('click', (e) => { e.stopPropagation(); deleteTransaction(btn.getAttribute('data-delete')); });
   });
   el.querySelectorAll('.tx-edit').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      editTransaction(btn.getAttribute('data-edit'));
-    });
+    btn.addEventListener('click', (e) => { e.stopPropagation(); editTransaction(btn.getAttribute('data-edit')); });
   });
 }
 
@@ -1354,7 +2437,7 @@ function renderBudgetTab() {
 
   // Habits summary
   const habitsEl = document.getElementById('habitsList');
-  const allTx = data.transactions.filter(t => t.type === 'expense');
+  const allTx = _txCache.filter(t => t.type === 'expense');
   if (!allTx.length) {
     habitsEl.innerHTML = '<div class="empty-state" style="padding:20px 0;"><div class="emoji">🔍</div><p>Add some expenses to see your habits.</p></div>';
     return;
@@ -1376,13 +2459,6 @@ function renderBudgetTab() {
       </div>
     </div>`;
   }).join('');
-}
-
-function saveBudgetGoal() {
-  const data = loadData();
-  data.budgetGoal = document.getElementById('budgetGoalInput').value;
-  saveData(data);
-  renderBudgetTab();
 }
 
 function buildCatGrid() {
@@ -1429,8 +2505,7 @@ function openModal() {
 }
 
 function editTransaction(id) {
-  const data = loadData();
-  const tx = data.transactions.find(t => t.id === id);
+  const tx = _txCache.find(t => t.id === id);
   if (!tx) return;
   editingTxId = id;
   buildCatGrid();
@@ -1460,69 +2535,87 @@ function handleOverlayClick(e) {
   if (e.target === document.getElementById('modalOverlay')) closeModal();
 }
 
-function addTransaction() {
-  const desc = document.getElementById('txDesc').value.trim();
+async function addTransaction() {
+  const desc   = document.getElementById('txDesc').value.trim();
   const amount = parseFloat(document.getElementById('txAmount').value);
-  const date = document.getElementById('txDate').value;
-
+  const date   = document.getElementById('txDate').value;
   if (!amount || amount <= 0) { alert('Please enter a valid amount.'); return; }
   if (!date) { alert('Please select a date.'); return; }
 
-  const data = loadData();
-
   if (editingTxId) {
-    // Update existing
-    const idx = data.transactions.findIndex(t => t.id === editingTxId);
+    const idx = _txCache.findIndex(t => t.id === editingTxId);
     if (idx !== -1) {
-      data.transactions[idx] = {
-        ...data.transactions[idx],
-        type: selectedType,
-        desc: desc || null,
-        amount,
-        category: selectedType === 'expense' ? selectedCat : 'income',
-        freq: selectedFreq,
-        date
-      };
+      _txCache[idx] = { ..._txCache[idx], type: selectedType, desc: desc || null, amount,
+        category: selectedType === 'expense' ? selectedCat : 'income', freq: selectedFreq, date };
+    }
+    if (currentUser) {
+      await supa.from('transactions').update({ type: selectedType, description: desc || null,
+        amount, category: selectedType === 'expense' ? selectedCat : 'income', frequency: selectedFreq, date
+      }).eq('id', editingTxId).eq('user_id', currentUser.id);
     }
   } else {
-    // Add new
-    const tx = {
-      id: Date.now().toString(),
-      type: selectedType,
-      desc: desc || null,
-      amount,
-      category: selectedType === 'expense' ? selectedCat : 'income',
-      freq: selectedFreq,
-      date
-    };
-    data.transactions.push(tx);
+    const newTx = { id: Date.now().toString(), type: selectedType, desc: desc || null,
+      amount, category: selectedType === 'expense' ? selectedCat : 'income', freq: selectedFreq, date };
+    _txCache.unshift(newTx);
+    if (currentUser) {
+      const { data } = await supa.from('transactions').insert({
+        user_id: currentUser.id, type: newTx.type, description: newTx.desc,
+        amount: newTx.amount, category: newTx.category, frequency: newTx.freq, date: newTx.date
+      }).select().single();
+      if (data) _txCache[0].id = data.id;
+    }
   }
-
-  saveData(data);
   closeModal();
   renderAll();
 }
 
-function deleteTransaction(id) {
-  const data = loadData();
-  const idx = data.transactions.findIndex(t => t.id === id);
-  if (idx === -1) return;
-  data.transactions.splice(idx, 1);
-  saveData(data);
+async function deleteTransaction(id) {
+  _txCache = _txCache.filter(t => t.id !== id);
+  if (currentUser) {
+    await supa.from('transactions').delete().eq('id', id).eq('user_id', currentUser.id);
+  }
   renderAll();
 }
 
-function setFilter(f, el) {
-  txFilter = f;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  renderTransactions();
+async function saveBudgetGoal() {
+  const val = document.getElementById('budgetGoalInput').value;
+  _budgetGoalCache = val;
+  if (currentUser) {
+    await supa.from('budget_goals').upsert(
+      { user_id: currentUser.id, monthly_goal: parseFloat(val) || null },
+      { onConflict: 'user_id' }
+    );
+  }
+  renderBudgetTab();
+}
+
+async function saveAccount(acctId) {
+  if (!_accountsCache[acctId]) _accountsCache[acctId] = {};
+  document.querySelectorAll(`.acct-field[data-acct="${acctId}"]`).forEach(input => {
+    _accountsCache[acctId][input.dataset.field] = input.value;
+  });
+  if (currentUser) {
+    await supa.from('accounts').upsert(
+      { user_id: currentUser.id, data: _accountsCache },
+      { onConflict: 'user_id' }
+    );
+  }
+  renderAccounts();
 }
 
 function switchTab(tab, btn, navId) {
   currentTab = tab;
-  ['overview', 'transactions', 'budget', 'accounts'].forEach(t => {
-    document.getElementById('tab-' + t).style.display = t === tab ? '' : 'none';
+  ['overview', 'transactions', 'budget', 'accounts', 'settings'].forEach(t => {
+    const el = document.getElementById('tab-' + t);
+    if (t === tab) {
+      el.style.display = '';
+      // Re-trigger animation
+      el.classList.remove('tab-panel');
+      void el.offsetWidth; // force reflow
+      el.classList.add('tab-panel');
+    } else {
+      el.style.display = 'none';
+    }
   });
   if (btn) {
     document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
@@ -1532,39 +2625,17 @@ function switchTab(tab, btn, navId) {
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(navId).classList.add('active');
     const tabBtns = document.querySelectorAll('.tab');
-    const idx = ['overview','transactions','budget','accounts'].indexOf(tab);
+    const idx = ['overview','transactions','budget','accounts','settings'].indexOf(tab);
     tabBtns.forEach((b, i) => b.classList.toggle('active', i === idx));
   }
   renderAll();
   if (tab === 'accounts') loadAccountFields();
   if (tab === 'budget') { buildTripCatPicker(); renderTripExpenses(); loadTripMeta(); }
+  if (tab === 'settings') renderSettingsPage();
 }
 
 // ---- ACCOUNTS ----
-const ACCT_TYPES = ['checking','savings','hysa','invest'];
-
-function saveAccount(acctId) {
-  const data = loadData();
-  if (!data.accounts) data.accounts = {};
-  if (!data.accounts[acctId]) data.accounts[acctId] = {};
-  document.querySelectorAll(`.acct-field[data-acct="${acctId}"]`).forEach(input => {
-    data.accounts[acctId][input.dataset.field] = input.value;
-  });
-  saveData(data);
-  renderAccounts();
-}
-
-function loadAccountFields() {
-  const data = loadData();
-  if (!data.accounts) return;
-  document.querySelectorAll('.acct-field').forEach(input => {
-    const acct = input.dataset.acct;
-    const field = input.dataset.field;
-    if (data.accounts[acct] && data.accounts[acct][field] !== undefined) {
-      input.value = data.accounts[acct][field];
-    }
-  });
-}
+const ACCT_TYPES = ['checking','hysa'];
 
 function calcInterest(balance, apy) {
   const b = parseFloat(balance) || 0;
@@ -1572,48 +2643,6 @@ function calcInterest(balance, apy) {
   const annual = b * (r / 100);
   const monthly = annual / 12;
   return { annual, monthly };
-}
-
-function renderAccounts() {
-  const data = loadData();
-  const accounts = data.accounts || {};
-  let totalBalance = 0, totalAnnual = 0;
-
-  ACCT_TYPES.forEach(acctId => {
-    const acct = accounts[acctId] || {};
-    const balance = parseFloat(acct.balance) || 0;
-    const { annual, monthly } = calcInterest(acct.balance, acct.apy);
-    totalBalance += balance;
-    totalAnnual += annual;
-
-    const infoEl = document.getElementById(`acct-${acctId}-info`);
-    if (!infoEl) return;
-    if (balance === 0) { infoEl.innerHTML = ''; return; }
-
-    infoEl.innerHTML = `
-      <div class="acct-pill">
-        <div class="acct-pill-label">Balance</div>
-        <div class="acct-pill-value" style="color:var(--accent);">${fmt(balance)}</div>
-      </div>
-      <div class="acct-pill">
-        <div class="acct-pill-label">Monthly Interest</div>
-        <div class="acct-pill-value">${fmt(monthly)}</div>
-      </div>
-      <div class="acct-pill">
-        <div class="acct-pill-label">Annual Interest</div>
-        <div class="acct-pill-value">${fmt(annual)}</div>
-      </div>
-    `;
-  });
-
-  const totalMonthly = totalAnnual / 12;
-  const nwEl = document.getElementById('netWorth');
-  if (nwEl) {
-    nwEl.textContent = fmt(totalBalance);
-    document.getElementById('totalBalances').textContent = fmt(totalBalance);
-    document.getElementById('totalAnnualInterest').textContent = fmt(totalAnnual);
-    document.getElementById('totalMonthlyInterest').textContent = fmt(totalMonthly);
-  }
 }
 
 // ---- TRIP EXPENSE TRACKER ----
@@ -1635,26 +2664,6 @@ const TRIP_EXP_CATS = [
 ];
 
 let selectedTripCat = 'airbnb';
-
-function loadTripData() {
-  return JSON.parse(localStorage.getItem('bugibud_trip') || '{"expenses":[],"meta":{}}');
-}
-function saveTripData(data) {
-  localStorage.setItem('bugibud_trip', JSON.stringify(data));
-}
-
-function saveTripMeta() {
-  const data = loadTripData();
-  data.meta = {
-    name:   document.getElementById('tripName').value,
-    budget: document.getElementById('tripBudget').value,
-    dep:    document.getElementById('tripDep').value,
-    ret:    document.getElementById('tripRet').value,
-  };
-  saveTripData(data);
-  updateTripCountdown(data.meta);
-  renderTripExpenses();
-}
 
 function updateTripCountdown(meta) {
   const el = document.getElementById('tripCountdown');
@@ -1684,45 +2693,556 @@ function selectTripCat(id) {
   buildTripCatPicker();
 }
 
-function addTripExpense() {
-  const amt = parseFloat(document.getElementById('tripExpAmt').value);
+// ====== AUTH ======
+function getSb() {
+  if (!window._sb) {
+    // SDK still loading — show message on whichever form is visible
+    ['loginMsg','signupMsg','resetMsg'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.closest('div') && el.closest('div').style.display !== 'none') {
+        el.textContent = 'Still connecting… please try again in a moment.';
+        el.className = 'auth-msg error';
+      }
+    });
+    return null;
+  }
+  return window._sb;
+}
+
+function setAuthMsg(id, msg, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'auth-msg' + (type ? ' ' + type : '');
+}
+function togglePw(inputId, btn) {
+  const input = document.getElementById(inputId);
+  input.type = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁' : '🙈';
+}
+function switchAuthTab(tab) {
+  const loginF  = document.getElementById('loginForm');
+  const signupF = document.getElementById('signupForm');
+  const resetF  = document.getElementById('resetForm');
+  const tabs    = document.querySelector('.auth-tabs');
+  if (loginF)  loginF.style.display  = tab === 'login'  ? '' : 'none';
+  if (signupF) signupF.style.display = tab === 'signup' ? '' : 'none';
+  if (resetF)  resetF.style.display  = tab === 'reset'  ? '' : 'none';
+  document.getElementById('tabLogin').classList.toggle('active',  tab === 'login');
+  document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
+  if (tabs) tabs.style.display = tab === 'reset' ? 'none' : '';
+  setAuthMsg('loginMsg', '');
+  setAuthMsg('signupMsg', '');
+  setAuthMsg('resetMsg', '');
+}
+
+async function authSignup() {
+  const sb = getSb(); if (!sb) return;
+  const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+  const pw    = document.getElementById('signupPassword').value;
+  const conf  = document.getElementById('signupConfirm').value;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setAuthMsg('signupMsg','Please enter a valid email.','error'); return; }
+  if (pw.length < 6)  { setAuthMsg('signupMsg','Password must be at least 6 characters.','error'); return; }
+  if (pw !== conf)    { setAuthMsg('signupMsg',"Passwords don't match.",'error'); return; }
+  setAuthMsg('signupMsg','Creating your account…','');
+  try {
+    const { error } = await sb.auth.signUp({ email, password: pw });
+    if (error) { setAuthMsg('signupMsg', error.message, 'error'); return; }
+    setAuthMsg('signupMsg','✓ Account created! Welcome to Bugi Bud.','success');
+    setTimeout(() => unlockApp(true), 900);
+  } catch(e) { setAuthMsg('signupMsg', 'Something went wrong. Please try again.', 'error'); }
+}
+
+async function authLogin() {
+  const sb = getSb(); if (!sb) return;
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pw    = document.getElementById('loginPassword').value;
+  if (!email) { setAuthMsg('loginMsg','Please enter your email.','error'); return; }
+  if (!pw)    { setAuthMsg('loginMsg','Please enter your password.','error'); return; }
+  setAuthMsg('loginMsg','Logging in…','');
+  try {
+    const { error } = await sb.auth.signInWithPassword({ email, password: pw });
+    if (error) { setAuthMsg('loginMsg', error.message, 'error'); return; }
+    setAuthMsg('loginMsg','✓ Welcome back!','success');
+  } catch(e) { setAuthMsg('loginMsg', 'Something went wrong. Please try again.', 'error'); }
+}
+
+async function authResetPassword() {
+  const sb = getSb(); if (!sb) return;
+  const email = document.getElementById('resetEmail').value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setAuthMsg('resetMsg','Please enter a valid email address.','error'); return; }
+  setAuthMsg('resetMsg','Sending reset link…','');
+  try {
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
+    if (error) { setAuthMsg('resetMsg', error.message, 'error'); return; }
+    setAuthMsg('resetMsg','✓ Check your email — a reset link is on its way.','success');
+    document.getElementById('resetEmail').value = '';
+  } catch(e) { setAuthMsg('resetMsg', 'Something went wrong. Please try again.', 'error'); }
+}
+
+async function authLogout() {
+  const sb = getSb(); if (!sb) { location.reload(); return; }
+  await sb.auth.signOut();
+  location.reload();
+}
+
+function unlockApp(isNewUser) {
+  const screen = document.getElementById('authScreen');
+  screen.classList.add('slide-out');
+  setTimeout(() => { screen.style.display = 'none'; }, 420);
+  // Show welcome screen for brand new users only
+  if (isNewUser && !localStorage.getItem('bugibud_welcomed')) {
+    setTimeout(() => {
+      document.getElementById('welcomeScreen').classList.add('visible');
+    }, 500);
+  }
+}
+// All data reads/writes go through Supabase using the logged-in user's ID.
+// Row Level Security ensures users can only access their own rows.
+
+async function fetchTransactions() {
+  const { data } = await _sb.from('transactions').select('*').order('date', { ascending: false });
+  _txCache = (data || []).map(r => ({
+    id: r.id,
+    type: r.type,
+    desc: r.description,
+    amount: parseFloat(r.amount),
+    category: r.category,
+    freq: r.frequency,
+    date: r.date
+  }));
+  return _txCache;
+}
+
+async function addTxToDb(tx) {
+  const { data: { user } } = await _sb.auth.getUser();
+  const { data, error } = await _sb.from('transactions').insert({
+    user_id: user.id,
+    type: tx.type,
+    description: tx.desc || null,
+    amount: tx.amount,
+    category: tx.category,
+    frequency: tx.freq,
+    date: tx.date
+  }).select().single();
+  if (error) throw error;
+  if (!_txCache) _txCache = [];
+  _txCache.unshift({ id: data.id, type: tx.type, desc: tx.desc, amount: tx.amount, category: tx.category, freq: tx.freq, date: tx.date });
+}
+
+async function updateTxInDb(id, tx) {
+  const { error } = await _sb.from('transactions').update({
+    type: tx.type,
+    description: tx.desc || null,
+    amount: tx.amount,
+    category: tx.category,
+    frequency: tx.freq,
+    date: tx.date
+  }).eq('id', id);
+  if (error) throw error;
+  if (_txCache) {
+    const idx = _txCache.findIndex(t => t.id === id);
+    if (idx !== -1) _txCache[idx] = { id, type: tx.type, desc: tx.desc, amount: tx.amount, category: tx.category, freq: tx.freq, date: tx.date };
+  }
+}
+
+async function deleteTxFromDb(id) {
+  const { error } = await _sb.from('transactions').delete().eq('id', id);
+  if (error) throw error;
+  if (_txCache) _txCache = _txCache.filter(t => t.id !== id);
+}
+
+async function saveBudgetGoalToDb(goal) {
+  const { data: { user } } = await _sb.auth.getUser();
+  await _sb.from('budget_goals').upsert({ user_id: user.id, monthly_goal: goal || null, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+}
+
+async function fetchBudgetGoal() {
+  const { data } = await _sb.from('budget_goals').select('monthly_goal').single();
+  return data ? (data.monthly_goal || '') : '';
+}
+
+async function saveAccountsToDb(accountsObj) {
+  const { data: { user } } = await _sb.auth.getUser();
+  await _sb.from('accounts').upsert({ user_id: user.id, data: accountsObj, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+}
+
+async function fetchAccounts() {
+  const { data } = await _sb.from('accounts').select('data').single();
+  return data ? (data.data || {}) : {};
+}
+
+async function saveTripExpensesToDb(expenses) {
+  // Clear all and re-insert — simple approach for trip data
+  const { data: { user } } = await _sb.auth.getUser();
+  await _sb.from('trip_expenses').delete().eq('user_id', user.id);
+  if (expenses.length) {
+    await _sb.from('trip_expenses').insert(expenses.map(e => ({
+      user_id: user.id,
+      cat_id: e.catId,
+      description: e.desc || null,
+      amount: e.amount,
+      date: e.date
+    })));
+  }
+}
+
+async function fetchTripExpenses() {
+  const { data } = await _sb.from('trip_expenses').select('*').order('created_at', { ascending: false });
+  return (data || []).map(r => ({ id: r.id, catId: r.cat_id, desc: r.description, amount: parseFloat(r.amount), date: r.date }));
+}
+
+async function saveTripMetaToDb(meta) {
+  const { data: { user } } = await _sb.auth.getUser();
+  await _sb.from('trip_meta').upsert({ user_id: user.id, data: meta, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+}
+
+async function fetchTripMeta() {
+  const { data } = await _sb.from('trip_meta').select('data').single();
+  return data ? (data.data || {}) : {};
+}
+
+// ====== BOOT ======
+async function appBoot() {
+  // ⚠️ AUTH TEMPORARILY DISABLED FOR TESTING
+  hideSpinner();
+  updateMonthLabel();
+  initTheme();
+  renderAll();
+  loadAccountFieldsFromCache();
+  buildTripCatPicker();
+  renderTripExpensesFromCache();
+  loadTripMetaFromCache();
+
+  /* -- UNCOMMENT BELOW TO RE-ENABLE AUTH --
+  try {
+    const { data: { session } } = await _sb.auth.getSession();
+    if (session) {
+      showSpinner('Loading your finances…');
+      await loadAllUserData();
+      hideSpinner();
+      unlockApp(false);
+    } else {
+      hideSpinner();
+    }
+  } catch(e) {
+    hideSpinner();
+    console.error('Boot error:', e);
+  }
+
+  _sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'PASSWORD_RECOVERY') {
+      hideSpinner();
+      showResetPasswordScreen();
+      return;
+    }
+    if (event === 'SIGNED_IN' && session) {
+      showSpinner('Loading your data…');
+      try { await loadAllUserData(); } catch(e) { console.error(e); }
+      hideSpinner();
+      unlockApp(!_hasLoadedBefore);
+      _hasLoadedBefore = true;
+    }
+    if (event === 'SIGNED_OUT') {
+      hideSpinner();
+    }
+  });
+  -- END AUTH BLOCK -- */
+}
+
+let _hasLoadedBefore = false;
+
+function showSpinner(msg) {
+  const el = document.getElementById('loadingScreen');
+  el.style.display = 'flex';
+  el.classList.remove('fade-out');
+  if (msg) document.querySelector('.spinner-msg').textContent = msg;
+}
+
+function hideSpinner() {
+  const el = document.getElementById('loadingScreen');
+  el.classList.add('fade-out');
+  setTimeout(() => { el.style.display = 'none'; }, 380);
+}
+
+function dismissWelcome() {
+  localStorage.setItem('bugibud_welcomed', '1');
+  const el = document.getElementById('welcomeScreen');
+  el.classList.add('fade-out');
+  setTimeout(() => {
+    el.classList.remove('visible');
+    el.style.display = 'none';
+  }, 420);
+}
+
+async function loadAllUserData() {
+  // Load everything in parallel
+  const [txs, goal, accounts, tripExp, tripMeta] = await Promise.all([
+    fetchTransactions(),
+    fetchBudgetGoal(),
+    fetchAccounts(),
+    fetchTripExpenses(),
+    fetchTripMeta()
+  ]);
+  _txCache = txs;
+  _budgetGoalCache = goal;
+  _accountsCache = accounts;
+  _tripExpensesCache = tripExp;
+  _tripMetaCache = tripMeta;
+  renderAll();
+  loadAccountFieldsFromCache();
+  renderTripExpensesFromCache();
+  loadTripMetaFromCache();
+}
+
+function loadAccountFieldsFromCache() {
+  const accounts = _accountsCache || {};
+  document.querySelectorAll('.acct-field').forEach(input => {
+    const acct = input.dataset.acct;
+    const field = input.dataset.field;
+    if (accounts[acct] && accounts[acct][field] !== undefined) {
+      input.value = accounts[acct][field];
+    }
+  });
+}
+function loadAccountFields() { loadAccountFieldsFromCache(); }
+
+function renderAccounts() {
+  const accounts = _accountsCache || {};
+  let totalBalance = 0, totalAnnual = 0;
+  ACCT_TYPES.forEach(acctId => {
+    const acct = accounts[acctId] || {};
+    const balance = parseFloat(acct.balance) || 0;
+    const { annual, monthly } = calcInterest(acct.balance, acct.apy);
+    totalBalance += balance;
+    totalAnnual += annual;
+    const infoEl = document.getElementById(`acct-${acctId}-info`);
+    if (!infoEl) return;
+    if (balance === 0) { infoEl.innerHTML = ''; return; }
+    infoEl.innerHTML = `
+      <div class="acct-pill"><div class="acct-pill-label">Balance</div><div class="acct-pill-value" style="color:var(--accent-gold);">${fmt(balance)}</div></div>
+      <div class="acct-pill"><div class="acct-pill-label">Monthly Interest</div><div class="acct-pill-value">${fmt(monthly)}</div></div>
+      <div class="acct-pill"><div class="acct-pill-label">Annual Interest</div><div class="acct-pill-value">${fmt(annual)}</div></div>`;
+  });
+
+  // Include debt in net worth
+  const debts = loadDebtData();
+  const totalDebt = debts.reduce((s, d) => s + (parseFloat(d.balance) || 0), 0);
+  const netWorth = totalBalance - totalDebt;
+
+  const nwEl = document.getElementById('netWorth');
+  if (nwEl) {
+    nwEl.textContent = fmt(netWorth);
+    nwEl.style.color = netWorth >= 0 ? 'var(--green)' : 'var(--red)';
+    document.getElementById('totalBalances').textContent = fmt(totalBalance);
+    document.getElementById('totalDebt').textContent = fmt(totalDebt);
+    document.getElementById('totalAnnualInterest').textContent = fmt(totalAnnual);
+    // Net worth progress bar
+    const bar = document.getElementById('netWorthBar');
+    if (bar && (totalBalance + totalDebt) > 0) {
+      const assetPct = Math.round((totalBalance / (totalBalance + totalDebt)) * 100);
+      bar.style.width = assetPct + '%';
+      bar.style.background = netWorth >= 0 ? 'var(--green)' : 'var(--red)';
+    }
+  }
+  renderDebtList();
+}
+
+// ====== DEBT TRACKER ======
+const DEBT_TYPES = {
+  credit_card:   { label: 'Credit Card',   emoji: '💳' },
+  student_loan:  { label: 'Student Loan',  emoji: '🎓' },
+  car_loan:      { label: 'Car Loan',       emoji: '🚗' },
+  mortgage:      { label: 'Mortgage',       emoji: '🏠' },
+  personal_loan: { label: 'Personal Loan',  emoji: '💵' },
+  medical:       { label: 'Medical Debt',   emoji: '🏥' },
+  other:         { label: 'Other',          emoji: '📦' },
+};
+
+function loadDebtData() {
+  return JSON.parse(localStorage.getItem('bugibud_debts') || '[]');
+}
+function saveDebtData(debts) {
+  localStorage.setItem('bugibud_debts', JSON.stringify(debts));
+}
+
+function addDebtRow() {
+  document.getElementById('debtFormWrap').style.display = '';
+  document.getElementById('debtFormTitle').textContent = 'Add Debt';
+  document.getElementById('debtSaveBtn').textContent = 'Save Debt';
+  document.getElementById('debtEditId').value = '';
+  document.getElementById('debtType').value = 'credit_card';
+  document.getElementById('debtName').value = '';
+  document.getElementById('debtBalance').value = '';
+  document.getElementById('debtRate').value = '';
+  document.getElementById('debtMinPayment').value = '';
+  document.getElementById('debtFormWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function cancelDebtForm() {
+  document.getElementById('debtFormWrap').style.display = 'none';
+}
+
+function saveDebt() {
+  const id     = document.getElementById('debtEditId').value || Date.now().toString();
+  const type   = document.getElementById('debtType').value;
+  const name   = document.getElementById('debtName').value.trim();
+  const balance= parseFloat(document.getElementById('debtBalance').value) || 0;
+  const rate   = parseFloat(document.getElementById('debtRate').value) || 0;
+  const minPay = parseFloat(document.getElementById('debtMinPayment').value) || 0;
+  if (!balance) { alert('Please enter a balance amount.'); return; }
+
+  const debts = loadDebtData();
+  const existing = debts.findIndex(d => d.id === id);
+  const entry = { id, type, name: name || DEBT_TYPES[type]?.label || 'Debt', balance, rate, minPayment: minPay };
+  if (existing !== -1) debts[existing] = entry;
+  else debts.push(entry);
+  saveDebtData(debts);
+  cancelDebtForm();
+  renderAccounts();
+}
+
+function editDebt(id) {
+  const debts = loadDebtData();
+  const d = debts.find(x => x.id === id);
+  if (!d) return;
+  document.getElementById('debtFormWrap').style.display = '';
+  document.getElementById('debtFormTitle').textContent = 'Edit Debt';
+  document.getElementById('debtSaveBtn').textContent = 'Update Debt';
+  document.getElementById('debtEditId').value = d.id;
+  document.getElementById('debtType').value = d.type;
+  document.getElementById('debtName').value = d.name;
+  document.getElementById('debtBalance').value = d.balance;
+  document.getElementById('debtRate').value = d.rate;
+  document.getElementById('debtMinPayment').value = d.minPayment;
+  document.getElementById('debtFormWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function deleteDebt(id) {
+  const debts = loadDebtData().filter(d => d.id !== id);
+  saveDebtData(debts);
+  renderAccounts();
+}
+
+function renderDebtList() {
+  const debts = loadDebtData();
+  const listEl = document.getElementById('debtList');
+  const emptyEl = document.getElementById('debtEmpty');
+  const summaryEl = document.getElementById('debtSummaryCard');
+  if (!listEl) return;
+
+  if (!debts.length) {
+    listEl.innerHTML = '';
+    if (emptyEl) emptyEl.style.display = '';
+    if (summaryEl) summaryEl.style.display = 'none';
+    return;
+  }
+
+  if (emptyEl) emptyEl.style.display = 'none';
+  if (summaryEl) summaryEl.style.display = '';
+
+  const totalDebt    = debts.reduce((s, d) => s + d.balance, 0);
+  const totalMonthly = debts.reduce((s, d) => s + (d.minPayment || 0), 0);
+  const totalInterest= debts.reduce((s, d) => s + (d.balance * d.rate / 100), 0);
+
+  const totalDebtEl = document.getElementById('debtTotalAmt');
+  if (totalDebtEl) totalDebtEl.textContent = fmt(totalDebt);
+  const monthlyEl = document.getElementById('debtMonthlyLabel');
+  if (monthlyEl) monthlyEl.textContent = `${fmt(totalMonthly)} / month minimum`;
+  const intEl = document.getElementById('debtInterestLabel');
+  if (intEl) intEl.textContent = `${fmt(totalInterest)} / yr interest`;
+
+  listEl.innerHTML = debts.map(d => {
+    const info = DEBT_TYPES[d.type] || { label: 'Debt', emoji: '📦' };
+    const annualInt = d.balance * (d.rate / 100);
+    const monthlyInt = annualInt / 12;
+    return `<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <div style="width:40px;height:40px;border-radius:var(--radius-sm);background:var(--red-bg);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">${info.emoji}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${d.name}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;">${info.label} · ${d.rate}% APR</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-family:'DM Mono',monospace;font-size:16px;font-weight:400;color:var(--red);">${fmt(d.balance)}</div>
+          ${d.minPayment ? `<div style="font-size:11px;color:var(--muted);margin-top:2px;">${fmt(d.minPayment)}/mo min</div>` : ''}
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <div class="acct-pill" style="flex:1;">
+          <div class="acct-pill-label">Monthly Interest</div>
+          <div class="acct-pill-value" style="color:var(--red);">${fmt(monthlyInt)}</div>
+        </div>
+        <div class="acct-pill" style="flex:1;">
+          <div class="acct-pill-label">Annual Interest</div>
+          <div class="acct-pill-value" style="color:var(--red);">${fmt(annualInt)}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button onclick="editDebt('${d.id}')" style="flex:1;padding:9px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--surface2);color:var(--text2);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;cursor:pointer;">✎ Edit</button>
+        <button onclick="deleteDebt('${d.id}')" style="padding:9px 14px;border-radius:var(--radius-sm);border:1px solid rgba(192,57,43,0.3);background:var(--red-bg);color:var(--red);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;cursor:pointer;">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Trip expense functions updated to use cache + Supabase
+function saveTripMeta() {
+  const meta = {
+    name:   document.getElementById('tripName').value,
+    budget: document.getElementById('tripBudget').value,
+    dep:    document.getElementById('tripDep').value,
+    ret:    document.getElementById('tripRet').value,
+  };
+  _tripMetaCache = meta;
+  saveTripMetaToDb(meta);
+  updateTripCountdown(meta);
+  renderTripExpensesFromCache();
+}
+
+function loadTripMetaFromCache() {
+  const m = _tripMetaCache || {};
+  const fields = { tripName: m.name, tripBudget: m.budget, tripDep: m.dep, tripRet: m.ret };
+  Object.entries(fields).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el && val) el.value = val;
+  });
+  updateTripCountdown(m);
+}
+function loadTripMeta() { loadTripMetaFromCache(); }
+
+async function addTripExpense() {
+  const amt  = parseFloat(document.getElementById('tripExpAmt').value);
   const desc = document.getElementById('tripExpDesc').value.trim();
   if (!amt || amt <= 0) { alert('Please enter a valid amount.'); return; }
-
-  const data = loadTripData();
-  if (!data.expenses) data.expenses = [];
-  data.expenses.push({
-    id: Date.now().toString(),
-    catId: selectedTripCat,
-    desc: desc || null,
-    amount: amt,
-    date: new Date().toISOString().split('T')[0]
-  });
-  saveTripData(data);
+  const newExp = { id: Date.now().toString(), catId: selectedTripCat, desc: desc || null, amount: amt, date: new Date().toISOString().split('T')[0] };
+  _tripExpensesCache = [newExp, ...(_tripExpensesCache || [])];
   document.getElementById('tripExpAmt').value = '';
   document.getElementById('tripExpDesc').value = '';
-  renderTripExpenses();
+  renderTripExpensesFromCache();
+  await saveTripExpensesToDb(_tripExpensesCache);
 }
 
-function deleteTripExpense(id) {
-  const data = loadTripData();
-  data.expenses = (data.expenses || []).filter(e => e.id !== id);
-  saveTripData(data);
-  renderTripExpenses();
+async function deleteTripExpense(id) {
+  _tripExpensesCache = (_tripExpensesCache || []).filter(e => e.id !== id);
+  renderTripExpensesFromCache();
+  await saveTripExpensesToDb(_tripExpensesCache);
 }
 
-function renderTripExpenses() {
-  const data = loadTripData();
-  const expenses = data.expenses || [];
-  const budget = parseFloat(data.meta && data.meta.budget) || 0;
+async function clearTripExpenses() {
+  _tripExpensesCache = [];
+  renderTripExpensesFromCache();
+  await saveTripExpensesToDb([]);
+}
 
+function renderTripExpensesFromCache() {
+  // Reuse existing renderTripExpenses logic but from cache
+  const expenses = _tripExpensesCache || [];
+  const meta = _tripMetaCache || {};
+  const budget = parseFloat(meta.budget) || 0;
   const totalSpent = expenses.reduce((s, e) => s + e.amount, 0);
-
-  // Header badge
   const badge = document.getElementById('tripTotalBadge');
   if (badge) badge.textContent = expenses.length ? fmt(totalSpent) + ' total' : '';
-
-  // Budget progress bar
   const barWrap = document.getElementById('tripBudgetBar');
   if (barWrap) {
     if (budget > 0) {
@@ -1734,28 +3254,18 @@ function renderTripExpenses() {
       document.getElementById('tripSpentLabel').textContent = fmt(totalSpent) + ' spent';
       const rem = budget - totalSpent;
       const remEl = document.getElementById('tripRemainingLabel');
-      remEl.textContent = (rem >= 0 ? fmt(rem) + ' remaining' : fmt(Math.abs(rem)) + ' over budget');
+      remEl.textContent = rem >= 0 ? fmt(rem) + ' remaining' : fmt(Math.abs(rem)) + ' over budget';
       remEl.style.color = rem >= 0 ? 'var(--muted)' : 'var(--red)';
-    } else {
-      barWrap.style.display = 'none';
-    }
+    } else { barWrap.style.display = 'none'; }
   }
-
   const el = document.getElementById('tripExpenseList');
   if (!el) return;
-
   if (!expenses.length) {
     el.innerHTML = `<div class="empty-state" style="padding:28px 0;"><div class="emoji">🗺️</div><p>No trip expenses yet.<br>Add your first one above.</p></div>`;
     return;
   }
-
-  // Group by category
   const grouped = {};
-  expenses.forEach(e => {
-    if (!grouped[e.catId]) grouped[e.catId] = [];
-    grouped[e.catId].push(e);
-  });
-
+  expenses.forEach(e => { if (!grouped[e.catId]) grouped[e.catId] = []; grouped[e.catId].push(e); });
   el.innerHTML = Object.entries(grouped).map(([catId, items]) => {
     const cat = TRIP_EXP_CATS.find(c => c.id === catId) || { label: catId, emoji: '📦', color: '#888' };
     const catTotal = items.reduce((s, e) => s + e.amount, 0);
@@ -1765,70 +3275,559 @@ function renderTripExpenses() {
         <span style="font-weight:600;font-size:14px;color:var(--text);flex:1;">${cat.label}</span>
         <span style="font-family:'DM Mono',monospace;font-weight:500;font-size:14px;color:${cat.color};">${fmt(catTotal)}</span>
       </div>
-      ${items.sort((a,b) => new Date(b.date)-new Date(a.date)).map(e => `
-        <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);" class="trip-exp-row">
-          <div style="flex:1;min-width:0;">
-            <div style="font-size:13px;font-weight:500;color:var(--text);">${e.desc || cat.label}</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:1px;">${new Date(e.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
-          </div>
-          <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--text);">${fmt(e.amount)}</span>
-          <button data-tripdelete="${e.id}" style="background:none;border:none;color:var(--muted-light);cursor:pointer;padding:6px;font-size:14px;border-radius:6px;min-width:28px;min-height:28px;display:flex;align-items:center;justify-content:center;">✕</button>
-        </div>`).join('')}
+      ${items.map(e => `<div style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);">
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:500;color:var(--text);">${e.desc || cat.label}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:1px;">${new Date(e.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
+        </div>
+        <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--text);">${fmt(e.amount)}</span>
+        <button data-tripdelete="${e.id}" style="background:none;border:none;color:var(--muted-light);cursor:pointer;padding:6px;font-size:14px;border-radius:6px;min-width:28px;min-height:28px;display:flex;align-items:center;justify-content:center;">✕</button>
+      </div>`).join('')}
     </div>`;
   }).join('');
-
-  // Attach delete listeners
   el.querySelectorAll('[data-tripdelete]').forEach(btn => {
     btn.addEventListener('click', () => deleteTripExpense(btn.getAttribute('data-tripdelete')));
   });
 }
+function renderTripExpenses() { renderTripExpensesFromCache(); }
 
-function clearTripExpenses() {
-  const data = loadTripData();
-  data.expenses = [];
-  saveTripData(data);
-  renderTripExpenses();
+// ====== PASSWORD RESET REDIRECT ======
+function showResetPasswordScreen() {
+  const screen = document.getElementById('resetPasswordScreen');
+  screen.style.display = 'flex';
+  // Hide everything else
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('loadingScreen').style.display = 'none';
+  // Wire up strength meter
+  const input = document.getElementById('newResetPw');
+  if (input) input.addEventListener('input', updatePwStrength);
 }
 
-function loadTripMeta() {
-  const data = loadTripData();
-  if (!data.meta) return;
-  const m = data.meta;
-  const fields = { tripName: m.name, tripBudget: m.budget, tripDep: m.dep, tripRet: m.ret };
-  Object.entries(fields).forEach(([id, val]) => {
+function updatePwStrength() {
+  const pw = document.getElementById('newResetPw').value;
+  const fill = document.getElementById('pwStrengthFill');
+  const label = document.getElementById('pwStrengthLabel');
+  if (!pw) { fill.style.width = '0%'; label.textContent = ''; return; }
+
+  let score = 0;
+  if (pw.length >= 6)  score++;
+  if (pw.length >= 10) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+  const levels = [
+    { pct: '20%', color: '#FF3B30', text: 'Very weak' },
+    { pct: '40%', color: '#FF9500', text: 'Weak' },
+    { pct: '60%', color: '#FFCC00', text: 'Fair' },
+    { pct: '80%', color: '#34C759', text: 'Strong' },
+    { pct: '100%', color: '#007AFF', text: 'Very strong' },
+  ];
+  const lvl = levels[Math.min(score - 1, 4)] || levels[0];
+  fill.style.width  = lvl.pct;
+  fill.style.background = lvl.color;
+  label.textContent = lvl.text;
+  label.style.color = lvl.color;
+}
+
+async function submitNewPassword() {
+  const sb = getSb(); if (!sb) return;
+  const pw   = document.getElementById('newResetPw').value;
+  const conf = document.getElementById('confirmResetPw').value;
+
+  if (pw.length < 6) { setAuthMsg('resetPwMsg', 'Password must be at least 6 characters.', 'error'); return; }
+  if (pw !== conf)   { setAuthMsg('resetPwMsg', "Passwords don't match.", 'error'); return; }
+
+  setAuthMsg('resetPwMsg', 'Saving your new password…', '');
+
+  try {
+    const { error } = await sb.auth.updateUser({ password: pw });
+    if (error) { setAuthMsg('resetPwMsg', error.message, 'error'); return; }
+
+    setAuthMsg('resetPwMsg', '✓ Password updated! Taking you to your account…', 'success');
+
+    // Sign out so they log in fresh with new password
+    setTimeout(async () => {
+      await sb.auth.signOut();
+      document.getElementById('resetPasswordScreen').style.display = 'none';
+      document.getElementById('authScreen').style.display = '';
+      document.getElementById('authScreen').classList.remove('slide-out');
+      switchAuthTab('login');
+      setAuthMsg('loginMsg', '✓ Password updated — please log in with your new password.', 'success');
+    }, 1800);
+  } catch(e) {
+    setAuthMsg('resetPwMsg', 'Something went wrong. Please try again.', 'error');
+  }
+}
+
+// ====== CSV IMPORT ======
+let _csvRows = [];     // raw parsed rows
+let _csvHeaders = [];  // column headers
+let _csvParsed = [];   // mapped transaction objects ready to import
+
+// Known bank CSV formats — auto-detected by header patterns
+const BANK_PROFILES = [
+  { name: '🏦 Chase',           detect: h => h.includes('Transaction Date') && h.includes('Description') && h.includes('Amount'), date:'Transaction Date', desc:'Description', amt:'Amount', type:'Type' },
+  { name: '🏦 Bank of America', detect: h => h.includes('Date') && h.includes('Payee') && h.includes('Amount'), date:'Date', desc:'Payee', amt:'Amount', type:'' },
+  { name: '🏦 Wells Fargo',     detect: h => h.length >= 5 && !h.some(x => x.length > 30) && h[0].match(/^\d/) === null, date:'0', desc:'4', amt:'1', type:'' },
+  { name: '🏦 Citi',            detect: h => h.includes('Date') && h.includes('Description') && h.includes('Debit') && h.includes('Credit'), date:'Date', desc:'Description', amt:'Debit', type:'Credit' },
+  { name: '🏦 American Express',detect: h => h.includes('Date') && h.includes('Description') && h.includes('Amount') && h.includes('Card Member'), date:'Date', desc:'Description', amt:'Amount', type:'' },
+  { name: '🏦 Capital One',     detect: h => h.includes('Transaction Date') && h.includes('Description') && h.includes('Debit') && h.includes('Credit'), date:'Transaction Date', desc:'Description', amt:'Debit', type:'Credit' },
+  { name: '🏦 Discover',        detect: h => h.includes('Trans. Date') && h.includes('Description') && h.includes('Amount'), date:'Trans. Date', desc:'Description', amt:'Amount', type:'' },
+  { name: '🏦 Ally Bank',       detect: h => h.includes('Date') && h.includes('Description') && h.includes('Amount') && h.includes('Type'), date:'Date', desc:'Description', amt:'Amount', type:'Type' },
+];
+
+function csvDragOver(e) {
+  e.preventDefault();
+  document.getElementById('csvImportBanner').style.borderColor = 'var(--accent-gold)';
+}
+function csvDrop(e) {
+  e.preventDefault();
+  document.getElementById('csvImportBanner').style.borderColor = '';
+  const file = e.dataTransfer.files[0];
+  if (file) processCsvFile(file);
+}
+function handleCsvFile(e) {
+  const file = e.target.files[0];
+  if (file) processCsvFile(file);
+  e.target.value = '';
+}
+
+function processCsvFile(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const text = e.target.result;
+    parseCsvText(text);
+    openCsvModal();
+  };
+  reader.readAsText(file);
+}
+
+function parseCsvText(text) {
+  // Handle different line endings
+  const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').filter(l => l.trim());
+  if (lines.length < 2) return;
+
+  // Parse CSV properly handling quoted fields
+  function parseRow(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') { inQuotes = !inQuotes; continue; }
+      if (ch === ',' && !inQuotes) { result.push(current.trim()); current = ''; continue; }
+      current += ch;
+    }
+    result.push(current.trim());
+    return result;
+  }
+
+  _csvHeaders = parseRow(lines[0]);
+  _csvRows = lines.slice(1).map(parseRow).filter(r => r.some(c => c));
+}
+
+function detectBank() {
+  for (const profile of BANK_PROFILES) {
+    if (profile.detect(_csvHeaders)) return profile;
+  }
+  return null;
+}
+
+function openCsvModal() {
+  if (!_csvHeaders.length) return;
+  const overlay = document.getElementById('csvModalOverlay');
+  overlay.classList.add('open');
+
+  // Detect bank
+  const bank = detectBank();
+  const bankEl = document.getElementById('csvBankDetected');
+  if (bank) {
+    bankEl.textContent = `✓ Detected: ${bank.name} — columns auto-mapped!`;
+    bankEl.style.display = '';
+  } else {
+    bankEl.style.display = 'none';
+  }
+
+  // Populate column dropdowns
+  const opts = _csvHeaders.map((h, i) => `<option value="${i}">${h || 'Column ' + (i+1)}</option>`).join('');
+  ['csvColDate','csvColDesc','csvColAmt','csvColType'].forEach(id => {
     const el = document.getElementById(id);
-    if (el && val) el.value = val;
+    el.innerHTML = (id === 'csvColType' ? '<option value="">Auto-detect</option>' : '') + opts;
   });
-  updateTripCountdown(m);
+
+  // Auto-select if bank detected
+  if (bank) {
+    const findIdx = (name) => {
+      if (!name) return -1;
+      if (!isNaN(name)) return parseInt(name);
+      return _csvHeaders.findIndex(h => h.toLowerCase() === name.toLowerCase());
+    };
+    const di = findIdx(bank.date), dsc = findIdx(bank.desc), ai = findIdx(bank.amt), ti = findIdx(bank.type);
+    if (di >= 0) document.getElementById('csvColDate').value = di;
+    if (dsc >= 0) document.getElementById('csvColDesc').value = dsc;
+    if (ai >= 0) document.getElementById('csvColAmt').value = ai;
+    if (ti >= 0) document.getElementById('csvColType').value = ti;
+    // Auto-preview for known banks
+    previewCsv();
+  }
+
+  document.getElementById('csvMapper').style.display = '';
+  document.getElementById('csvPreview').style.display = 'none';
+  document.getElementById('csvImportMsg').textContent = '';
 }
 
-// ---- THEME ----
-function toggleTheme() {
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  const newTheme = isDark ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', newTheme);
-  document.getElementById('themeToggle').textContent = newTheme === 'dark' ? '☀️' : '🌙';
-  localStorage.setItem('bugibud_theme', newTheme);
+function closeCsvModal() {
+  document.getElementById('csvModalOverlay').classList.remove('open');
+  _csvParsed = [];
+}
+
+// Smart date parser — handles MM/DD/YYYY, YYYY-MM-DD, MM-DD-YYYY, etc.
+function parseDate(str) {
+  if (!str) return null;
+  str = str.trim().replace(/"/g, '');
+  // YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}/.test(str)) return str.substring(0,10);
+  // MM/DD/YYYY or MM-DD-YYYY
+  const m = str.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
+  if (m) {
+    const y = m[3].length === 2 ? '20' + m[3] : m[3];
+    return `${y}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+  }
+  // Try native Date parse as fallback
+  const d = new Date(str);
+  if (!isNaN(d)) return d.toISOString().split('T')[0];
+  return null;
+}
+
+// Smart amount parser — handles negatives, parentheses, $ signs
+function parseAmount(str) {
+  if (!str && str !== 0) return null;
+  const s = String(str).replace(/[$,\s"]/g, '').trim();
+  if (!s) return null;
+  // Parentheses = negative
+  if (s.startsWith('(') && s.endsWith(')')) return -parseFloat(s.slice(1,-1));
+  return parseFloat(s);
+}
+
+// Auto-categorize based on description keywords
+function autoCategory(desc) {
+  const d = (desc || '').toLowerCase();
+  if (/restaurant|mcdonald|starbucks|chipotle|doordash|uber eats|grubhub|pizza|burger|taco|sushi|diner|cafe|coffee|dunkin|subway|wendy|chick-fil|panera/.test(d)) return 'food';
+  if (/grocery|safeway|kroger|whole foods|trader joe|walmart|target|costco|aldi|publix|sprouts|food 4 less/.test(d)) return 'food';
+  if (/uber|lyft|gas|shell|chevron|exxon|bp |mobil|arco|circle k|7-eleven|fuel|parking|toll|metro|transit|mta|bart|cta/.test(d)) return 'transport';
+  if (/netflix|spotify|hulu|disney|apple.com\/bill|amazon prime|youtube|twitch|subscription|patreon/.test(d)) return 'subscriptions';
+  if (/electric|water|pg&e|con ed|gas bill|internet|at&t|verizon|t-mobile|comcast|xfinity|phone/.test(d)) return 'bills';
+  if (/rent|mortgage|hoa|apartment/.test(d)) return 'housing';
+  if (/amazon|ebay|etsy|walmart\.com|best buy|apple store|shop|store/.test(d)) return 'shopping';
+  if (/doctor|hospital|pharmacy|cvs|walgreens|dental|medical|health|urgent care|insurance/.test(d)) return 'health';
+  if (/airbnb|hotel|marriott|hilton|hyatt|expedia|booking|vrbo/.test(d)) return 'travel';
+  if (/airline|southwest|delta|united|american air|spirit|jetblue|flight/.test(d)) return 'travel';
+  if (/gym|planet fitness|la fitness|equinox|movie|cinema|amc|regal|concert|ticket/.test(d)) return 'entertainment';
+  if (/tuition|udemy|coursera|school|university|college/.test(d)) return 'education';
+  if (/payroll|direct deposit|salary|income|zelle from|venmo from|transfer from/.test(d)) return 'income';
+  return 'other';
+}
+
+function previewCsv() {
+  const dateIdx = parseInt(document.getElementById('csvColDate').value);
+  const descIdx = parseInt(document.getElementById('csvColDesc').value);
+  const amtIdx  = parseInt(document.getElementById('csvColAmt').value);
+  const typeCol = document.getElementById('csvColType').value;
+
+  _csvParsed = [];
+  let skipped = 0;
+
+  _csvRows.forEach(row => {
+    const rawDate = row[dateIdx] || '';
+    const rawDesc = row[descIdx] || '';
+    const rawAmt  = row[amtIdx]  || '';
+
+    const date   = parseDate(rawDate);
+    const amount = parseAmount(rawAmt);
+    if (!date || amount === null || isNaN(amount)) { skipped++; return; }
+
+    // Determine type
+    let type = 'expense';
+    if (typeCol && row[parseInt(typeCol)]) {
+      const t = (row[parseInt(typeCol)] || '').toLowerCase();
+      if (t.includes('credit') || t.includes('deposit') || t.includes('payment') || t.includes('income')) type = 'income';
+    } else {
+      // Negative = expense, positive = income for most banks
+      // Some banks (Chase) use negative for expenses
+      if (amount > 0) type = 'income';
+    }
+
+    const absAmt  = Math.abs(amount);
+    const cat     = autoCategory(rawDesc);
+    if (cat === 'income') type = 'income';
+
+    _csvParsed.push({ date, desc: rawDesc, amount: absAmt, type, category: type === 'income' ? 'income' : cat });
+  });
+
+  // Check duplicates against existing
+  const existing = getCachedTx();
+  let dupCount = 0;
+  _csvParsed.forEach(tx => {
+    const isDup = existing.some(e => e.date === tx.date && Math.abs(e.amount - tx.amount) < 0.01 && (e.desc || '').toLowerCase().includes((tx.desc || '').substring(0,10).toLowerCase()));
+    if (isDup) dupCount++;
+  });
+
+  // Show preview
+  document.getElementById('csvPreview').style.display = '';
+  document.getElementById('csvPreviewCount').textContent = `${_csvParsed.length} transactions${skipped ? ` · ${skipped} skipped` : ''}`;
+
+  const dupWarn = document.getElementById('csvDuplicateWarn');
+  if (dupCount > 0) {
+    dupWarn.style.display = '';
+    dupWarn.textContent = `⚠️ ${dupCount} possible duplicate${dupCount > 1 ? 's' : ''} detected — they will still be imported.`;
+  } else {
+    dupWarn.style.display = 'none';
+  }
+
+  const MONTH_ABB = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const catColorMap = { food:'#F4A736', transport:'#3B82F6', bills:'#A855F7', shopping:'#F97316', health:'#22C55E', entertainment:'#EC4899', housing:'#14B8A6', education:'#EAB308', savings:'#06B6D4', subscriptions:'#8B5CF6', travel:'#10B981', other:'#94A3B8', income:'#2a7d4f' };
+  const catEmoji   = { food:'🍔', transport:'🚗', bills:'⚡', shopping:'🛍️', health:'💊', entertainment:'🎬', housing:'🏠', education:'📚', savings:'🐷', subscriptions:'📱', travel:'✈️', other:'📦', income:'💰' };
+
+  document.getElementById('csvPreviewTable').innerHTML = _csvParsed.slice(0, 50).map(tx => {
+    const color = catColorMap[tx.category] || '#94A3B8';
+    const emoji = catEmoji[tx.category] || '📦';
+    const d = new Date(tx.date + 'T12:00:00');
+    const dateStr = `${MONTH_ABB[d.getMonth()]} ${d.getDate()}`;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);">
+      <span style="font-size:16px;">${emoji}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${tx.desc || '—'}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:1px;">${dateStr} · ${tx.category}</div>
+      </div>
+      <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:${tx.type==='income' ? 'var(--green)' : 'var(--red)'};">${tx.type==='income' ? '+' : '-'}${fmt(tx.amount)}</span>
+    </div>`;
+  }).join('') + (_csvParsed.length > 50 ? `<div style="padding:10px 14px;font-size:12px;color:var(--muted);text-align:center;">...and ${_csvParsed.length - 50} more</div>` : '');
+}
+
+async function importCsv() {
+  if (!_csvParsed.length) return;
+  const btn = document.getElementById('csvImportBtn');
+  btn.textContent = 'Importing…';
+  btn.disabled = true;
+
+  try {
+    const { data: { user } } = await _sb.auth.getUser();
+    // Batch insert in chunks of 50
+    const CHUNK = 50;
+    for (let i = 0; i < _csvParsed.length; i += CHUNK) {
+      const chunk = _csvParsed.slice(i, i + CHUNK).map(tx => ({
+        user_id: user.id,
+        type: tx.type,
+        description: tx.desc || null,
+        amount: tx.amount,
+        category: tx.category,
+        frequency: 'once',
+        date: tx.date
+      }));
+      const { error } = await _sb.from('transactions').insert(chunk);
+      if (error) throw error;
+    }
+
+    // Refresh cache
+    await fetchTransactions();
+    renderAll();
+
+    const count = _csvParsed.length;
+    document.getElementById('csvImportMsg').textContent = `✓ ${count} transaction${count > 1 ? 's' : ''} imported successfully!`;
+    document.getElementById('csvImportMsg').className = 'auth-msg success';
+    btn.textContent = '✓ Done!';
+
+    setTimeout(() => closeCsvModal(), 2000);
+  } catch(e) {
+    document.getElementById('csvImportMsg').textContent = 'Import failed: ' + e.message;
+    document.getElementById('csvImportMsg').className = 'auth-msg error';
+    btn.textContent = 'Import All Transactions';
+    btn.disabled = false;
+  }
+}
+
+// ====== OFFLINE BANNER ======
+function initOfflineBanner() {
+  const banner = document.getElementById('offlineBanner');
+  window.addEventListener('offline', () => banner.classList.add('show'));
+  window.addEventListener('online',  () => banner.classList.remove('show'));
+  if (!navigator.onLine) banner.classList.add('show');
+}
+
+// ====== CONFIRM MODAL ======
+let _confirmCallback = null;
+function showConfirm({ icon, title, msg, btnLabel, btnClass, onConfirm }) {
+  document.getElementById('confirmIcon').textContent  = icon || '⚠️';
+  document.getElementById('confirmTitle').textContent = title || 'Are you sure?';
+  document.getElementById('confirmMsg').textContent   = msg   || '';
+  const btn = document.getElementById('confirmOkBtn');
+  btn.textContent  = btnLabel || 'Confirm';
+  btn.className    = 'confirm-btn ' + (btnClass || 'danger');
+  _confirmCallback = onConfirm;
+  btn.onclick = () => { closeConfirm(); if (_confirmCallback) _confirmCallback(); };
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function closeConfirm() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  _confirmCallback = null;
+}
+
+// ====== CONFIRM LOGOUT ======
+function confirmLogout() {
+  showConfirm({
+    icon: '↩',
+    title: 'Log out?',
+    msg: "You'll need to log back in to access your data.",
+    btnLabel: 'Log Out',
+    btnClass: 'primary',
+    onConfirm: authLogout
+  });
+}
+
+// ====== SETTINGS PAGE ======
+function renderSettingsPage() {
+  const emailEl = document.getElementById('settingsEmail');
+  if (emailEl && window.supa) {
+    supa.auth.getUser && supa.auth.getUser().then(({ data: { user } }) => {
+      if (user && emailEl) emailEl.textContent = user.email;
+    }).catch(() => {});
+  }
+  const activeTheme = localStorage.getItem('bugibud_theme') || 'light';
+  updateThemeSwatches(activeTheme);
+}
+
+function showChangePwPanel() {
+  document.getElementById('changePwPanel').style.display = '';
+  document.getElementById('newPw').value = '';
+  document.getElementById('confirmNewPw').value = '';
+  setAuthMsg('changePwMsg', '');
+}
+
+async function changePassword() {
+  const sb = getSb(); if (!sb) return;
+  const pw   = document.getElementById('newPw').value;
+  const conf = document.getElementById('confirmNewPw').value;
+  if (pw.length < 6) { setAuthMsg('changePwMsg','Password must be at least 6 characters.','error'); return; }
+  if (pw !== conf)   { setAuthMsg('changePwMsg',"Passwords don't match.",'error'); return; }
+  setAuthMsg('changePwMsg','Updating…','');
+  try {
+    const { error } = await sb.auth.updateUser({ password: pw });
+    if (error) { setAuthMsg('changePwMsg', error.message, 'error'); return; }
+    setAuthMsg('changePwMsg','✓ Password updated successfully.','success');
+    document.getElementById('newPw').value = '';
+    document.getElementById('confirmNewPw').value = '';
+  } catch(e) { setAuthMsg('changePwMsg','Something went wrong.','error'); }
+}
+
+// ====== DELETE ACCOUNT ======
+function confirmDeleteAccount() {
+  showConfirm({
+    icon: '🗑️',
+    title: 'Delete account?',
+    msg: 'This permanently deletes ALL your data — transactions, accounts, budgets, and trip expenses. This cannot be undone.',
+    btnLabel: 'Delete Forever',
+    btnClass: 'danger',
+    onConfirm: deleteAccount
+  });
+}
+
+async function deleteAccount() {
+  const sb = getSb(); if (!sb) return;
+  showSpinner('Deleting your account…');
+  try {
+    // Delete all user data from each table
+    const { data: { user } } = await sb.auth.getUser();
+    if (user) {
+      await Promise.all([
+        sb.from('transactions').delete().eq('user_id', user.id),
+        sb.from('budget_goals').delete().eq('user_id', user.id),
+        sb.from('accounts').delete().eq('user_id', user.id),
+        sb.from('trip_expenses').delete().eq('user_id', user.id),
+        sb.from('trip_meta').delete().eq('user_id', user.id),
+      ]);
+    }
+    await sb.auth.signOut();
+    localStorage.clear();
+    hideSpinner();
+    location.reload();
+  } catch(e) {
+    hideSpinner();
+    alert('Error deleting account: ' + e.message);
+  }
+}
+
+function showAppInfo() {
+  showConfirm({
+    icon: '💚',
+    title: 'Bugi Bud v1.0',
+    msg: 'Free forever. No ads, no subscriptions, no hidden fees. Your data is encrypted and secured by Supabase. Built with ❤️',
+    btnLabel: 'Nice!',
+    btnClass: 'primary',
+    onConfirm: null
+  });
+}
+
+// ====== THEME SYSTEM ======
+const THEMES = [
+  { id: 'light',    icon: '☀️',  label: 'Classic',  metaColor: '#f5f4f1' },
+  { id: 'dark',     icon: '🌙',  label: 'Dark',     metaColor: '#0f0f0f' },
+  { id: 'ocean',    icon: '🌊',  label: 'Ocean',    metaColor: '#f0f6ff' },
+  { id: 'forest',   icon: '🌿',  label: 'Forest',   metaColor: '#f2f7f2' },
+  { id: 'rose',     icon: '🌸',  label: 'Rose',     metaColor: '#fff5f7' },
+  { id: 'midnight', icon: '🔮',  label: 'Midnight', metaColor: '#0e0b1a' },
+];
+
+function applyTheme(themeId) {
+  const theme = THEMES.find(t => t.id === themeId) || THEMES[0];
+  // Remove all theme attrs first
+  THEMES.forEach(t => {
+    if (t.id !== 'light') document.documentElement.removeAttribute('data-theme');
+  });
+  if (themeId !== 'light') {
+    document.documentElement.setAttribute('data-theme', themeId);
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  // Update toggle button icon
+  const tog = document.getElementById('themeToggle');
+  if (tog) tog.textContent = theme.icon;
+  // Update meta theme color
+  const meta = document.getElementById('themeColorMeta');
+  if (meta) meta.setAttribute('content', theme.metaColor);
+  // Save
+  localStorage.setItem('bugibud_theme', themeId);
+  // Update swatch active state
+  updateThemeSwatches(themeId);
+}
+
+function cycleTheme() {
+  const current = localStorage.getItem('bugibud_theme') || 'light';
+  const idx = THEMES.findIndex(t => t.id === current);
+  const next = THEMES[(idx + 1) % THEMES.length];
+  applyTheme(next.id);
+}
+
+function updateThemeSwatches(activeId) {
+  document.querySelectorAll('.theme-swatch').forEach(s => {
+    s.classList.toggle('active', s.getAttribute('data-theme-id') === activeId);
+  });
 }
 
 function initTheme() {
   const saved = localStorage.getItem('bugibud_theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = saved || (prefersDark ? 'dark' : 'light');
-  if (theme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    document.getElementById('themeToggle').textContent = '☀️';
-  }
+  const themeId = saved || (prefersDark ? 'dark' : 'light');
+  applyTheme(themeId);
 }
 
-// Init
+// Keep toggleTheme as alias for backward compat
+function toggleTheme() { cycleTheme(); }
+
+// Init — Supabase SDK loads async, appBoot() fires on _sbScript.onload above
 updateMonthLabel();
 initTheme();
-renderAll();
-loadAccountFields();
-buildTripCatPicker();
-renderTripExpenses();
-loadTripMeta();
+initOfflineBanner();
 </script>
 </body>
 </html>
