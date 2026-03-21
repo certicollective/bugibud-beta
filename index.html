@@ -260,14 +260,20 @@
   .month-nav button:active { transform: scale(0.95); }
   .month-label {
     font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 13px;
-    color: var(--muted);
+    font-weight: 700;
+    font-size: 14px;
+    color: #0f0f0f;
     flex: 1;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 1.5px;
   }
+  [data-theme="dark"] .month-label,
+  [data-theme="midnight"] .month-label { color: #ffffff; }
+  [data-theme="ocean"] .month-label    { color: #0f2040; }
+  [data-theme="forest"] .month-label   { color: #0f2a0f; }
+  [data-theme="rose"] .month-label     { color: #3d0a14; }
+
 
   /* Tabs */
   .tabs {
@@ -765,6 +771,41 @@
   .year-row-saved { font-size: 11px; font-weight: 500; }
 
   .theme-picker { display: flex; gap: 10px; flex-wrap: wrap; padding: 4px 0; }
+  /* CSV Help Modal */
+  .csv-help-bank {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .csv-help-bank-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .csv-help-steps {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .csv-help-steps li {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .csv-help-steps li strong { color: var(--text); }
+
+  /* Toggle switch */
+  #autoThemeSlider::after, #recurringReminderSlider::after { content:''; position:absolute; top:3px; width:18px; height:18px; border-radius:50%; background:#fff; transition:left 0.2s; left:3px; }
+  #autoThemeSlider.on { background:var(--accent-gold); }
+  #autoThemeSlider.on::after { left:21px; }
+  #recurringReminderSlider.on { background:var(--accent-gold); }
+  #recurringReminderSlider.on::after { left:21px; }
+
   .theme-swatch {
     display: flex; flex-direction: column; align-items: center; gap: 6px;
     cursor: pointer; flex: 1; min-width: 52px;
@@ -1157,6 +1198,12 @@
 <!-- ====== OFFLINE BANNER ====== -->
 <div id="offlineBanner">⚡ You're offline — changes won't save until you reconnect.</div>
 
+<!-- ====== RECURRING REMINDER BANNER ====== -->
+<div id="recurringBanner" style="display:none;position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--accent-gold);color:#000;text-align:center;font-size:12px;font-weight:600;padding:10px 40px;z-index:9997;letter-spacing:0.2px;">
+  🔄 Don't forget to log your recurring transactions!
+  <button onclick="dismissRecurringBanner()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:16px;cursor:pointer;color:#000;padding:4px;">✕</button>
+</div>
+
 <!-- ====== CONFIRM MODAL ====== -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
@@ -1270,6 +1317,116 @@
   </div>
 
   <button class="welcome-btn" onclick="dismissWelcome()">Let's get started →</button>
+</div>
+
+<!-- ====== CSV HELP MODAL ====== -->
+<div class="modal-overlay" id="csvHelpOverlay" onclick="if(event.target===this)closeCsvHelp()" style="z-index:500;">
+  <div class="modal" style="max-height:92vh;overflow-y:auto;">
+    <div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div class="modal-title" style="margin-bottom:0;">📥 How to Import Your Bank CSV</div>
+      <button onclick="closeCsvHelp()" style="background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:4px;">✕</button>
+    </div>
+
+    <div style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.7;">
+      Most banks let you download a CSV (spreadsheet) of your transactions for free. Here's how to do it at the most popular ones:
+    </div>
+
+    <!-- Step by step banks -->
+    <div id="csvHelpBankList">
+
+      <div class="csv-help-bank">
+        <div class="csv-help-bank-name">🏦 Chase</div>
+        <ol class="csv-help-steps">
+          <li>Log in at <strong>chase.com</strong></li>
+          <li>Click your checking or credit card account</li>
+          <li>Click <strong>Download account activity</strong></li>
+          <li>Choose date range → select <strong>CSV</strong> → Download</li>
+        </ol>
+      </div>
+
+      <div class="csv-help-bank">
+        <div class="csv-help-bank-name">🏦 Bank of America</div>
+        <ol class="csv-help-steps">
+          <li>Log in at <strong>bankofamerica.com</strong></li>
+          <li>Select your account → click <strong>Download</strong></li>
+          <li>Choose date range → select <strong>Microsoft Excel format (.csv)</strong></li>
+        </ol>
+      </div>
+
+      <div class="csv-help-bank">
+        <div class="csv-help-bank-name">🏦 Wells Fargo</div>
+        <ol class="csv-help-steps">
+          <li>Log in at <strong>wellsfargo.com</strong></li>
+          <li>Click your account → <strong>Download Account Activity</strong></li>
+          <li>Select date range → choose <strong>Comma-Delimited File (.csv)</strong></li>
+        </ol>
+      </div>
+
+      <div class="csv-help-bank">
+        <div class="csv-help-bank-name">🏦 Citi</div>
+        <ol class="csv-help-steps">
+          <li>Log in at <strong>citi.com</strong></li>
+          <li>Go to your account → <strong>Download/Export</strong></li>
+          <li>Choose date range → <strong>CSV</strong> format</li>
+        </ol>
+      </div>
+
+      <div class="csv-help-bank">
+        <div class="csv-help-bank-name">🏦 Capital One</div>
+        <ol class="csv-help-steps">
+          <li>Log in at <strong>capitalone.com</strong></li>
+          <li>Select account → <strong>Download Transactions</strong></li>
+          <li>Choose dates → <strong>CSV</strong></li>
+        </ol>
+      </div>
+
+      <div class="csv-help-bank">
+        <div class="csv-help-bank-name">🏦 American Express</div>
+        <ol class="csv-help-steps">
+          <li>Log in at <strong>americanexpress.com</strong></li>
+          <li>Go to Statements & Activity → <strong>Download</strong></li>
+          <li>Select <strong>CSV</strong> format and date range</li>
+        </ol>
+      </div>
+
+      <div class="csv-help-bank">
+        <div class="csv-help-bank-name">🏛️ Navy Federal Credit Union</div>
+        <ol class="csv-help-steps">
+          <li>Log in at <strong>navyfederal.org</strong></li>
+          <li>Select your account → <strong>Export Transactions</strong></li>
+          <li>Choose date range → <strong>CSV</strong></li>
+        </ol>
+      </div>
+
+      <div class="csv-help-bank">
+        <div class="csv-help-bank-name">🏛️ USAA</div>
+        <ol class="csv-help-steps">
+          <li>Log in at <strong>usaa.com</strong></li>
+          <li>Go to your account → <strong>Download Transactions</strong></li>
+          <li>Choose date range → <strong>CSV</strong></li>
+        </ol>
+      </div>
+
+      <div class="csv-help-bank">
+        <div class="csv-help-bank-name">🏛️ Most Credit Unions & Community Banks</div>
+        <ol class="csv-help-steps">
+          <li>Log in to your online banking</li>
+          <li>Go to your account history or statements</li>
+          <li>Look for <strong>Download</strong>, <strong>Export</strong>, or <strong>Print</strong></li>
+          <li>Select <strong>CSV</strong>, <strong>Excel</strong>, or <strong>Spreadsheet</strong> format</li>
+          <li>Choose your date range and download</li>
+        </ol>
+      </div>
+
+    </div>
+
+    <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:12px 14px;margin-top:16px;font-size:12px;color:var(--muted);line-height:1.7;">
+      💡 <strong style="color:var(--text);">Tip:</strong> If the columns don't auto-map correctly, you can manually select which column is Date, Description, and Amount using the dropdowns in the import screen.
+    </div>
+
+    <button onclick="closeCsvHelp()" style="width:100%;margin-top:18px;padding:13px;border-radius:var(--radius-sm);border:none;background:var(--text);color:var(--bg);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Got it!</button>
+  </div>
 </div>
 
 <!-- ====== AUTH SCREEN ====== -->
@@ -1502,7 +1659,8 @@
   <div class="section" style="padding-bottom:32px;">
     <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
       <span>Yearly Summary — <span id="yearLabel"></span></span>
-      <div style="display:flex;gap:6px;">
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button onclick="openMonthlyReport()" style="background:var(--accent-gold-light);border:1px solid var(--accent-gold);color:var(--accent-gold);border-radius:8px;padding:3px 10px;cursor:pointer;font-size:11px;font-weight:600;font-family:'Inter',sans-serif;">📊 Report</button>
         <button onclick="changeYear(-1)" style="background:var(--surface2);border:1px solid var(--border-strong);color:var(--text2);border-radius:8px;padding:3px 9px;cursor:pointer;font-size:13px;">‹</button>
         <button onclick="changeYear(1)" style="background:var(--surface2);border:1px solid var(--border-strong);color:var(--text2);border-radius:8px;padding:3px 9px;cursor:pointer;font-size:13px;">›</button>
       </div>
@@ -1535,11 +1693,24 @@
 
   <!-- CSV Import Banner -->
   <div style="padding:14px 24px 0;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Bank Import</span>
+      <button onclick="openCsvHelp()" style="width:22px;height:22px;border-radius:50%;background:var(--surface2);border:1.5px solid var(--border-strong);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:all 0.15s;font-family:'Inter',sans-serif;" title="How to export a CSV from your bank">?</button>
+    </div>
     <div id="csvImportBanner" style="background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer;transition:all 0.2s;" onclick="document.getElementById('csvFileInput').click()" ondragover="csvDragOver(event)" ondrop="csvDrop(event)">
       <div style="font-size:28px;margin-bottom:6px;">📥</div>
       <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;">Import from your bank</div>
-      <div style="font-size:11px;color:var(--muted);line-height:1.6;">Tap to upload a CSV · Works with Chase, BofA,<br>Wells Fargo, Citi, Amex, and most US banks</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.6;">Tap to upload a CSV · Chase, BofA, Wells Fargo,<br>Navy Federal, USAA, BECU, and most US banks & credit unions</div>
       <input type="file" id="csvFileInput" accept=".csv" style="display:none;" onchange="handleCsvFile(event)">
+    </div>
+  </div>
+
+  <!-- Search bar -->
+  <div style="padding:12px 24px 0;">
+    <div style="position:relative;">
+      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;">🔍</span>
+      <input type="text" id="txSearch" class="form-input" placeholder="Search transactions…" oninput="onTxSearch(this.value)" style="padding-left:38px;padding-right:36px;">
+      <button id="txSearchClear" onclick="clearTxSearch()" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:16px;color:var(--muted);cursor:pointer;padding:4px;">✕</button>
     </div>
   </div>
 
@@ -1578,6 +1749,71 @@
   <div class="section">
     <div class="section-title">Spending Habits</div>
     <div id="habitsList"></div>
+  </div>
+
+  <!-- SPENDING ALERTS -->
+  <div class="section">
+    <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
+      <span>🔔 Spending Alerts</span>
+      <button onclick="addAlertRow()" style="background:var(--surface2);border:1px solid var(--border-strong);color:var(--text2);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">+ Add Alert</button>
+    </div>
+    <div id="alertsList"></div>
+    <div id="alertsEmpty" class="empty-state" style="padding:20px 0;">
+      <div class="emoji">🔔</div>
+      <div class="empty-title">No alerts set</div>
+      <p>Get notified when a category exceeds your limit.</p>
+    </div>
+    <div id="alertFormWrap" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);">
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select id="alertCat" class="form-input" style="padding:11px 14px;"></select>
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">Limit ($)</label>
+        <input type="number" id="alertLimit" class="form-input" placeholder="e.g. 200" min="1" step="1">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button onclick="saveAlert()" style="flex:1;padding:12px;border-radius:var(--radius-sm);border:none;background:var(--text);color:var(--bg);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Save Alert</button>
+        <button onclick="cancelAlertForm()" style="padding:12px 16px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAVINGS GOALS -->
+  <div class="section">
+    <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
+      <span>🎯 Savings Goals</span>
+      <button onclick="addSavingsGoal()" style="background:var(--surface2);border:1px solid var(--border-strong);color:var(--text2);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">+ Add Goal</button>
+    </div>
+    <div id="savingsGoalsList"></div>
+    <div id="savingsGoalsEmpty" class="empty-state" style="padding:20px 0;">
+      <div class="emoji">🎯</div>
+      <div class="empty-title">No savings goals yet</div>
+      <p>Set a goal and track your progress toward it.</p>
+    </div>
+    <div id="savingsGoalFormWrap" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);margin-bottom:16px;">
+      <input type="hidden" id="sgEditId">
+      <div class="form-group">
+        <label class="form-label">Goal Name</label>
+        <input type="text" id="sgName" class="form-input" placeholder="e.g. Emergency Fund, New Car">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Target Amount ($)</label>
+        <input type="number" id="sgTarget" class="form-input" placeholder="e.g. 5000" min="1" step="1">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Amount Saved So Far ($)</label>
+        <input type="number" id="sgSaved" class="form-input" placeholder="0.00" min="0" step="0.01">
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">Emoji</label>
+        <input type="text" id="sgEmoji" class="form-input" placeholder="🎯" maxlength="2" style="width:70px;">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button onclick="saveSavingsGoal()" style="flex:1;padding:12px;border-radius:var(--radius-sm);border:none;background:var(--text);color:var(--bg);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Save Goal</button>
+        <button onclick="cancelSavingsGoalForm()" style="padding:12px 16px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
+      </div>
+    </div>
   </div>
 
   <!-- TRIP EXPENSE TRACKER -->
@@ -1911,6 +2147,42 @@
       </div>
       <div class="settings-row-arrow">›</div>
     </div>
+
+    <!-- Dark Mode Schedule -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:8px;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="font-size:12px;font-weight:600;color:var(--text);letter-spacing:0.3px;">🌓 Auto Dark Mode Schedule</div>
+        <label style="position:relative;display:inline-block;width:42px;height:24px;cursor:pointer;">
+          <input type="checkbox" id="autoThemeToggle" onchange="toggleAutoTheme(this.checked)" style="opacity:0;width:0;height:0;">
+          <span id="autoThemeSlider" style="position:absolute;inset:0;border-radius:99px;background:var(--border-strong);transition:0.2s;"></span>
+        </label>
+      </div>
+      <div id="autoThemeSettings" style="display:none;">
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div style="flex:1;">
+            <label class="form-label">Dark from</label>
+            <input type="time" id="darkModeStart" class="form-input" value="20:00" onchange="saveAutoTheme()" style="padding:10px 12px;">
+          </div>
+          <div style="flex:1;">
+            <label class="form-label">Light from</label>
+            <input type="time" id="darkModeEnd" class="form-input" value="07:00" onchange="saveAutoTheme()" style="padding:10px 12px;">
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px;">Automatically switches to dark/light mode on schedule.</div>
+      </div>
+    </div>
+
+    <!-- Recurring Reminders -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:8px;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <div style="font-size:12px;font-weight:600;color:var(--text);letter-spacing:0.3px;">🔄 Recurring Reminders</div>
+        <label style="position:relative;display:inline-block;width:42px;height:24px;cursor:pointer;">
+          <input type="checkbox" id="recurringReminderToggle" onchange="toggleRecurringReminder(this.checked)" style="opacity:0;width:0;height:0;">
+          <span id="recurringReminderSlider" style="position:absolute;inset:0;border-radius:99px;background:var(--border-strong);transition:0.2s;"></span>
+        </label>
+      </div>
+      <div style="font-size:11px;color:var(--muted);">Show a banner reminding you to log recurring transactions each month.</div>
+    </div>
   </div>
 
   <div class="settings-section" style="padding-bottom:40px;">
@@ -1950,6 +2222,18 @@
 </div>
 
 <!-- Add Modal -->
+
+<!-- ====== MONTHLY REPORT MODAL ====== -->
+<div class="modal-overlay" id="reportModalOverlay" onclick="if(event.target===this)closeReportModal()" style="z-index:400;">
+  <div class="modal" style="max-height:92vh;overflow-y:auto;">
+    <div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div class="modal-title" style="margin-bottom:0;" id="reportModalTitle">Monthly Report</div>
+      <button onclick="closeReportModal()" style="background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:4px;">✕</button>
+    </div>
+    <div id="reportModalContent"></div>
+  </div>
+</div>
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -1965,7 +2249,15 @@
 
     <div class="form-group">
       <label class="form-label">Description</label>
-      <input type="text" id="txDesc" class="form-input" placeholder="e.g. Groceries at Costco">
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button id="txEmojiBtn" onclick="toggleEmojiPicker()" style="width:46px;height:46px;font-size:22px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--surface2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s;">🏷️</button>
+        <input type="text" id="txDesc" class="form-input" placeholder="e.g. Groceries at Costco" oninput="onDescInput(this.value)" style="flex:1;">
+      </div>
+      <!-- Emoji picker panel -->
+      <div id="emojiPicker" style="display:none;margin-top:10px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;">
+        <div style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px;">Pick an emoji</div>
+        <div id="emojiGrid" style="display:flex;flex-wrap:wrap;gap:4px;max-height:160px;overflow-y:auto;"></div>
+      </div>
     </div>
 
     <div class="form-group">
@@ -1974,7 +2266,7 @@
     </div>
 
     <div class="form-group" id="catGroup">
-      <label class="form-label">Category</label>
+      <label class="form-label" id="catGroupLabel">Category</label>
       <div class="cat-grid" id="catGrid"></div>
     </div>
 
@@ -2011,6 +2303,7 @@ let currentUser = null;
 const CATEGORIES = [
   { id: 'food', label: 'Food & Dining', emoji: '🍔', color: 'var(--cat-food)' },
   { id: 'transport', label: 'Transport', emoji: '🚗', color: 'var(--cat-transport)' },
+  { id: 'gas', label: 'Gas & Fuel', emoji: '⛽', color: '#f97316' },
   { id: 'bills', label: 'Bills & Utilities', emoji: '⚡', color: 'var(--cat-bills)' },
   { id: 'shopping', label: 'Shopping', emoji: '🛍️', color: 'var(--cat-shopping)' },
   { id: 'health', label: 'Health', emoji: '💊', color: 'var(--cat-health)' },
@@ -2020,6 +2313,13 @@ const CATEGORIES = [
   { id: 'savings', label: 'Savings', emoji: '🐷', color: 'var(--cat-savings)' },
   { id: 'subscriptions', label: 'Subscriptions', emoji: '📱', color: '#a78bfa' },
   { id: 'travel', label: 'Travel', emoji: '✈️', color: '#67e8f9' },
+  { id: 'crypto', label: 'Crypto', emoji: '🪙', color: '#f59e0b' },
+  { id: 'investment', label: 'Investment', emoji: '📊', color: '#6366f1' },
+  { id: 'credit_payment', label: 'Credit Payment', emoji: '💳', color: '#0ea5e9' },
+  { id: 'personal_care', label: 'Personal Care',  emoji: '💈', color: '#ec4899' },
+  { id: 'donations',     label: 'Donations',      emoji: '🙏', color: '#8b5cf6' },
+  { id: 'transfer',      label: 'Transfer',       emoji: '↔️', color: '#64748b' },
+  { id: 'fees',          label: 'Fees',           emoji: '🏦', color: '#94a3b8' },
   { id: 'other', label: 'Other', emoji: '📦', color: 'var(--cat-other)' }
 ];
 
@@ -2028,6 +2328,7 @@ let currentYear = new Date().getFullYear();
 let selectedType = 'expense';
 let selectedCat = 'food';
 let selectedFreq = 'once';
+let selectedEmoji = null; // null = auto from merchant lookup
 let txFilter = 'all';
 let currentTab = 'overview';
 let viewYear = new Date().getFullYear();
@@ -2150,6 +2451,7 @@ function renderPieChart() {
   const catColorMap = {
     food:          '#FF3B30',   // red
     transport:     '#FF9500',   // orange
+    gas:           '#f97316',   // deep orange
     bills:         '#FFCC00',   // yellow
     shopping:      '#34C759',   // green
     health:        '#00C7BE',   // teal / cyan
@@ -2159,6 +2461,13 @@ function renderPieChart() {
     savings:       '#FF2D92',   // magenta / pink
     subscriptions: '#A2845E',   // brown / tan
     travel:        '#FF6B35',   // deep orange (distinct from orange above)
+    crypto:        '#F59E0B',   // amber / gold
+    investment:    '#6366f1',   // indigo-purple
+    credit_payment:'#0ea5e9',   // sky blue
+    personal_care: '#ec4899',   // pink
+    donations:     '#8b5cf6',   // purple
+    transfer:      '#64748b',   // slate
+    fees:          '#94a3b8',   // light slate
     other:         '#8E8E93'    // neutral grey
   };
 
@@ -2172,12 +2481,13 @@ function renderPieChart() {
 
   sorted.forEach(([catId, amt]) => {
     const slice = (amt / total) * (Math.PI * 2);
+    // Skip slices too small to draw — they'd cause backwards arcs that paint over the whole chart
+    if (slice <= gap) { startAngle += slice; return; }
     const color = catColorMap[catId] || fallbackColors[fallbackIdx++ % fallbackColors.length];
     const s = startAngle + gap / 2;
     const e = startAngle + slice - gap / 2;
 
     ctx.beginPath();
-    ctx.moveTo(cx + innerR * Math.cos(s), cy + innerR * Math.sin(s));
     ctx.arc(cx, cy, outerR, s, e);
     ctx.arc(cx, cy, innerR, e, s, true);
     ctx.closePath();
@@ -2187,7 +2497,7 @@ function renderPieChart() {
     startAngle += slice;
   });
 
-  // Legend pills — reset fallback index for consistent color matching
+  // Legend pills — show all categories including tiny ones, reset fallback index
   fallbackIdx = 0;
   legendEl.innerHTML = sorted.map(([catId, amt]) => {
     const cat = CATEGORIES.find(c => c.id === catId) || { label: catId, emoji: '📦' };
@@ -2363,8 +2673,304 @@ function setFilter(f, el) {
   renderTransactions();
 }
 
+// Merchant-specific icon overrides — checked before falling back to category emoji
+const MERCHANT_ICONS = [
+  // Food delivery
+  { match: /doordash/i,          emoji: '🛵' },
+  { match: /uber\s*eats/i,       emoji: '🛵' },
+  { match: /grubhub/i,           emoji: '🛵' },
+  { match: /instacart/i,         emoji: '🛒' },
+  { match: /\bmarket\b/i,        emoji: '🛒' },
+  { match: /postmates/i,         emoji: '🛵' },
+  { match: /seamless/i,          emoji: '🛵' },
+  { match: /caviar/i,            emoji: '🛵' },
+  // Coffee
+  { match: /starbucks/i,         emoji: '☕' },
+  { match: /dunkin/i,            emoji: '🍩' },
+  { match: /dutch\s*bros/i,      emoji: '☕' },
+  { match: /peet'?s/i,           emoji: '☕' },
+  // Fast food
+  { match: /mcdonald|mcdonalds/i,emoji: '🍟' },
+  { match: /chick.fil/i,         emoji: '🍗' },
+  { match: /chipotle/i,          emoji: '🌯' },
+  { match: /subway/i,            emoji: '🥖' },
+  { match: /taco\s*bell/i,       emoji: '🌮' },
+  { match: /wendy'?s/i,          emoji: '🍔' },
+  { match: /burger\s*king/i,     emoji: '🍔' },
+  { match: /in.n.out/i,          emoji: '🍔' },
+  { match: /five\s*guys/i,       emoji: '🍔' },
+  { match: /panda\s*express/i,   emoji: '🥡' },
+  { match: /pizza\s*hut|domino|papa\s*john/i, emoji: '🍕' },
+  // Grocery
+  { match: /costco/i,            emoji: '🛒' },
+  { match: /walmart/i,           emoji: '🛒' },
+  { match: /target/i,            emoji: '🎯' },
+  { match: /whole\s*foods/i,     emoji: '🥦' },
+  { match: /trader\s*joe/i,      emoji: '🌺' },
+  { match: /kroger|safeway|publix|aldi|sprouts/i, emoji: '🛒' },
+  // Rideshare & transport
+  { match: /\buber\b(?!\s*eats)/i, emoji: '🚖' },
+  { match: /\blyft\b/i,          emoji: '🚖' },
+  // Personal care — barber, salon, spa
+  { match: /squire|barber|barbershop|kongo\s*barb|great\s*clips|sport\s*clips|fantastic\s*sam|supercuts|hair\s*(cut|salon|studio)|nail\s*(salon|spa|bar)|waxing|threading|beauty\s*salon|spa\b/i, emoji: '💈' },
+  // Donations & charity
+  { match: /gofundme/i,              emoji: '🙏' },
+  { match: /charity|donation|red\s*cross|salvation\s*army|goodwill/i, emoji: '🙏' },
+  // Transfers to people
+  { match: /zelle\s*to|apple\s*cash\s*sent|venmo\s*to/i, emoji: '↔️' },
+  // Bank fees
+  { match: /international.*fee|transaction\s*fee|foreign.*fee|service\s*fee|bank\s*fee|atm\s*fee|overdraft/i, emoji: '🏦' },
+  // Tax
+  { match: /freetaxusa|turbotax|taxact|h&r\s*block|tax\s*(prep|filing|service)/i, emoji: '📋' },
+  // Amusement parks (already handled but add icon)
+  { match: /disneyland|disney\s*world|disney\s*park|walt\s*disney/i, emoji: '🏰' },
+  { match: /universal\s*(studios|orlando|hollywood)/i, emoji: '🎢' },
+  { match: /six\s*flags/i,               emoji: '🎢' },
+  { match: /cedar\s*point/i,             emoji: '🎢' },
+  { match: /busch\s*gardens/i,           emoji: '🎢' },
+  { match: /sea\s*world/i,               emoji: '🐬' },
+  { match: /knott'?s\s*berry/i,          emoji: '🎢' },
+  { match: /hershey\s*park|hersheypark/i,emoji: '🎢' },
+  { match: /world\s*of\s*fun/i,          emoji: '🎢' },
+  { match: /kings\s*(island|dominion|adventure)/i, emoji: '🎢' },
+  { match: /carowinds/i,                 emoji: '🎢' },
+  { match: /dorney\s*park/i,             emoji: '🎢' },
+  { match: /great\s*adventure/i,         emoji: '🎢' },
+  { match: /legoland/i,                  emoji: '🧱' },
+  { match: /zoo(\s|$)|aquarium/i,        emoji: '🦁' },
+  { match: /museum/i,                    emoji: '🏛️' },
+  { match: /water\s*(park|world)|schlitterbahn|wet'?n'?wild/i, emoji: '🌊' },
+  { match: /\bnike\b/i,                  emoji: '👟' },
+  { match: /adidas/i,                    emoji: '👟' },
+  { match: /foot\s*locker|footaction/i,  emoji: '👟' },
+  { match: /finish\s*line/i,             emoji: '👟' },
+  { match: /gap(\s*inc)?/i,              emoji: '👕' },
+  { match: /old\s*navy/i,                emoji: '👕' },
+  { match: /banana\s*republic/i,         emoji: '👔' },
+  { match: /h&m|h\s*and\s*m/i,           emoji: '👕' },
+  { match: /zara/i,                      emoji: '👗' },
+  { match: /uniqlo/i,                    emoji: '👕' },
+  { match: /forever\s*21/i,              emoji: '👗' },
+  { match: /urban\s*outfitters/i,        emoji: '🧢' },
+  { match: /anthropologie/i,             emoji: '👗' },
+  { match: /free\s*people/i,             emoji: '👗' },
+  { match: /macy'?s/i,                   emoji: '🛍️' },
+  { match: /nordstrom/i,                 emoji: '🛍️' },
+  { match: /bloomingdale'?s/i,           emoji: '🛍️' },
+  { match: /neiman\s*marcus/i,           emoji: '🛍️' },
+  { match: /saks\s*fifth/i,              emoji: '🛍️' },
+  { match: /tj\s*maxx|tjmaxx/i,          emoji: '🛍️' },
+  { match: /marshalls/i,                 emoji: '🛍️' },
+  { match: /ross\s*(stores|dress)?/i,    emoji: '🛍️' },
+  { match: /burlington\s*(coat|stores)/i,emoji: '🧥' },
+  { match: /express(\s*fashion)?/i,      emoji: '👔' },
+  { match: /american\s*eagle/i,          emoji: '👕' },
+  { match: /hollister/i,                 emoji: '👕' },
+  { match: /abercrombie|a&f\b/i,         emoji: '👕' },
+  { match: /victoria'?s\s*secret/i,      emoji: '👙' },
+  { match: /pink(\s*victoria)?/i,        emoji: '👙' },
+  { match: /lululemon/i,                 emoji: '🧘' },
+  { match: /athleta/i,                   emoji: '🧘' },
+  { match: /under\s*armour/i,            emoji: '👟' },
+  { match: /champion(\s*apparel)?/i,     emoji: '👕' },
+  { match: /ralph\s*lauren|polo\b/i,     emoji: '👔' },
+  { match: /tommy\s*hilfiger/i,          emoji: '👔' },
+  { match: /calvin\s*klein/i,            emoji: '👔' },
+  { match: /guess\b/i,                   emoji: '👗' },
+  { match: /michael\s*kors/i,            emoji: '👜' },
+  { match: /coach(\s*outlet)?/i,         emoji: '👜' },
+  { match: /kate\s*spade/i,              emoji: '👜' },
+  { match: /louis\s*vuitton|lv\b/i,      emoji: '👜' },
+  { match: /shein/i,                     emoji: '👗' },
+  { match: /fashion\s*nova/i,            emoji: '👗' },
+  { match: /pacsun/i,                    emoji: '👕' },
+  { match: /zumiez/i,                    emoji: '🛹' },
+  { match: /hot\s*topic/i,               emoji: '🖤' },
+  { match: /torrid/i,                    emoji: '👗' },
+  { match: /lane\s*bryant/i,             emoji: '👗' },
+  { match: /adobe|creative\s*cloud/i,   emoji: '🎨' },
+  { match: /figma/i,                    emoji: '🎨' },
+  { match: /canva/i,                    emoji: '🎨' },
+  { match: /sketch\s*(app)?/i,          emoji: '🎨' },
+  { match: /invision/i,                 emoji: '🎨' },
+  { match: /autodesk|autocad/i,         emoji: '📐' },
+  { match: /microsoft\s*365|office\s*365|ms\s*365/i, emoji: '💼' },
+  { match: /google\s*workspace|gsuite/i, emoji: '💼' },
+  { match: /slack/i,                    emoji: '💬' },
+  { match: /zoom/i,                     emoji: '📹' },
+  { match: /dropbox/i,                  emoji: '☁️' },
+  { match: /icloud/i,                   emoji: '☁️' },
+  { match: /google\s*one(?!\s*ai)/i,    emoji: '☁️' },
+  { match: /onedrive/i,                 emoji: '☁️' },
+  { match: /asana/i,                    emoji: '💼' },
+  { match: /notion(?!\s*ai)/i,          emoji: '📝' },
+  { match: /trello/i,                   emoji: '📋' },
+  { match: /atlassian|jira|confluence/i,emoji: '💼' },
+  { match: /shopify/i,                  emoji: '🛒' },
+  { match: /quickbooks|intuit/i,        emoji: '📊' },
+  { match: /hubspot/i,                  emoji: '💼' },
+  { match: /squarespace|wix\.com/i,     emoji: '🌐' },
+  { match: /mailchimp/i,                emoji: '📧' },
+  { match: /openai|chatgpt/i,           emoji: '🤖' },
+  { match: /anthropic|claude/i,         emoji: '🤖' },
+  { match: /google\s*(gemini|one\s*ai)/i, emoji: '🤖' },
+  { match: /microsoft\s*copilot|copilot\s*pro/i, emoji: '🤖' },
+  { match: /midjourney/i,               emoji: '🎨' },
+  { match: /perplexity/i,               emoji: '🤖' },
+  { match: /jasper\s*ai|jasper\.ai/i,   emoji: '🤖' },
+  { match: /cursor\s*(ai|pro)?/i,       emoji: '🤖' },
+  { match: /github\s*copilot/i,         emoji: '🤖' },
+  { match: /grammarly/i,                emoji: '✍️' },
+  { match: /notion\s*ai/i,              emoji: '🤖' },
+  { match: /netflix/i,           emoji: '🎬' },
+  { match: /hulu/i,              emoji: '📺' },
+  { match: /disney\+|disney plus/i, emoji: '🏰' },
+  { match: /hbo\s*(max|now)?|max\.com/i, emoji: '📺' },
+  { match: /paramount\+|paramount plus/i, emoji: '📺' },
+  { match: /peacock/i,           emoji: '📺' },
+  { match: /apple\s*tv\+?/i,     emoji: '📺' },
+  { match: /amazon\s*(prime\s*video|video)/i, emoji: '📺' },
+  { match: /crunchyroll/i,       emoji: '📺' },
+  { match: /funimation/i,        emoji: '📺' },
+  { match: /mubi/i,              emoji: '🎬' },
+  // Games — PC / Console stores
+  { match: /steam|valve/i,                    emoji: '🎮' },
+  { match: /playstation|psn|ps\s*store/i,     emoji: '🎮' },
+  { match: /xbox|microsoft\s*store.*game|game\s*pass/i, emoji: '🎮' },
+  { match: /nintendo\s*(eshop|shop|online)/i, emoji: '🎮' },
+  { match: /epic\s*games/i,                   emoji: '🎮' },
+  { match: /gog\.com|gog\s*galaxy/i,          emoji: '🎮' },
+  { match: /ea\s*(app|play|sports)|origin/i,  emoji: '🎮' },
+  { match: /ubisoft|uplay/i,                  emoji: '🎮' },
+  { match: /blizzard|battle\.net/i,           emoji: '🎮' },
+  { match: /activision|call\s*of\s*duty/i,    emoji: '🎮' },
+  { match: /riot\s*games|league\s*of\s*legends|valorant/i, emoji: '🎮' },
+  { match: /twitch\s*(sub|bits|prime)/i,      emoji: '🎮' },
+  { match: /humble\s*bundle/i,                emoji: '🎮' },
+  // Mobile games & app stores
+  { match: /app\s*store|apple\s*app/i,        emoji: '🎮' },
+  { match: /google\s*play/i,                  emoji: '🎮' },
+  { match: /pm\s*\*lilith|lilith\s*network|rise\s*of\s*kingdoms|trackernet/i, emoji: '🎮' },
+  { match: /roblox/i,                         emoji: '🎮' },
+  { match: /fortnite|v.?bucks/i,              emoji: '🎮' },
+  { match: /minecraft/i,                      emoji: '🎮' },
+  { match: /genshin|mihoyo|hoyoverse/i,       emoji: '🎮' },
+  { match: /clash\s*(of\s*clans|royale)/i,    emoji: '🎮' },
+  { match: /candy\s*crush/i,                  emoji: '🎮' },
+  // Shopping
+  { match: /amazon(?!\s*prime)/i,emoji: '📦' },
+  { match: /best\s*buy/i,        emoji: '💻' },
+  { match: /apple\s*store/i,     emoji: '🍎' },
+  { match: /etsy/i,              emoji: '🎨' },
+  { match: /ebay/i,              emoji: '🏷️' },
+  // Home & rent
+  { match: /\brent\b|mortgage|hoa|apartment|zillo|rentpayment|cozy|buildium|appfolio/i, emoji: '🏠' },
+  // Gas & fuel stations
+  { match: /shell/i,                    emoji: '⛽' },
+  { match: /chevron/i,                  emoji: '⛽' },
+  { match: /exxon|exxonmobil/i,         emoji: '⛽' },
+  { match: /\bbp\b/i,                   emoji: '⛽' },
+  { match: /mobil/i,                    emoji: '⛽' },
+  { match: /arco/i,                     emoji: '⛽' },
+  { match: /circle\s*k/i,               emoji: '⛽' },
+  { match: /wawa/i,                     emoji: '⛽' },
+  { match: /speedway/i,                 emoji: '⛽' },
+  { match: /sunoco/i,                   emoji: '⛽' },
+  { match: /marathon.*(gas|petroleum)?/i, emoji: '⛽' },
+  { match: /valero/i,                   emoji: '⛽' },
+  { match: /casey'?s/i,                 emoji: '⛽' },
+  { match: /kwik\s*(trip|star)/i,        emoji: '⛽' },
+  { match: /pilot\s*(travel|flying)/i,   emoji: '⛽' },
+  { match: /love'?s\s*travel/i,          emoji: '⛽' },
+  { match: /texaco/i,                   emoji: '⛽' },
+  { match: /gulf.*(gas|station)/i,       emoji: '⛽' },
+  { match: /costco\s*(gas|fuel)/i,       emoji: '⛽' },
+  { match: /sam'?s\s*club.*(gas|fuel)/i, emoji: '⛽' },
+  { match: /\bgas\s*station\b|fuel\s*station/i, emoji: '⛽' },
+  // Travel
+  { match: /airbnb/i,            emoji: '🏡' },
+  { match: /marriott|hilton|hyatt|westin|sheraton/i, emoji: '🏨' },
+  { match: /southwest|delta|united|american air|spirit|jetblue/i, emoji: '✈️' },
+  // Health
+  { match: /cvs|walgreens|rite\s*aid/i, emoji: '💊' },
+  // Credit card payments
+  { match: /chase\s*(sapphire|freedom|slate|credit|card|payment)|autopay.*chase|chase.*autopay/i, emoji: '💳' },
+  { match: /amex|american\s*express/i,  emoji: '💳' },
+  { match: /discover\s*(card|payment|it)|discover.*payment/i, emoji: '💳' },
+  { match: /citi\s*(card|payment|double|custom)|citibank.*card/i, emoji: '💳' },
+  { match: /capital\s*one\s*(quicksilver|venture|savor|credit|payment)/i, emoji: '💳' },
+  { match: /wells\s*fargo\s*(card|credit|payment)/i, emoji: '💳' },
+  { match: /bank\s*of\s*america\s*(card|credit|payment)|bofa.*card/i, emoji: '💳' },
+  { match: /barclays|barclaycard/i,     emoji: '💳' },
+  { match: /synchrony\s*(bank|credit|payment)/i, emoji: '💳' },
+  { match: /apple\s*card/i,            emoji: '💳' },
+  { match: /affirm/i,                  emoji: '💳' },
+  { match: /afterpay/i,                emoji: '💳' },
+  { match: /klarna/i,                  emoji: '💳' },
+  { match: /sezzle/i,                  emoji: '💳' },
+  { match: /zip\s*(pay|money)|quadpay/i, emoji: '💳' },
+  { match: /splitit/i,                 emoji: '💳' },
+  { match: /paypal\s*(credit|pay\s*later)/i, emoji: '💳' },
+  { match: /credit\s*card\s*pay(ment)?|card\s*payment|cc\s*payment/i, emoji: '💳' },
+  { match: /minimum\s*payment|stmt\s*bal|statement\s*balance/i, emoji: '💳' },
+  { match: /fidelity/i,              emoji: '📊' },
+  { match: /vanguard/i,              emoji: '📊' },
+  { match: /schwab|charles schwab/i, emoji: '📊' },
+  { match: /e.?trade/i,             emoji: '📊' },
+  { match: /td\s*ameritrade/i,       emoji: '📊' },
+  { match: /robinhood(?!\s*crypto)/i,emoji: '📊' },
+  { match: /webull/i,                emoji: '📊' },
+  { match: /merrill(\s*edge|\s*lynch)?/i, emoji: '📊' },
+  { match: /morgan\s*stanley/i,      emoji: '📊' },
+  { match: /raymond\s*james/i,       emoji: '📊' },
+  { match: /edward\s*jones/i,        emoji: '📊' },
+  { match: /sofi\s*invest|sofi\s*securities/i, emoji: '📊' },
+  { match: /public\.com|public\s*invest/i, emoji: '📊' },
+  { match: /m1\s*finance/i,          emoji: '📊' },
+  { match: /acorns/i,                emoji: '🌱' },
+  { match: /stash\s*invest/i,        emoji: '📊' },
+  { match: /betterment|wealthfront|ellevest/i, emoji: '📊' },
+  { match: /\bstock\s*purchase|espp|employee\s*stock/i, emoji: '📊' },
+  { match: /coinbase|coinbase pro|coinbase advanced/i, emoji: '🪙' },
+  { match: /binance/i,               emoji: '🪙' },
+  { match: /kraken/i,                emoji: '🪙' },
+  { match: /robinhood\s*crypto|robinhood.*btc|robinhood.*eth/i, emoji: '🪙' },
+  { match: /gemini/i,                emoji: '🪙' },
+  { match: /crypto\.com/i,           emoji: '🪙' },
+  { match: /bitfinex|bitmex|bitstamp|bittrex/i, emoji: '🪙' },
+  { match: /okx|okex/i,              emoji: '🪙' },
+  { match: /kucoin/i,                emoji: '🪙' },
+  { match: /bybit/i,                 emoji: '🪙' },
+  { match: /exodus|metamask|phantom|trust.wallet|ledger/i, emoji: '🪙' },
+  { match: /\bbtc\b|\bbitcoin\b/i,   emoji: '₿'  },
+  { match: /\beth\b|\bethereum\b/i,  emoji: '🪙' },
+  { match: /\bsolana\b|\bsol\b/i,    emoji: '🪙' },
+  { match: /\bdoge\b|\bdogecoin\b/i, emoji: '🐕' },
+  { match: /crypto|blockchain/i,     emoji: '🪙' },
+  { match: /paypal/i,            emoji: '💸' },
+  { match: /venmo/i,             emoji: '💸' },
+  { match: /zelle/i,             emoji: '💸' },
+  { match: /cash\s*app/i,        emoji: '💸' },
+];
+
+function getMerchantEmoji(desc, fallbackEmoji) {
+  if (!desc) return fallbackEmoji;
+  for (const m of MERCHANT_ICONS) {
+    if (m.match.test(desc)) return m.emoji;
+  }
+  return fallbackEmoji;
+}
+
 function renderTransactions() {
-  const txs = getMonthTx().filter(t => txFilter === 'all' || t.type === txFilter)
+  const txs = getMonthTx()
+    .filter(t => txFilter === 'all' || t.type === txFilter)
+    .filter(t => {
+      if (!_txSearchQuery) return true;
+      const q = _txSearchQuery;
+      return (t.desc||'').toLowerCase().includes(q) ||
+             (t.category||'').toLowerCase().includes(q) ||
+             String(t.amount).includes(q);
+    })
     .sort((a, b) => new Date(b.date) - new Date(a.date));
   const el = document.getElementById('txList');
   if (!txs.length) {
@@ -2373,21 +2979,26 @@ function renderTransactions() {
       expense: { emoji: '🛍️', title: 'No expenses this month', sub: 'Looks like a clean month!' },
       income:  { emoji: '💰', title: 'No income logged yet', sub: 'Add your income to track savings.' },
     };
-    const m = msgs[txFilter] || msgs.all;
+    const m = _txSearchQuery
+      ? { emoji: '🔍', title: 'No results', sub: `Nothing matched "<strong>${_txSearchQuery}</strong>"` }
+      : (msgs[txFilter] || msgs.all);
     el.innerHTML = `<div class="empty-state">
       <span class="emoji">${m.emoji}</span>
       <div class="empty-title">${m.title}</div>
       <p>${m.sub}</p>
-      ${txFilter === 'all' ? `<button class="empty-action" onclick="openModal()">+ Add Transaction</button>` : ''}
+      ${!_txSearchQuery && txFilter === 'all' ? `<button class="empty-action" onclick="openModal()">+ Add Transaction</button>` : ''}
     </div>`;
     return;
   }
 
   // Color map matching pie chart colors
   const accentColor = {
-    food:'#FF3B30', transport:'#FF9500', bills:'#A855F7', shopping:'#F97316',
+    food:'#FF3B30', transport:'#FF9500', gas:'#f97316', bills:'#A855F7', shopping:'#F97316',
     health:'#22C55E', entertainment:'#EC4899', housing:'#14B8A6', education:'#EAB308',
-    savings:'#06B6D4', subscriptions:'#8B5CF6', travel:'#10B981', other:'#94A3B8', income:'#22C55E'
+    savings:'#06B6D4', subscriptions:'#8B5CF6', travel:'#10B981', crypto:'#f59e0b',
+    investment:'#6366f1', credit_payment:'#0ea5e9', personal_care:'#ec4899',
+    donations:'#8b5cf6', transfer:'#64748b', fees:'#94a3b8',
+    other:'#94A3B8', income:'#22C55E'
   };
 
   el.innerHTML = txs.map((t, i) => {
@@ -2395,8 +3006,9 @@ function renderTransactions() {
     const dateStr = new Date(t.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     const freqBadge = t.freq && t.freq !== 'once' ? ` · ${t.freq}` : '';
     const color = accentColor[t.category] || '#94A3B8';
+    const icon  = t.emoji || getMerchantEmoji(t.desc, cat.emoji);
     return `<div class="tx-item" style="border-left-color:${color};animation-delay:${i * 0.04}s;">
-      <div class="tx-icon" style="background:${color}18;border-color:${color}30;">${cat.emoji}</div>
+      <div class="tx-icon" style="background:${color}18;border-color:${color}30;">${icon}</div>
       <div class="tx-info">
         <div class="tx-name">${t.desc || cat.label}</div>
         <div class="tx-meta">${cat.label}${freqBadge} · ${dateStr}</div>
@@ -2440,6 +3052,8 @@ function renderBudgetTab() {
   const allTx = _txCache.filter(t => t.type === 'expense');
   if (!allTx.length) {
     habitsEl.innerHTML = '<div class="empty-state" style="padding:20px 0;"><div class="emoji">🔍</div><p>Add some expenses to see your habits.</p></div>';
+    renderAlerts();
+    renderSavingsGoals();
     return;
   }
   const catTotals = {};
@@ -2459,11 +3073,22 @@ function renderBudgetTab() {
       </div>
     </div>`;
   }).join('');
+
+  renderAlerts();
+  renderSavingsGoals();
 }
 
 function buildCatGrid() {
   const grid = document.getElementById('catGrid');
-  grid.innerHTML = CATEGORIES.map(c =>
+  const cats = selectedType === 'income' ? INCOME_CATEGORIES : CATEGORIES;
+  // If switching to income and current selectedCat is an expense cat, reset it
+  if (selectedType === 'income' && !INCOME_CATEGORIES.find(c => c.id === selectedCat)) {
+    selectedCat = 'income';
+  }
+  if (selectedType === 'expense' && INCOME_CATEGORIES.find(c => c.id === selectedCat)) {
+    selectedCat = 'food';
+  }
+  grid.innerHTML = cats.map(c =>
     `<button class="cat-btn ${c.id === selectedCat ? 'selected' : ''}" onclick="selectCat('${c.id}',this)">
       <span class="cat-emoji">${c.emoji}</span>${c.label}
     </button>`
@@ -2476,11 +3101,26 @@ function selectCat(id, el) {
   el.classList.add('selected');
 }
 
+// Income-specific categories
+const INCOME_CATEGORIES = [
+  { id: 'income',         label: 'Paycheck',    emoji: '🧾' },
+  { id: 'income_invest',  label: 'Investment',  emoji: '📈' },
+  { id: 'income_freelance', label: 'Freelance', emoji: '💻' },
+  { id: 'income_refund',  label: 'Refund',      emoji: '↩️' },
+  { id: 'income_gift',    label: 'Gift',        emoji: '🎁' },
+  { id: 'income_rental',  label: 'Rental',      emoji: '🏠' },
+  { id: 'income_transfer',label: 'Transfer',    emoji: '💸' },
+  { id: 'income_other',   label: 'Other',       emoji: '💰' },
+];
+
 function setType(type) {
   selectedType = type;
   document.getElementById('typeExpense').className = 'type-btn' + (type === 'expense' ? ' active-expense' : '');
-  document.getElementById('typeIncome').className = 'type-btn' + (type === 'income' ? ' active-income' : '');
-  document.getElementById('catGroup').style.display = type === 'expense' ? '' : 'none';
+  document.getElementById('typeIncome').className  = 'type-btn' + (type === 'income'  ? ' active-income'  : '');
+  // Always show category — rebuild grid for the right type
+  document.getElementById('catGroup').style.display = '';
+  document.getElementById('catGroupLabel').textContent = type === 'income' ? 'Income Type' : 'Category';
+  buildCatGrid();
 }
 
 function setFreq(el) {
@@ -2489,40 +3129,180 @@ function setFreq(el) {
   el.classList.add('selected');
 }
 
+// ====== EMOJI PICKER ======
+const EMOJI_LIST = [
+  // Food & drink
+  '🍔','🍟','🌮','🌯','🍕','🍣','🍜','🥗','🥙','🍱','🍛','🥘','🍝','🥪','🌭',
+  '🍩','☕','🧋','🍺','🥤','🧃','🍦','🍰','🎂',
+  // Delivery
+  '🛵','🚚','📦',
+  // Shopping
+  '🛍️','🛒','👗','👟','💍','🎁',
+  // Transport
+  '🚗','⛽','🚕','✈️','🚂','🛳️','🚌','🏍️','🛵',
+  // Home & bills
+  '🏠','🔑','💡','💧','🔌','📡','🛋️',
+  // Health
+  '💊','🏥','🦷','🧬','🩺','🧘',
+  // Entertainment
+  '🎬','🎮','🎵','🎤','🎟️','🎭','📺','🎲',
+  // Education
+  '📚','🎓','✏️','🖥️','📝',
+  // Finance
+  '💰','💳','💸','🏦','📈','📊','💵','🧾','🪙','₿','🐕','🌱',
+  // Travel
+  '🏖️','🏔️','🗺️','🏨','🎒','🗽',
+  // Misc
+  '💪','🐾','🌿','🎯','⚽','🎪','🧹','🔧','📱','🌸',
+];
+
+let _emojiPickerBuilt = false;
+
+function buildEmojiGrid() {
+  if (_emojiPickerBuilt) return;
+  const grid = document.getElementById('emojiGrid');
+  grid.innerHTML = EMOJI_LIST.map(e =>
+    `<button onclick="selectEmoji('${e}')" style="width:36px;height:36px;font-size:20px;border:1.5px solid transparent;border-radius:8px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.12s;" data-emoji="${e}">${e}</button>`
+  ).join('');
+  _emojiPickerBuilt = true;
+}
+
+function toggleEmojiPicker() {
+  buildEmojiGrid();
+  const picker = document.getElementById('emojiPicker');
+  picker.style.display = picker.style.display === 'none' ? '' : 'none';
+}
+
+function selectEmoji(emoji) {
+  selectedEmoji = emoji;
+  document.getElementById('txEmojiBtn').textContent = emoji;
+  document.getElementById('emojiPicker').style.display = 'none';
+  // Highlight active
+  document.querySelectorAll('#emojiGrid button').forEach(b => {
+    b.style.borderColor = b.getAttribute('data-emoji') === emoji ? 'var(--accent-gold)' : 'transparent';
+    b.style.background  = b.getAttribute('data-emoji') === emoji ? 'var(--accent-gold-light)' : 'transparent';
+  });
+}
+
+function setEmojiBtn(emoji) {
+  document.getElementById('txEmojiBtn').textContent = emoji || '🏷️';
+}
+
+// Auto-categorize + auto-emoji on description typing
+function onDescInput(val) {
+  const desc = val.trim();
+  if (!desc) return;
+
+  if (selectedType === 'income') {
+    // Auto-detect income subtype
+    const d = desc.toLowerCase();
+    let incomeCat = 'income'; // default paycheck
+    if (/divid|interest|capital\s*gain|stock|fidelity|vanguard|schwab|robinhood/.test(d)) incomeCat = 'income_invest';
+    else if (/freelance|contract|1099|upwork|fiverr|client|invoice/.test(d)) incomeCat = 'income_freelance';
+    else if (/refund|return|cashback|cash\s*back|reimburs/.test(d)) incomeCat = 'income_refund';
+    else if (/gift|birthday|holiday|bonus/.test(d)) incomeCat = 'income_gift';
+    else if (/rent|tenant|property/.test(d)) incomeCat = 'income_rental';
+    else if (/transfer|zelle|venmo|paypal|from/.test(d)) incomeCat = 'income_transfer';
+    selectedCat = incomeCat;
+    document.querySelectorAll('.cat-btn').forEach(b => {
+      b.classList.toggle('selected', b.getAttribute('onclick')?.includes(`'${incomeCat}'`));
+    });
+  } else {
+    // Auto-categorize expense
+    const autoCat = autoCategorizeDesc(desc);
+    if (autoCat) {
+      selectedCat = autoCat;
+      document.querySelectorAll('.cat-btn').forEach(b => {
+        b.classList.toggle('selected', b.getAttribute('onclick').includes(`'${autoCat}'`));
+      });
+    }
+  }
+
+  // Auto-set emoji if user hasn't manually chosen one
+  if (!selectedEmoji) {
+    const allCats = [...CATEGORIES, ...INCOME_CATEGORIES];
+    const cat = allCats.find(c => c.id === selectedCat);
+    const autoIcon = getMerchantEmoji(desc, cat ? cat.emoji : '🏷️');
+    setEmojiBtn(autoIcon);
+  }
+}
+
+function autoCategorizeDesc(desc) {
+  const d = desc.toLowerCase();
+  if (/restaurant|mcdonald|starbucks|chipotle|doordash|uber eats|grubhub|pizza|burger|taco|sushi|diner|cafe|coffee|dunkin|subway|wendy|chick-fil|panera|market/.test(d)) return 'food';
+  if (/grocery|safeway|kroger|whole foods|trader joe|walmart|target|costco|aldi|publix|sprouts/.test(d)) return 'food';
+  if (/\buber\b(?!\s*eats)|lyft|parking|toll|metro|transit|mta|bart|cta|bus\s*fare|train\s*fare/.test(d)) return 'transport';
+  if (/shell|chevron|exxon|exxonmobil|\bbp\b|mobil|arco|circle\s*k|wawa|speedway|sunoco|marathon|valero|casey'?s|kwik\s*(trip|star)|pilot\s*travel|love'?s|texaco|sunoco|\bgas\s*station\b|fuel\s*station|\bfuel\b|\bgas\b/.test(d)) return 'gas';
+  if (/netflix|spotify|hulu|disney|apple\.com\/bill|amazon prime|youtube|twitch|patreon|openai|chatgpt|anthropic|claude|google\s*gemini|microsoft\s*copilot|midjourney|perplexity|jasper|cursor\s*(ai|pro)|github\s*copilot|grammarly|notion\s*ai|adobe|creative\s*cloud|figma|canva|autodesk|microsoft\s*365|office\s*365|google\s*workspace|gsuite|slack|zoom|dropbox|icloud|google\s*one|onedrive|asana|notion|trello|atlassian|jira|shopify|quickbooks|intuit|hubspot|squarespace|wix\.com|mailchimp/.test(d)) return 'subscriptions';
+  if (/electric|water|pg&e|con ed|gas bill|internet|at&t|verizon|t-mobile|comcast|xfinity|phone/.test(d)) return 'bills';
+  if (/\brent\b|mortgage|hoa|apartment|zillo|rentpayment|cozy|buildium|appfolio|chambers\s*prop|obligo/.test(d)) return 'housing';
+  if (/amazon(?!\s*prime)|ebay|etsy|best buy|apple store|logitech|razer|corsair|nike|adidas|foot\s*locker|finish\s*line|gap|old\s*navy|banana\s*republic|h&m|zara|uniqlo|forever\s*21|urban\s*outfitters|anthropologie|free\s*people|macy'?s|nordstrom|bloomingdale|neiman\s*marcus|saks|tj\s*maxx|marshalls|ross\s*store|burlington|express\s*fashion|american\s*eagle|hollister|abercrombie|victoria'?s\s*secret|lululemon|athleta|under\s*armour|ralph\s*lauren|tommy\s*hilfiger|calvin\s*klein|michael\s*kors|coach|kate\s*spade|shein|fashion\s*nova|pacsun|zumiez|hot\s*topic|torrid|lane\s*bryant/.test(d)) return 'shopping';
+  if (/doctor|hospital|pharmacy|cvs|walgreens|dental|medical|health|urgent care|insurance/.test(d)) return 'health';
+  if (/airbnb|hotel|marriott|hilton|hyatt|expedia|booking|vrbo|airline|southwest|delta|united|flight/.test(d)) return 'travel';
+  if (/gym|planet fitness|movie|cinema|amc|regal|alamo\s*draft|cinemark|imax|concert|ticket(master)?|live\s*nation|eventbrite|stubhub|sports\s*ticket|bowl(ing)?|arcade|laser\s*tag|escape\s*room|disneyland|disney\s*world|universal\s*studios|six\s*flags|cedar\s*point|busch\s*gardens|sea\s*world|knott'?s|hershey\s*park|legoland|carowinds|kings\s*(island|dominion)|water\s*park|schlitterbahn|\bzoo\b|aquarium|museum/.test(d)) return 'entertainment';
+  if (/steam|valve|playstation|psn|ps\s*store|xbox|game\s*pass|nintendo|epic\s*games|gog\.com|ea\s*(app|play)|origin|ubisoft|blizzard|battle\.net|activision|riot\s*games|humble\s*bundle|roblox|fortnite|v.?bucks|minecraft|genshin|mihoyo|clash\s*of\s*clans|clash\s*royale|candy\s*crush|\bgaming\b|in.app.purchase|app\s*store\s*purchase|google\s*play\s*purchase/.test(d)) return 'entertainment';
+  if (/netflix|hulu|disney\+|disney\s*plus|hbo\s*(max|now)?|paramount\+|peacock|apple\s*tv|amazon\s*(prime\s*)?video|crunchyroll|funimation|mubi/.test(d)) return 'entertainment';
+  if (/coinbase|binance|kraken|gemini|crypto\.com|bitfinex|bitstamp|bittrex|okx|kucoin|bybit|exodus|metamask|phantom|trust.wallet|\bbtc\b|\bbitcoin\b|\beth\b|\bethereum\b|\bsolana\b|\bdoge\b|crypto|blockchain/.test(d)) return 'crypto';
+  if (/fidelity|vanguard|schwab|charles schwab|e.?trade|td\s*ameritrade|robinhood|webull|merrill|morgan stanley|raymond james|edward jones|sofi invest|public\.com|m1 finance|acorns|betterment|wealthfront|ellevest|stock purchase|espp|employee stock|\bbrokerage\b|\b401k\b|\bira\b|\broth\b/.test(d)) return 'investment';
+  if (/chase\s*(sapphire|freedom|credit|card|payment)|amex|american\s*express(\s*ach\s*pmt)?|discover\s*(e-payment|card|payment)|citi\s*(card|payment)|capital\s*one.*(credit|payment)|wells\s*fargo.*card|bank\s*of\s*america.*card|barclays|synchrony|apple\s*card|applecard\s*gsbank|affirm|afterpay|klarna|sezzle|zip\s*pay|quadpay|splitit|paypal\s*(credit|pay\s*later)|pypl\s*payin|credit\s*card\s*pay|cc\s*payment|minimum\s*payment|stmt\s*bal|statement\s*balance/.test(d)) return 'credit_payment';
+  if (/squire|barber|barbershop|great\s*clips|sport\s*clips|fantastic\s*sam|supercuts|hair\s*(cut|salon)|nail\s*(salon|spa|bar)|waxing|threading|beauty\s*salon|\bspa\b/.test(d)) return 'personal_care';
+  if (/gofundme|charity|donation|red\s*cross|salvation\s*army|goodwill/.test(d)) return 'donations';
+  if (/zelle\s*to|apple\s*cash\s*sent|venmo\s*to|chime(\s*(transfer|\.com))?|\bsantbk\b|bank\s*to\s*bank|wire\s*transfer|paypal\s*\*(add\s*to\s*bal|alphan|sergo|talal)|talal\s*shahab.*paypal|iat\s*paypal/.test(d)) return 'transfer';
+  if (/international.*fee|transaction\s*fee|foreign.*fee|service\s*fee|bank\s*fee|atm\s*fee|overdraft|monthly\s*fee/.test(d)) return 'fees';
+  if (/freetaxusa|turbotax|taxact|h&r\s*block|tax\s*(prep|filing)/.test(d)) return 'bills';
+  if (/appfolio|chambers\s*prop|property\s*mgmt|rentpayment|obligo/.test(d)) return 'housing';
+  if (/arsenio|taqueria|carnitas|tamale|enchilada|pupusa|quik\s*way|quick\s*way|kwik\s*way|minute\s*market|corner\s*store|convenience/.test(d)) return 'food';
+  if (/pm\s*\*lilith|rise\s*of\s*kingdoms|trackernet|loaded\s*com/.test(d)) return 'entertainment';
+  return null;
+}
+
 function openModal() {
-  editingTxId = null;
+  editingTxId  = null;
+  selectedEmoji = null;
   buildCatGrid();
   setType('expense');
   selectedFreq = 'once';
   document.querySelectorAll('.freq-btn').forEach(b => b.classList.toggle('selected', b.dataset.freq === 'once'));
   const today = new Date().toISOString().split('T')[0];
-  document.getElementById('txDate').value = today;
-  document.getElementById('txDesc').value = '';
+  document.getElementById('txDate').value  = today;
+  document.getElementById('txDesc').value  = '';
   document.getElementById('txAmount').value = '';
-  document.getElementById('modalTitle').textContent = 'Add Transaction';
-  document.getElementById('submitBtn').textContent = 'Add Transaction';
+  document.getElementById('modalTitle').textContent  = 'Add Transaction';
+  document.getElementById('submitBtn').textContent   = 'Add Transaction';
+  document.getElementById('emojiPicker').style.display = 'none';
+  setEmojiBtn(null);
   document.getElementById('modalOverlay').classList.add('open');
 }
 
 function editTransaction(id) {
   const tx = _txCache.find(t => t.id === id);
   if (!tx) return;
-  editingTxId = id;
-  buildCatGrid();
-  setType(tx.type);
-  if (tx.type === 'expense') {
-    selectedCat = tx.category;
-    document.querySelectorAll('.cat-btn').forEach(b => {
-      b.classList.toggle('selected', b.getAttribute('onclick').includes(`'${tx.category}'`));
-    });
-  }
+  editingTxId   = id;
+  selectedEmoji = tx.emoji || null;
+
+  // Set selectedCat BEFORE calling setType/buildCatGrid so the right one is highlighted
+  selectedCat = tx.category || (tx.type === 'income' ? 'income' : 'food');
+  setType(tx.type); // this calls buildCatGrid with the correct selectedType
+
+  // Highlight the matching category button
+  document.querySelectorAll('.cat-btn').forEach(b => {
+    b.classList.toggle('selected', b.getAttribute('onclick').includes(`'${selectedCat}'`));
+  });
+
   selectedFreq = tx.freq || 'once';
   document.querySelectorAll('.freq-btn').forEach(b => b.classList.toggle('selected', b.dataset.freq === selectedFreq));
-  document.getElementById('txDesc').value = tx.desc || '';
+  document.getElementById('txDesc').value   = tx.desc || '';
   document.getElementById('txAmount').value = tx.amount;
-  document.getElementById('txDate').value = tx.date;
+  document.getElementById('txDate').value   = tx.date;
   document.getElementById('modalTitle').textContent = 'Edit Transaction';
-  document.getElementById('submitBtn').textContent = 'Save Changes';
+  document.getElementById('submitBtn').textContent  = 'Save Changes';
+  document.getElementById('emojiPicker').style.display = 'none';
+
+  // Show emoji
+  const allCats = [...CATEGORIES, ...INCOME_CATEGORIES];
+  const cat = allCats.find(c => c.id === tx.category);
+  const displayEmoji = tx.emoji || getMerchantEmoji(tx.desc, cat ? cat.emoji : '🏷️');
+  setEmojiBtn(displayEmoji);
   document.getElementById('modalOverlay').classList.add('open');
 }
 
@@ -2542,20 +3322,24 @@ async function addTransaction() {
   if (!amount || amount <= 0) { alert('Please enter a valid amount.'); return; }
   if (!date) { alert('Please select a date.'); return; }
 
+  const cat = selectedCat; // now valid for both income and expense
+  const catObj = CATEGORIES.find(c => c.id === cat);
+  const finalEmoji = selectedEmoji || getMerchantEmoji(desc, catObj ? catObj.emoji : '📦');
+
   if (editingTxId) {
     const idx = _txCache.findIndex(t => t.id === editingTxId);
     if (idx !== -1) {
-      _txCache[idx] = { ..._txCache[idx], type: selectedType, desc: desc || null, amount,
-        category: selectedType === 'expense' ? selectedCat : 'income', freq: selectedFreq, date };
+      _txCache[idx] = { ..._txCache[idx], type: selectedType, desc: desc || null,
+        amount, category: cat, freq: selectedFreq, date, emoji: finalEmoji };
     }
     if (currentUser) {
       await supa.from('transactions').update({ type: selectedType, description: desc || null,
-        amount, category: selectedType === 'expense' ? selectedCat : 'income', frequency: selectedFreq, date
+        amount, category: cat, frequency: selectedFreq, date
       }).eq('id', editingTxId).eq('user_id', currentUser.id);
     }
   } else {
     const newTx = { id: Date.now().toString(), type: selectedType, desc: desc || null,
-      amount, category: selectedType === 'expense' ? selectedCat : 'income', freq: selectedFreq, date };
+      amount, category: cat, freq: selectedFreq, date, emoji: finalEmoji };
     _txCache.unshift(newTx);
     if (currentUser) {
       const { data } = await supa.from('transactions').insert({
@@ -2565,6 +3349,17 @@ async function addTransaction() {
       if (data) _txCache[0].id = data.id;
     }
   }
+
+  // If user manually picked an emoji, propagate it to all transactions with the same description
+  if (selectedEmoji && desc) {
+    const normalDesc = desc.toLowerCase().trim();
+    _txCache.forEach(t => {
+      if ((t.desc || '').toLowerCase().trim() === normalDesc) {
+        t.emoji = finalEmoji;
+      }
+    });
+  }
+
   closeModal();
   renderAll();
 }
@@ -2801,7 +3596,7 @@ function unlockApp(isNewUser) {
 // Row Level Security ensures users can only access their own rows.
 
 async function fetchTransactions() {
-  const { data } = await _sb.from('transactions').select('*').order('date', { ascending: false });
+  const { data } = await supa.from('transactions').select('*').order('date', { ascending: false });
   _txCache = (data || []).map(r => ({
     id: r.id,
     type: r.type,
@@ -2815,8 +3610,8 @@ async function fetchTransactions() {
 }
 
 async function addTxToDb(tx) {
-  const { data: { user } } = await _sb.auth.getUser();
-  const { data, error } = await _sb.from('transactions').insert({
+  const { data: { user } } = await supa.auth.getUser();
+  const { data, error } = await supa.from('transactions').insert({
     user_id: user.id,
     type: tx.type,
     description: tx.desc || null,
@@ -2831,7 +3626,7 @@ async function addTxToDb(tx) {
 }
 
 async function updateTxInDb(id, tx) {
-  const { error } = await _sb.from('transactions').update({
+  const { error } = await supa.from('transactions').update({
     type: tx.type,
     description: tx.desc || null,
     amount: tx.amount,
@@ -2847,37 +3642,37 @@ async function updateTxInDb(id, tx) {
 }
 
 async function deleteTxFromDb(id) {
-  const { error } = await _sb.from('transactions').delete().eq('id', id);
+  const { error } = await supa.from('transactions').delete().eq('id', id);
   if (error) throw error;
   if (_txCache) _txCache = _txCache.filter(t => t.id !== id);
 }
 
 async function saveBudgetGoalToDb(goal) {
-  const { data: { user } } = await _sb.auth.getUser();
-  await _sb.from('budget_goals').upsert({ user_id: user.id, monthly_goal: goal || null, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+  const { data: { user } } = await supa.auth.getUser();
+  await supa.from('budget_goals').upsert({ user_id: user.id, monthly_goal: goal || null, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
 }
 
 async function fetchBudgetGoal() {
-  const { data } = await _sb.from('budget_goals').select('monthly_goal').single();
+  const { data } = await supa.from('budget_goals').select('monthly_goal').single();
   return data ? (data.monthly_goal || '') : '';
 }
 
 async function saveAccountsToDb(accountsObj) {
-  const { data: { user } } = await _sb.auth.getUser();
-  await _sb.from('accounts').upsert({ user_id: user.id, data: accountsObj, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+  const { data: { user } } = await supa.auth.getUser();
+  await supa.from('accounts').upsert({ user_id: user.id, data: accountsObj, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
 }
 
 async function fetchAccounts() {
-  const { data } = await _sb.from('accounts').select('data').single();
+  const { data } = await supa.from('accounts').select('data').single();
   return data ? (data.data || {}) : {};
 }
 
 async function saveTripExpensesToDb(expenses) {
   // Clear all and re-insert — simple approach for trip data
-  const { data: { user } } = await _sb.auth.getUser();
-  await _sb.from('trip_expenses').delete().eq('user_id', user.id);
+  const { data: { user } } = await supa.auth.getUser();
+  await supa.from('trip_expenses').delete().eq('user_id', user.id);
   if (expenses.length) {
-    await _sb.from('trip_expenses').insert(expenses.map(e => ({
+    await supa.from('trip_expenses').insert(expenses.map(e => ({
       user_id: user.id,
       cat_id: e.catId,
       description: e.desc || null,
@@ -2888,17 +3683,17 @@ async function saveTripExpensesToDb(expenses) {
 }
 
 async function fetchTripExpenses() {
-  const { data } = await _sb.from('trip_expenses').select('*').order('created_at', { ascending: false });
+  const { data } = await supa.from('trip_expenses').select('*').order('created_at', { ascending: false });
   return (data || []).map(r => ({ id: r.id, catId: r.cat_id, desc: r.description, amount: parseFloat(r.amount), date: r.date }));
 }
 
 async function saveTripMetaToDb(meta) {
-  const { data: { user } } = await _sb.auth.getUser();
-  await _sb.from('trip_meta').upsert({ user_id: user.id, data: meta, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+  const { data: { user } } = await supa.auth.getUser();
+  await supa.from('trip_meta').upsert({ user_id: user.id, data: meta, updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
 }
 
 async function fetchTripMeta() {
-  const { data } = await _sb.from('trip_meta').select('data').single();
+  const { data } = await supa.from('trip_meta').select('data').single();
   return data ? (data.data || {}) : {};
 }
 
@@ -3367,14 +4162,40 @@ let _csvParsed = [];   // mapped transaction objects ready to import
 
 // Known bank CSV formats — auto-detected by header patterns
 const BANK_PROFILES = [
+  // ── Major Banks ──
   { name: '🏦 Chase',           detect: h => h.includes('Transaction Date') && h.includes('Description') && h.includes('Amount'), date:'Transaction Date', desc:'Description', amt:'Amount', type:'Type' },
   { name: '🏦 Bank of America', detect: h => h.includes('Date') && h.includes('Payee') && h.includes('Amount'), date:'Date', desc:'Payee', amt:'Amount', type:'' },
-  { name: '🏦 Wells Fargo',     detect: h => h.length >= 5 && !h.some(x => x.length > 30) && h[0].match(/^\d/) === null, date:'0', desc:'4', amt:'1', type:'' },
   { name: '🏦 Citi',            detect: h => h.includes('Date') && h.includes('Description') && h.includes('Debit') && h.includes('Credit'), date:'Date', desc:'Description', amt:'Debit', type:'Credit' },
   { name: '🏦 American Express',detect: h => h.includes('Date') && h.includes('Description') && h.includes('Amount') && h.includes('Card Member'), date:'Date', desc:'Description', amt:'Amount', type:'' },
   { name: '🏦 Capital One',     detect: h => h.includes('Transaction Date') && h.includes('Description') && h.includes('Debit') && h.includes('Credit'), date:'Transaction Date', desc:'Description', amt:'Debit', type:'Credit' },
   { name: '🏦 Discover',        detect: h => h.includes('Trans. Date') && h.includes('Description') && h.includes('Amount'), date:'Trans. Date', desc:'Description', amt:'Amount', type:'' },
   { name: '🏦 Ally Bank',       detect: h => h.includes('Date') && h.includes('Description') && h.includes('Amount') && h.includes('Type'), date:'Date', desc:'Description', amt:'Amount', type:'Type' },
+  { name: '🏦 US Bank',         detect: h => h.includes('Date') && h.includes('Transaction') && h.includes('Name') && h.includes('Amount'), date:'Date', desc:'Name', amt:'Amount', type:'Transaction' },
+  { name: '🏦 TD Bank',         detect: h => h.includes('ACCOUNTTYPE') || (h.includes('DATE') && h.includes('DESCRIPTION') && h.includes('DEBIT') && h.includes('CREDIT')), date:'DATE', desc:'DESCRIPTION', amt:'DEBIT', type:'CREDIT' },
+  { name: '🏦 Regions Bank',    detect: h => h.includes('Date') && h.includes('Description') && h.includes('Withdrawal') && h.includes('Deposit'), date:'Date', desc:'Description', amt:'Withdrawal', type:'Deposit' },
+
+  // ── Credit Unions & Federal Banks ──
+  { name: '🏛️ Navy Federal CU', detect: h => h.includes('Transaction Date') && h.includes('Transaction Type') && h.includes('Debit Amount') && h.includes('Credit Amount'), date:'Transaction Date', desc:'Transaction Detail', amt:'Debit Amount', type:'Credit Amount' },
+  { name: '🏛️ Navy Federal CU', detect: h => h.includes('Transaction Date') && h.includes('Description') && h.includes('Debit Amount'), date:'Transaction Date', desc:'Description', amt:'Debit Amount', type:'Credit Amount' },
+  { name: '🏛️ Pentagon FCU',    detect: h => h.includes('Transaction Date') && h.includes('Description') && h.includes('Withdrawal') && h.includes('Deposit'), date:'Transaction Date', desc:'Description', amt:'Withdrawal', type:'Deposit' },
+  { name: '🏛️ USAA',           detect: h => h.includes('Transaction Date') && h.includes('Payee') && h.includes('Amount') && (h.includes('Original Description') || h.includes('Category')), date:'Transaction Date', desc:'Payee', amt:'Amount', type:'' },
+  { name: '🏛️ USAA',           detect: h => h.includes('Date') && h.includes('Description') && h.includes('Original Description') && h.includes('Category') && h.includes('Amount'), date:'Date', desc:'Description', amt:'Amount', type:'' },
+  { name: '🏛️ DCU',            detect: h => h.includes('Date') && h.includes('Description') && h.includes('Debit') && h.includes('Credit') && h.includes('Balance'), date:'Date', desc:'Description', amt:'Debit', type:'Credit' },
+  { name: '🏛️ SchoolsFirst FCU',detect: h => h.includes('Posting Date') && h.includes('Description') && h.includes('Amount') && h.includes('Balance'), date:'Posting Date', desc:'Description', amt:'Amount', type:'' },
+  { name: '🏛️ BECU',           detect: h => h.includes('Date') && h.includes('Description') && h.includes('Amount') && h.includes('Running Balance'), date:'Date', desc:'Description', amt:'Amount', type:'' },
+  { name: '🏛️ Alliant CU',     detect: h => h.includes('Date') && h.includes('Description') && h.includes('Amount') && h.includes('Balance') && h.includes('Note'), date:'Date', desc:'Description', amt:'Amount', type:'' },
+  { name: '🏛️ Golden 1 CU',    detect: h => h.includes('Transaction Date') && h.includes('Merchant Name') && h.includes('Amount'), date:'Transaction Date', desc:'Merchant Name', amt:'Amount', type:'Transaction Type' },
+  { name: '🏛️ State Employees CU', detect: h => h.includes('Posted Date') && h.includes('Description') && h.includes('Amount'), date:'Posted Date', desc:'Description', amt:'Amount', type:'' },
+  { name: '🏛️ First Tech FCU', detect: h => h.includes('Date') && h.includes('Description') && h.includes('Withdrawals') && h.includes('Deposits'), date:'Date', desc:'Description', amt:'Withdrawals', type:'Deposits' },
+  { name: '🏛️ Suncoast CU',    detect: h => h.includes('Date') && h.includes('Description') && h.includes('Withdrawal') && h.includes('Deposit') && h.includes('Balance'), date:'Date', desc:'Description', amt:'Withdrawal', type:'Deposit' },
+  { name: '🏛️ ECU / Generic CU',detect: h => h.includes('Posting Date') && h.includes('Effective Date') && h.includes('Amount'), date:'Posting Date', desc:'Description', amt:'Amount', type:'' },
+  // Generic debit/credit format used by many small CUs and community banks
+  { name: '🏛️ Credit Union',   detect: h => h.includes('Post Date') && h.includes('Description') && h.includes('Debit') && h.includes('Credit'), date:'Post Date', desc:'Description', amt:'Debit', type:'Credit' },
+  { name: '🏛️ Credit Union',   detect: h => h.includes('Effective Date') && h.includes('Description') && h.includes('Amount') && h.includes('Balance'), date:'Effective Date', desc:'Description', amt:'Amount', type:'' },
+  { name: '🏛️ Federal Bank',   detect: h => h.includes('Value Date') && h.includes('Description') && h.includes('Debit') && h.includes('Credit'), date:'Value Date', desc:'Description', amt:'Debit', type:'Credit' },
+
+  // ── Wells Fargo (header-based as fallback) ──
+  { name: '🏦 Wells Fargo',     detect: h => h.length >= 5 && !h.some(x => x.length > 30) && h[0].match(/^\d/) === null, date:'0', desc:'4', amt:'1', type:'' },
 ];
 
 function csvDragOver(e) {
@@ -3389,8 +4210,8 @@ function csvDrop(e) {
 }
 function handleCsvFile(e) {
   const file = e.target.files[0];
+  e.target.value = ''; // reset immediately so same file can be picked again
   if (file) processCsvFile(file);
-  e.target.value = '';
 }
 
 function processCsvFile(file) {
@@ -3404,10 +4225,8 @@ function processCsvFile(file) {
 }
 
 function parseCsvText(text) {
-  // Normalize line endings
   const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
 
-  // Parse a single CSV line properly (handles quoted fields with commas)
   function parseRow(line) {
     const result = [];
     let current = '';
@@ -3422,40 +4241,94 @@ function parseCsvText(text) {
     return result;
   }
 
-  // Filter completely empty lines
-  const nonEmpty = lines.filter(l => l.trim().length > 0);
-  if (nonEmpty.length < 2) return;
-
-  // Find the header row — look for the first row that looks like column headers
-  // (doesn't start with a date, has multiple columns, has text not numbers)
-  let headerIdx = 0;
-  for (let i = 0; i < Math.min(nonEmpty.length, 10); i++) {
-    const row = parseRow(nonEmpty[i]);
-    if (row.length < 2) continue;
-    // If any cell looks like a column label (non-numeric, non-date text), use this row
-    const hasLabel = row.some(cell => {
-      const c = cell.trim().replace(/"/g, '');
-      if (!c) return false;
-      if (/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}$/.test(c)) return false; // date
-      if (/^\-?\$?[\d,]+\.?\d*$/.test(c)) return false; // number/money
-      return c.length > 1 && isNaN(c);
-    });
-    if (hasLabel) { headerIdx = i; break; }
+  function looksLikeDate(v) {
+    return /^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}$/.test(v) || /^\d{4}-\d{2}-\d{2}$/.test(v);
+  }
+  function looksLikeNumber(v) {
+    return /^-?\$?[\d,]+\.?\d*$/.test(v.replace(/[$,\s]/g,'')) && v.trim() !== '';
+  }
+  function looksLikeHeader(v) {
+    const c = v.replace(/^["']|["']$/g,'').trim();
+    if (!c || c.length < 2) return false;
+    if (looksLikeDate(c)) return false;
+    if (looksLikeNumber(c)) return false;
+    if (/^[*\-_\s]+$/.test(c)) return false;
+    return isNaN(c);
   }
 
-  const headerRow = parseRow(nonEmpty[headerIdx]);
+  const nonEmpty = lines.map(l => l.replace(/^\uFEFF/,'')).filter(l => l.trim().length > 0);
+  if (nonEmpty.length < 1) return;
 
-  // Clean header names — remove BOM, quotes, extra whitespace
-  _csvHeaders = headerRow.map(h => h.replace(/^\uFEFF/, '').replace(/^["']|["']$/g, '').trim());
-  _csvRows = nonEmpty.slice(headerIdx + 1)
-    .map(parseRow)
-    .filter(r => r.some(c => c.trim()));
+  const allRows = nonEmpty.map(parseRow);
+  const firstRow = allRows[0];
+
+  // Score first row as headers vs data
+  const headerScore = firstRow.filter(c => looksLikeHeader(c)).length;
+  const dataScore   = firstRow.filter(c => { const v = c.trim(); return looksLikeDate(v) || looksLikeNumber(v); }).length;
+  const hasHeaders  = headerScore > dataScore && headerScore >= 2;
+
+  if (hasHeaders) {
+    _csvHeaders = firstRow.map(h => h.replace(/^["']|["']$/g,'').trim());
+    _csvRows    = allRows.slice(1).filter(r => r.some(c => c.trim()));
+  } else {
+    // No header row — auto-label columns by data patterns
+    const sample = allRows.slice(0, Math.min(6, allRows.length));
+    _csvHeaders = (firstRow || []).map((_, colIdx) => {
+      const vals = sample.map(r => (r[colIdx] || '').trim());
+      const dates   = vals.filter(looksLikeDate).length;
+      const numbers = vals.filter(v => looksLikeNumber(v.replace(/[$,]/g,''))).length;
+      const longTxt = vals.filter(v => v.length > 12 && !looksLikeDate(v) && !looksLikeNumber(v)).length;
+      if (dates   >= sample.length * 0.5) return 'Date';
+      if (numbers >= sample.length * 0.5) return 'Amount';
+      if (longTxt >= 1)                   return 'Description';
+      return 'Column ' + (colIdx + 1);
+    });
+    _csvRows = allRows.filter(r => r.some(c => c.trim()));
+  }
 }
 
 function detectBank() {
+  // Try named bank profiles first
   for (const profile of BANK_PROFILES) {
     if (profile.detect(_csvHeaders)) return profile;
   }
+
+  if (_csvRows.length > 0) {
+    const r = _csvRows[0];
+    const col0 = (r[0] || '').trim();
+    const col1 = (r[1] || '').trim();
+    const col4 = (r[4] || '').trim();
+
+    // Headerless Wells Fargo: date, amount, *, type, description
+    if (r.length >= 5 && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(col0) && /^-?\d+\.\d{2}$/.test(col1)) {
+      return { name: '🏦 Wells Fargo', date: '0', desc: '4', amt: '1', type: '' };
+    }
+    // Headerless format: date, description, amount (3 cols)
+    if (r.length === 3 && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(col0) && /^-?\d+\.?\d*$/.test((r[2]||'').replace(/[$,]/g,''))) {
+      return { name: '🏛️ Credit Union (headerless)', date: '0', desc: '1', amt: '2', type: '' };
+    }
+    // Headerless format: date, description, debit, credit, balance (5 cols)
+    if (r.length >= 4 && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(col0) && col4 && /^-?\d+\.?\d*$/.test((r[3]||'').replace(/[$,]/g,''))) {
+      return { name: '🏛️ Credit Union (headerless)', date: '0', desc: '1', amt: '2', type: '3' };
+    }
+  }
+
+  // Smart header keyword detection for unknown credit unions / community banks
+  const h = _csvHeaders.map(x => x.toLowerCase());
+  const join = h.join(',');
+  const dateIdx = h.findIndex(x => /^(date|post.*date|transaction.*date|effective.*date|value.*date|posting.*date)$/.test(x));
+  const descIdx = h.findIndex(x => /^(description|desc|payee|merchant|name|details|transaction.*detail|narration|particulars)$/.test(x));
+  const amtIdx  = h.findIndex(x => /^(amount|debit|debit.*amount|withdrawal|withdrawals|dr)$/.test(x));
+  const typeIdx = h.findIndex(x => /^(credit|deposit|deposits|credit.*amount|type|cr)$/.test(x));
+
+  if (dateIdx >= 0 && descIdx >= 0 && amtIdx >= 0) {
+    return {
+      name: '🏛️ Auto-detected',
+      date: String(dateIdx), desc: String(descIdx),
+      amt: String(amtIdx), type: typeIdx >= 0 ? String(typeIdx) : ''
+    };
+  }
+
   return null;
 }
 
@@ -3465,57 +4338,52 @@ function openCsvModal() {
     return;
   }
 
-  const overlay = document.getElementById('csvModalOverlay');
-  overlay.classList.add('open');
+  document.getElementById('csvModalOverlay').classList.add('open');
 
-  // Detect bank
   const bank = detectBank();
   const bankEl = document.getElementById('csvBankDetected');
   if (bank) {
-    bankEl.textContent = `✓ Detected: ${bank.name} — columns auto-mapped!`;
+    bankEl.textContent = '\u2713 Detected: ' + bank.name + ' \u2014 columns auto-mapped!';
     bankEl.style.display = '';
   } else {
     bankEl.style.display = 'none';
   }
 
-  // Build dropdown options — show header name + example value from first data row
-  const firstRow = _csvRows[0] || [];
+  // Build dropdowns — header label + first data value as hint
+  const firstDataRow = _csvRows[0] || [];
   const opts = _csvHeaders.map((h, i) => {
-    const example = (firstRow[i] || '').substring(0, 20);
-    const label = h || `Column ${i + 1}`;
-    return `<option value="${i}">${label}${example ? ' · ' + example : ''}</option>`;
+    const ex = (firstDataRow[i] || '').substring(0, 24).trim();
+    return '<option value="' + i + '">' + (h || 'Column ' + (i+1)) + (ex ? ' \u00b7 ' + ex : '') + '</option>';
   }).join('');
 
-  ['csvColDate','csvColDesc','csvColAmt','csvColType'].forEach(id => {
-    const el = document.getElementById(id);
+  ['csvColDate','csvColDesc','csvColAmt','csvColType'].forEach(function(id) {
+    var el = document.getElementById(id);
     el.innerHTML = (id === 'csvColType' ? '<option value="">Auto-detect</option>' : '') + opts;
   });
 
-  // Smart auto-select: try to guess columns by header name even if bank isn't detected
-  const autoGuess = (keywords) => {
-    const idx = _csvHeaders.findIndex(h =>
-      keywords.some(k => h.toLowerCase().includes(k.toLowerCase()))
-    );
-    return idx >= 0 ? idx : 0;
+  const findIdx = function(name) {
+    if (!name) return -1;
+    if (!isNaN(name)) return parseInt(name);
+    return _csvHeaders.findIndex(h => h.toLowerCase() === name.toLowerCase());
+  };
+  const guessIdx = function(keywords) {
+    return _csvHeaders.findIndex(h => keywords.some(k => h.toLowerCase().includes(k)));
   };
 
   if (bank) {
-    const findIdx = (name) => {
-      if (!name) return -1;
-      if (!isNaN(name)) return parseInt(name);
-      return _csvHeaders.findIndex(h => h.toLowerCase() === name.toLowerCase());
-    };
     const di = findIdx(bank.date), dsc = findIdx(bank.desc), ai = findIdx(bank.amt), ti = findIdx(bank.type);
-    if (di >= 0) document.getElementById('csvColDate').value = di;
+    if (di  >= 0) document.getElementById('csvColDate').value = di;
     if (dsc >= 0) document.getElementById('csvColDesc').value = dsc;
-    if (ai >= 0) document.getElementById('csvColAmt').value = ai;
-    if (ti >= 0) document.getElementById('csvColType').value = ti;
+    if (ai  >= 0) document.getElementById('csvColAmt').value  = ai;
+    if (ti  >= 0) document.getElementById('csvColType').value = ti;
     previewCsv();
   } else {
-    // Best-guess auto-select for unknown banks
-    document.getElementById('csvColDate').value = autoGuess(['date','posted','trans']);
-    document.getElementById('csvColDesc').value = autoGuess(['desc','name','payee','memo','narration','particulars']);
-    document.getElementById('csvColAmt').value  = autoGuess(['amount','debit','credit','sum','value']);
+    const di  = guessIdx(['date','posted','trans','settlement']);
+    const dsc = guessIdx(['desc','name','payee','memo','narration','particulars']);
+    const ai  = guessIdx(['amount','debit','credit','sum','value']);
+    if (di  >= 0) document.getElementById('csvColDate').value = di;
+    if (dsc >= 0) document.getElementById('csvColDesc').value = dsc;
+    if (ai  >= 0) document.getElementById('csvColAmt').value  = ai;
   }
 
   document.getElementById('csvMapper').style.display = '';
@@ -3523,9 +4391,23 @@ function openCsvModal() {
   document.getElementById('csvImportMsg').textContent = '';
 }
 
+
 function closeCsvModal() {
   document.getElementById('csvModalOverlay').classList.remove('open');
-  _csvParsed = [];
+  // Reset ALL state so the next import starts fresh
+  _csvParsed  = [];
+  _csvRows    = [];
+  _csvHeaders = [];
+  // Reset the file input so the same file can be picked again
+  const inp = document.getElementById('csvFileInput');
+  if (inp) inp.value = '';
+  // Reset modal UI back to initial state
+  document.getElementById('csvMapper').style.display = 'none';
+  document.getElementById('csvPreview').style.display = 'none';
+  document.getElementById('csvBankDetected').style.display = 'none';
+  document.getElementById('csvImportMsg').textContent = '';
+  const btn = document.getElementById('csvImportBtn');
+  if (btn) { btn.textContent = 'Import All Transactions'; btn.disabled = false; }
 }
 
 // Smart date parser — handles MM/DD/YYYY, YYYY-MM-DD, MM-DD-YYYY, etc.
@@ -3560,18 +4442,31 @@ function parseAmount(str) {
 function autoCategory(desc) {
   const d = (desc || '').toLowerCase();
   if (/restaurant|mcdonald|starbucks|chipotle|doordash|uber eats|grubhub|pizza|burger|taco|sushi|diner|cafe|coffee|dunkin|subway|wendy|chick-fil|panera/.test(d)) return 'food';
-  if (/grocery|safeway|kroger|whole foods|trader joe|walmart|target|costco|aldi|publix|sprouts|food 4 less/.test(d)) return 'food';
-  if (/uber|lyft|gas|shell|chevron|exxon|bp |mobil|arco|circle k|7-eleven|fuel|parking|toll|metro|transit|mta|bart|cta/.test(d)) return 'transport';
-  if (/netflix|spotify|hulu|disney|apple.com\/bill|amazon prime|youtube|twitch|subscription|patreon/.test(d)) return 'subscriptions';
+  if (/grocery|safeway|kroger|whole foods|trader joe|walmart|target|costco|aldi|publix|sprouts|food 4 less|market/.test(d)) return 'food';
+  if (/uber|lyft|parking|toll|metro|transit|mta|bart|cta|bus\s*fare|train\s*fare/.test(d)) return 'transport';
+  if (/shell|chevron|exxon|exxonmobil|\bbp\b|mobil|arco|circle\s*k|wawa|speedway|sunoco|marathon|valero|casey'?s|kwik\s*(trip|star)|pilot\s*travel|love'?s|texaco|sunoco|\bgas\s*station\b|fuel\s*station|\bfuel\b|\bgas\b/.test(d)) return 'gas';
+  if (/netflix|spotify|hulu|disney|apple.com\/bill|amazon prime|youtube|twitch|subscription|patreon|openai|chatgpt|anthropic|claude|google\s*gemini|microsoft\s*copilot|midjourney|perplexity|jasper|cursor\s*(ai|pro)|github\s*copilot|grammarly|notion\s*ai|adobe|creative\s*cloud|figma|canva|autodesk|microsoft\s*365|office\s*365|google\s*workspace|gsuite|slack|zoom|dropbox|icloud|google\s*one|onedrive|asana|notion|trello|atlassian|jira|shopify|quickbooks|intuit|hubspot|squarespace|wix\.com|mailchimp/.test(d)) return 'subscriptions';
   if (/electric|water|pg&e|con ed|gas bill|internet|at&t|verizon|t-mobile|comcast|xfinity|phone/.test(d)) return 'bills';
-  if (/rent|mortgage|hoa|apartment/.test(d)) return 'housing';
-  if (/amazon|ebay|etsy|walmart\.com|best buy|apple store|shop|store/.test(d)) return 'shopping';
+  if (/\brent\b|mortgage|hoa|apartment|zillo|rentpayment|cozy|buildium|appfolio|chambers\s*prop|obligo/.test(d)) return 'housing';
+  if (/amazon|ebay|etsy|walmart\.com|best buy|apple store|logitech|razer|corsair|shop|store|nike|adidas|foot\s*locker|finish\s*line|gap|old\s*navy|banana\s*republic|h&m|zara|uniqlo|forever\s*21|urban\s*outfitters|anthropologie|free\s*people|macy'?s|nordstrom|bloomingdale|neiman\s*marcus|saks|tj\s*maxx|marshalls|ross\s*store|burlington|express\s*fashion|american\s*eagle|hollister|abercrombie|victoria'?s\s*secret|lululemon|athleta|under\s*armour|ralph\s*lauren|tommy\s*hilfiger|calvin\s*klein|michael\s*kors|coach|kate\s*spade|shein|fashion\s*nova|pacsun|zumiez|hot\s*topic|torrid|lane\s*bryant/.test(d)) return 'shopping';
   if (/doctor|hospital|pharmacy|cvs|walgreens|dental|medical|health|urgent care|insurance/.test(d)) return 'health';
   if (/airbnb|hotel|marriott|hilton|hyatt|expedia|booking|vrbo/.test(d)) return 'travel';
   if (/airline|southwest|delta|united|american air|spirit|jetblue|flight/.test(d)) return 'travel';
-  if (/gym|planet fitness|la fitness|equinox|movie|cinema|amc|regal|concert|ticket/.test(d)) return 'entertainment';
-  if (/tuition|udemy|coursera|school|university|college/.test(d)) return 'education';
-  if (/payroll|direct deposit|salary|income|zelle from|venmo from|transfer from/.test(d)) return 'income';
+  if (/gym|planet fitness|la fitness|equinox|movie|cinema|amc|regal|alamo\s*draft|cinemark|imax|concert|ticket(master)?|live\s*nation|eventbrite|stubhub|sports\s*ticket|bowl(ing)?|arcade|laser\s*tag|escape\s*room|disneyland|disney\s*world|universal\s*studios|six\s*flags|cedar\s*point|busch\s*gardens|sea\s*world|knott'?s|hershey\s*park|legoland|carowinds|kings\s*(island|dominion)|water\s*park|schlitterbahn|\bzoo\b|aquarium|museum/.test(d)) return 'entertainment';
+  if (/steam|valve|playstation|psn|ps\s*store|xbox|game\s*pass|nintendo|epic\s*games|gog\.com|ea\s*(app|play)|origin|ubisoft|blizzard|battle\.net|activision|riot\s*games|humble\s*bundle|roblox|fortnite|v.?bucks|minecraft|genshin|mihoyo|clash\s*of\s*clans|clash\s*royale|candy\s*crush|\bgaming\b|in.app.purchase|app\s*store\s*purchase|google\s*play\s*purchase/.test(d)) return 'entertainment';
+  if (/netflix|hulu|disney\+|disney\s*plus|hbo\s*(max|now)?|paramount\+|peacock|apple\s*tv|amazon\s*(prime\s*)?video|crunchyroll|funimation|mubi/.test(d)) return 'entertainment';
+  if (/coinbase|binance|kraken|gemini|crypto\.com|bitfinex|bitstamp|bittrex|okx|kucoin|bybit|exodus|metamask|phantom|trust.wallet|\bbtc\b|\bbitcoin\b|\beth\b|\bethereum\b|\bsolana\b|\bdoge\b|crypto|blockchain/.test(d)) return 'crypto';
+  if (/fidelity|vanguard|schwab|charles schwab|e.?trade|td\s*ameritrade|robinhood|webull|merrill|morgan stanley|raymond james|edward jones|sofi invest|public\.com|m1 finance|acorns|betterment|wealthfront|ellevest|stock purchase|espp|employee stock|\bbrokerage\b|\b401k\b|\bira\b|\broth\b/.test(d)) return 'investment';
+  if (/chase\s*(sapphire|freedom|credit|card|payment)|amex|american\s*express(\s*ach\s*pmt)?|discover\s*(e-payment|card|payment)|citi\s*(card|payment)|capital\s*one.*(credit|payment)|wells\s*fargo.*card|bank\s*of\s*america.*card|barclays|synchrony|apple\s*card|applecard\s*gsbank|affirm|afterpay|klarna|sezzle|zip\s*pay|quadpay|splitit|paypal\s*(credit|pay\s*later)|pypl\s*payin|credit\s*card\s*pay|cc\s*payment|minimum\s*payment|stmt\s*bal|statement\s*balance/.test(d)) return 'credit_payment';
+  if (/squire|barber|barbershop|great\s*clips|sport\s*clips|fantastic\s*sam|supercuts|hair\s*(cut|salon)|nail\s*(salon|spa|bar)|waxing|threading|beauty\s*salon|\bspa\b/.test(d)) return 'personal_care';
+  if (/gofundme|charity|donation|red\s*cross|salvation\s*army|goodwill/.test(d)) return 'donations';
+  if (/zelle\s*to|apple\s*cash\s*sent|venmo\s*to|chime(\s*(transfer|\.com))?|\bsantbk\b|wire\s*transfer|paypal\s*\*(add\s*to\s*bal|alphan|sergo|talal)|talal\s*shahab.*paypal|iat\s*paypal/.test(d)) return 'transfer';
+  if (/international.*fee|transaction\s*fee|foreign.*fee|service\s*fee|bank\s*fee|atm\s*fee|overdraft|monthly\s*fee/.test(d)) return 'fees';
+  if (/freetaxusa|turbotax|taxact|h&r\s*block|tax\s*(prep|filing)/.test(d)) return 'bills';
+  if (/appfolio|chambers\s*prop|property\s*mgmt|rentpayment|obligo/.test(d)) return 'housing';
+  if (/arsenio|taqueria|carnitas|tamale|enchilada|pupusa|quik\s*way|quick\s*way|kwik\s*way|minute\s*market|corner\s*store|convenience/.test(d)) return 'food';
+  if (/pm\s*\*lilith|rise\s*of\s*kingdoms|trackernet|loaded\s*com/.test(d)) return 'entertainment';
+  if (/payroll|direct deposit|salary|income|paycheck|wages|adp|paychex|gusto|zelle from|venmo from|transfer from|net pay|the gap/.test(d)) return 'income';
   return 'other';
 }
 
@@ -3580,6 +4475,12 @@ function previewCsv() {
   const descIdx = parseInt(document.getElementById('csvColDesc').value);
   const amtIdx  = parseInt(document.getElementById('csvColAmt').value);
   const typeCol = document.getElementById('csvColType').value;
+  const typeIdx = typeCol ? parseInt(typeCol) : -1;
+
+  // Detect if the "type" column is actually a credit/deposit column (debit+credit split)
+  // Common in credit unions: Debit col has expense amounts, Credit col has income amounts
+  const isSplitDebitCredit = typeIdx >= 0 && _csvHeaders[typeIdx] &&
+    /credit|deposit|deposits|cr$/i.test(_csvHeaders[typeIdx]);
 
   _csvParsed = [];
   let skipped = 0;
@@ -3588,31 +4489,57 @@ function previewCsv() {
     const rawDate = row[dateIdx] || '';
     const rawDesc = row[descIdx] || '';
     const rawAmt  = row[amtIdx]  || '';
+    const rawType = typeIdx >= 0 ? (row[typeIdx] || '') : '';
 
-    const date   = parseDate(rawDate);
-    const amount = parseAmount(rawAmt);
-    if (!date || amount === null || isNaN(amount)) { skipped++; return; }
+    const date = parseDate(rawDate);
+    if (!date) { skipped++; return; }
 
-    // Determine type
-    let type = 'expense';
-    if (typeCol && row[parseInt(typeCol)]) {
-      const t = (row[parseInt(typeCol)] || '').toLowerCase();
-      if (t.includes('credit') || t.includes('deposit') || t.includes('payment') || t.includes('income')) type = 'income';
+    let amount = 0;
+    let type   = 'expense';
+
+    if (isSplitDebitCredit) {
+      // Debit column = expense, Credit column = income
+      const debit  = parseAmount(rawAmt);
+      const credit = parseAmount(rawType);
+      if (credit && Math.abs(credit) > 0) {
+        amount = Math.abs(credit);
+        type   = 'income';
+      } else if (debit && Math.abs(debit) > 0) {
+        amount = Math.abs(debit);
+        type   = 'expense';
+      } else {
+        skipped++; return;
+      }
     } else {
-      // Negative = expense, positive = income for most banks
-      // Some banks (Chase) use negative for expenses
-      if (amount > 0) type = 'income';
+      const parsed = parseAmount(rawAmt);
+      if (parsed === null || isNaN(parsed) || parsed === 0) {
+        // Try type column as a fallback amount (some CUs put credit amounts there)
+        const altAmt = rawType ? parseAmount(rawType) : null;
+        if (altAmt && Math.abs(altAmt) > 0) {
+          amount = Math.abs(altAmt);
+          type   = 'income';
+        } else { skipped++; return; }
+      } else {
+        amount = Math.abs(parsed);
+        // Determine type from sign or type column keyword
+        if (rawType) {
+          const t = rawType.toLowerCase();
+          if (t.includes('credit') || t.includes('deposit') || t.includes('payment') || t.includes('income') || t.includes('cr')) type = 'income';
+          else type = 'expense';
+        } else {
+          type = parsed > 0 ? 'income' : 'expense';
+        }
+      }
     }
 
-    const absAmt  = Math.abs(amount);
-    const cat     = autoCategory(rawDesc);
+    const cat = autoCategory(rawDesc);
     if (cat === 'income') type = 'income';
 
-    _csvParsed.push({ date, desc: rawDesc, amount: absAmt, type, category: type === 'income' ? 'income' : cat });
+    _csvParsed.push({ date, desc: rawDesc, amount, type, category: type === 'income' ? 'income' : (cat || 'other') });
   });
 
   // Check duplicates against existing
-  const existing = getCachedTx();
+  const existing = _txCache || [];
   let dupCount = 0;
   _csvParsed.forEach(tx => {
     const isDup = existing.some(e => e.date === tx.date && Math.abs(e.amount - tx.amount) < 0.01 && (e.desc || '').toLowerCase().includes((tx.desc || '').substring(0,10).toLowerCase()));
@@ -3632,12 +4559,12 @@ function previewCsv() {
   }
 
   const MONTH_ABB = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const catColorMap = { food:'#F4A736', transport:'#3B82F6', bills:'#A855F7', shopping:'#F97316', health:'#22C55E', entertainment:'#EC4899', housing:'#14B8A6', education:'#EAB308', savings:'#06B6D4', subscriptions:'#8B5CF6', travel:'#10B981', other:'#94A3B8', income:'#2a7d4f' };
-  const catEmoji   = { food:'🍔', transport:'🚗', bills:'⚡', shopping:'🛍️', health:'💊', entertainment:'🎬', housing:'🏠', education:'📚', savings:'🐷', subscriptions:'📱', travel:'✈️', other:'📦', income:'💰' };
+  const catColorMap = { food:'#F4A736', transport:'#3B82F6', gas:'#f97316', bills:'#A855F7', shopping:'#F97316', health:'#22C55E', entertainment:'#EC4899', housing:'#14B8A6', education:'#EAB308', savings:'#06B6D4', subscriptions:'#8B5CF6', travel:'#10B981', crypto:'#f59e0b', investment:'#6366f1', credit_payment:'#0ea5e9', personal_care:'#ec4899', donations:'#8b5cf6', transfer:'#64748b', fees:'#94a3b8', other:'#94A3B8', income:'#2a7d4f' };
+  const catEmoji   = { food:'🍔', transport:'🚗', gas:'⛽', bills:'⚡', shopping:'🛍️', health:'💊', entertainment:'🎬', housing:'🏠', education:'📚', savings:'🐷', subscriptions:'📱', travel:'✈️', crypto:'🪙', investment:'📊', credit_payment:'💳', personal_care:'💈', donations:'🙏', transfer:'↔️', fees:'🏦', other:'📦', income:'💰' };
 
   document.getElementById('csvPreviewTable').innerHTML = _csvParsed.slice(0, 50).map(tx => {
     const color = catColorMap[tx.category] || '#94A3B8';
-    const emoji = catEmoji[tx.category] || '📦';
+    const emoji = getMerchantEmoji(tx.desc, catEmoji[tx.category] || '📦');
     const d = new Date(tx.date + 'T12:00:00');
     const dateStr = `${MONTH_ABB[d.getMonth()]} ${d.getDate()}`;
     return `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);">
@@ -3753,6 +4680,22 @@ function renderSettingsPage() {
   }
   const activeTheme = localStorage.getItem('bugibud_theme') || 'light';
   updateThemeSwatches(activeTheme);
+  // Auto theme toggle
+  const autoEnabled = localStorage.getItem('bugibud_auto_theme') === '1';
+  const togEl = document.getElementById('autoThemeToggle');
+  if (togEl) togEl.checked = autoEnabled;
+  document.getElementById('autoThemeSlider')?.classList.toggle('on', autoEnabled);
+  const settingsEl = document.getElementById('autoThemeSettings');
+  if (settingsEl) settingsEl.style.display = autoEnabled ? '' : 'none';
+  const dsEl = document.getElementById('darkModeStart');
+  const deEl = document.getElementById('darkModeEnd');
+  if (dsEl) dsEl.value = localStorage.getItem('bugibud_dark_start') || '20:00';
+  if (deEl) deEl.value = localStorage.getItem('bugibud_dark_end')   || '07:00';
+  // Recurring reminder toggle
+  const recEnabled = localStorage.getItem('bugibud_recurring_reminder') === '1';
+  const recEl = document.getElementById('recurringReminderToggle');
+  if (recEl) recEl.checked = recEnabled;
+  document.getElementById('recurringReminderSlider')?.classList.toggle('on', recEnabled);
 }
 
 function showChangePwPanel() {
@@ -3826,7 +4769,373 @@ function showAppInfo() {
   });
 }
 
-// ====== THEME SYSTEM ======
+// ====== CSV HELP ======
+function openCsvHelp() {
+  document.getElementById('csvHelpOverlay').classList.add('open');
+}
+function closeCsvHelp() {
+  document.getElementById('csvHelpOverlay').classList.remove('open');
+}
+
+// ====== SEARCH & FILTER TRANSACTIONS ======
+let _txSearchQuery = '';
+
+function onTxSearch(val) {
+  _txSearchQuery = val.trim().toLowerCase();
+  document.getElementById('txSearchClear').style.display = val ? '' : 'none';
+  renderTransactions();
+}
+
+function clearTxSearch() {
+  document.getElementById('txSearch').value = '';
+  _txSearchQuery = '';
+  document.getElementById('txSearchClear').style.display = 'none';
+  renderTransactions();
+}
+
+// ====== SPENDING ALERTS ======
+function loadAlerts() { return JSON.parse(localStorage.getItem('bugibud_alerts') || '[]'); }
+function saveAlerts(a) { localStorage.setItem('bugibud_alerts', JSON.stringify(a)); }
+
+function addAlertRow() {
+  document.getElementById('alertFormWrap').style.display = '';
+  // Populate category select
+  const sel = document.getElementById('alertCat');
+  sel.innerHTML = CATEGORIES.filter(c => c.id !== 'other').map(c =>
+    `<option value="${c.id}">${c.emoji} ${c.label}</option>`
+  ).join('');
+  document.getElementById('alertLimit').value = '';
+  document.getElementById('alertFormWrap').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function cancelAlertForm() { document.getElementById('alertFormWrap').style.display = 'none'; }
+
+function saveAlert() {
+  const cat   = document.getElementById('alertCat').value;
+  const limit = parseFloat(document.getElementById('alertLimit').value);
+  if (!limit || limit <= 0) { alert('Please enter a valid limit amount.'); return; }
+  const alerts = loadAlerts();
+  const existing = alerts.findIndex(a => a.cat === cat);
+  if (existing !== -1) alerts[existing].limit = limit;
+  else alerts.push({ id: Date.now().toString(), cat, limit });
+  saveAlerts(alerts);
+  cancelAlertForm();
+  renderAlerts();
+}
+
+function deleteAlert(id) {
+  saveAlerts(loadAlerts().filter(a => a.id !== id));
+  renderAlerts();
+}
+
+function renderAlerts() {
+  const alerts  = loadAlerts();
+  const listEl  = document.getElementById('alertsList');
+  const emptyEl = document.getElementById('alertsEmpty');
+  if (!listEl) return;
+  if (!alerts.length) { listEl.innerHTML = ''; if (emptyEl) emptyEl.style.display = ''; return; }
+  if (emptyEl) emptyEl.style.display = 'none';
+
+  const txs   = getMonthTx().filter(t => t.type === 'expense');
+  const spent = {};
+  txs.forEach(t => { spent[t.category] = (spent[t.category] || 0) + t.amount; });
+
+  listEl.innerHTML = alerts.map(a => {
+    const cat  = CATEGORIES.find(c => c.id === a.cat) || { emoji:'📦', label: a.cat };
+    const s    = spent[a.cat] || 0;
+    const pct  = Math.min(100, Math.round((s / a.limit) * 100));
+    const over = s > a.limit;
+    const color = over ? 'var(--red)' : pct > 80 ? '#f59e0b' : 'var(--green)';
+    return `<div style="background:var(--surface);border:1px solid ${over ? 'rgba(192,57,43,0.3)' : 'var(--border)'};border-radius:var(--radius);padding:14px 16px;margin-bottom:8px;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:18px;">${cat.emoji}</span>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text);">${cat.label}</div>
+            <div style="font-size:11px;color:var(--muted);">Limit: ${fmt(a.limit)}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:${color};">${fmt(s)}</span>
+          <button onclick="deleteAlert('${a.id}')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:4px;">✕</button>
+        </div>
+      </div>
+      <div class="progress-bar" style="height:5px;">
+        <div style="height:100%;width:${pct}%;border-radius:99px;background:${color};transition:width 0.5s;"></div>
+      </div>
+      ${over ? `<div style="font-size:11px;color:var(--red);margin-top:5px;font-weight:500;">⚠️ Over by ${fmt(s - a.limit)}</div>` : `<div style="font-size:11px;color:var(--muted);margin-top:5px;">${pct}% of limit used</div>`}
+    </div>`;
+  }).join('');
+}
+
+// ====== SAVINGS GOALS ======
+function loadSavingsGoals() { return JSON.parse(localStorage.getItem('bugibud_savings_goals') || '[]'); }
+function saveSavingsGoalsData(g) { localStorage.setItem('bugibud_savings_goals', JSON.stringify(g)); }
+
+function addSavingsGoal() {
+  document.getElementById('savingsGoalFormWrap').style.display = '';
+  document.getElementById('sgEditId').value = '';
+  document.getElementById('sgName').value   = '';
+  document.getElementById('sgTarget').value = '';
+  document.getElementById('sgSaved').value  = '';
+  document.getElementById('sgEmoji').value  = '🎯';
+  document.getElementById('savingsGoalFormWrap').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function cancelSavingsGoalForm() { document.getElementById('savingsGoalFormWrap').style.display = 'none'; }
+
+function saveSavingsGoal() {
+  const id     = document.getElementById('sgEditId').value || Date.now().toString();
+  const name   = document.getElementById('sgName').value.trim();
+  const target = parseFloat(document.getElementById('sgTarget').value);
+  const saved  = parseFloat(document.getElementById('sgSaved').value) || 0;
+  const emoji  = document.getElementById('sgEmoji').value || '🎯';
+  if (!name)   { alert('Please enter a goal name.'); return; }
+  if (!target) { alert('Please enter a target amount.'); return; }
+  const goals = loadSavingsGoals();
+  const idx = goals.findIndex(g => g.id === id);
+  const entry = { id, name, target, saved, emoji };
+  if (idx !== -1) goals[idx] = entry; else goals.push(entry);
+  saveSavingsGoalsData(goals);
+  cancelSavingsGoalForm();
+  renderSavingsGoals();
+}
+
+function deleteSavingsGoal(id) {
+  saveSavingsGoalsData(loadSavingsGoals().filter(g => g.id !== id));
+  renderSavingsGoals();
+}
+
+function editSavingsGoal(id) {
+  const g = loadSavingsGoals().find(x => x.id === id);
+  if (!g) return;
+  document.getElementById('savingsGoalFormWrap').style.display = '';
+  document.getElementById('sgEditId').value = g.id;
+  document.getElementById('sgName').value   = g.name;
+  document.getElementById('sgTarget').value = g.target;
+  document.getElementById('sgSaved').value  = g.saved;
+  document.getElementById('sgEmoji').value  = g.emoji;
+  document.getElementById('savingsGoalFormWrap').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function renderSavingsGoals() {
+  const goals   = loadSavingsGoals();
+  const listEl  = document.getElementById('savingsGoalsList');
+  const emptyEl = document.getElementById('savingsGoalsEmpty');
+  if (!listEl) return;
+  if (!goals.length) { listEl.innerHTML = ''; if (emptyEl) emptyEl.style.display = ''; return; }
+  if (emptyEl) emptyEl.style.display = 'none';
+  listEl.innerHTML = goals.map(g => {
+    const pct  = Math.min(100, Math.round((g.saved / g.target) * 100));
+    const done = g.saved >= g.target;
+    const rem  = Math.max(0, g.target - g.saved);
+    return `<div style="background:var(--surface);border:1px solid ${done ? 'rgba(42,125,79,0.3)' : 'var(--border)'};border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+        <div style="width:42px;height:42px;border-radius:12px;background:var(--accent-gold-light);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">${g.emoji}</div>
+        <div style="flex:1;">
+          <div style="font-size:14px;font-weight:600;color:var(--text);">${g.name}</div>
+          <div style="font-size:11px;color:var(--muted);">
+            ${done ? '✅ Goal reached!' : `${fmt(rem)} to go`}
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:'DM Mono',monospace;font-size:15px;color:var(--green);">${fmt(g.saved)}</div>
+          <div style="font-size:11px;color:var(--muted);">of ${fmt(g.target)}</div>
+        </div>
+      </div>
+      <div class="progress-bar" style="height:7px;margin-bottom:10px;">
+        <div style="height:100%;width:${pct}%;border-radius:99px;background:${done ? 'var(--green)' : 'var(--accent-gold)'};transition:width 0.6s;"></div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="editSavingsGoal('${g.id}')" style="flex:1;padding:8px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--surface2);color:var(--text2);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;cursor:pointer;">✎ Edit</button>
+        <button onclick="deleteSavingsGoal('${g.id}')" style="padding:8px 12px;border-radius:var(--radius-sm);border:1px solid rgba(192,57,43,0.3);background:var(--red-bg);color:var(--red);font-family:'Inter',sans-serif;font-size:12px;cursor:pointer;">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ====== MONTHLY REPORT ======
+function openMonthlyReport() {
+  const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const title = `${MONTH_NAMES[currentMonth]} ${currentYear} Report`;
+  document.getElementById('reportModalTitle').textContent = title;
+
+  const txs     = getMonthTx();
+  const income  = txs.filter(t => t.type === 'income').reduce((s,t) => s+t.amount, 0);
+  const spent   = txs.filter(t => t.type === 'expense').reduce((s,t) => s+t.amount, 0);
+  const saved   = income - spent;
+  const savRate = income > 0 ? Math.round((saved/income)*100) : 0;
+
+  // Top categories
+  const catTotals = {};
+  txs.filter(t => t.type === 'expense').forEach(t => { catTotals[t.category] = (catTotals[t.category]||0) + t.amount; });
+  const topCats = Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  // Top merchants
+  const merchantTotals = {};
+  txs.filter(t => t.type === 'expense' && t.desc).forEach(t => {
+    const key = t.desc.substring(0,30);
+    merchantTotals[key] = (merchantTotals[key]||0) + t.amount;
+  });
+  const topMerchants = Object.entries(merchantTotals).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+  const prevYear  = currentMonth === 0 ? currentYear - 1 : currentYear;
+  const prevKey   = `${prevYear}-${String(prevMonth+1).padStart(2,'0')}`;
+  const prevTxs   = _txCache.filter(t => t.date && t.date.startsWith(prevKey));
+  const prevSpent = prevTxs.filter(t => t.type === 'expense').reduce((s,t) => s+t.amount, 0);
+  const spentDiff = prevSpent > 0 ? Math.round(((spent-prevSpent)/prevSpent)*100) : null;
+
+  document.getElementById('reportModalContent').innerHTML = `
+    <!-- Summary cards -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+      <div style="background:var(--surface2);border-radius:var(--radius);padding:14px;text-align:center;">
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Income</div>
+        <div style="font-family:'DM Mono',monospace;font-size:18px;color:var(--green);">${fmt(income)}</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius);padding:14px;text-align:center;">
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Spent</div>
+        <div style="font-family:'DM Mono',monospace;font-size:18px;color:var(--red);">${fmt(spent)}</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius);padding:14px;text-align:center;">
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Saved</div>
+        <div style="font-family:'DM Mono',monospace;font-size:18px;color:${saved>=0?'var(--green)':'var(--red)'};">${saved>=0?'+':''}${fmt(saved)}</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius);padding:14px;text-align:center;">
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Save Rate</div>
+        <div style="font-family:'DM Mono',monospace;font-size:18px;color:var(--accent-gold);">${savRate}%</div>
+      </div>
+    </div>
+
+    ${spentDiff !== null ? `<div style="background:${spentDiff>0?'var(--red-bg)':'var(--green-bg)'};border:1px solid ${spentDiff>0?'rgba(192,57,43,0.2)':'rgba(42,125,79,0.2)'};border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:16px;font-size:12px;color:${spentDiff>0?'var(--red)':'var(--green)'};font-weight:500;">
+      ${spentDiff>0?'📈':'📉'} Spending is ${Math.abs(spentDiff)}% ${spentDiff>0?'higher':'lower'} than last month
+    </div>` : ''}
+
+    <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Top Spending Categories</div>
+    ${topCats.map(([catId, amt]) => {
+      const cat = CATEGORIES.find(c=>c.id===catId) || {emoji:'📦',label:catId};
+      const pct = Math.round((amt/spent)*100);
+      return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <span style="font-size:16px;width:24px;">${cat.emoji}</span>
+        <div style="flex:1;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;">
+            <span style="color:var(--text);font-weight:500;">${cat.label}</span>
+            <span style="color:var(--text);font-family:'DM Mono',monospace;">${fmt(amt)}</span>
+          </div>
+          <div style="background:var(--surface2);border-radius:99px;height:4px;overflow:hidden;">
+            <div style="height:100%;width:${pct}%;background:var(--accent-gold);border-radius:99px;"></div>
+          </div>
+        </div>
+        <span style="font-size:11px;color:var(--muted);width:30px;text-align:right;">${pct}%</span>
+      </div>`;
+    }).join('')}
+
+    ${topMerchants.length ? `
+    <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:16px 0 10px;">Top Merchants</div>
+    ${topMerchants.map(([name, amt]) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+        <span style="font-size:13px;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${name}</span>
+        <span style="font-family:'DM Mono',monospace;font-size:13px;color:var(--red);flex-shrink:0;margin-left:8px;">${fmt(amt)}</span>
+      </div>`).join('')}` : ''}
+
+    <div style="margin-top:20px;text-align:center;">
+      <button onclick="closeReportModal()" style="padding:12px 32px;border-radius:var(--radius-sm);border:none;background:var(--text);color:var(--bg);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Done</button>
+    </div>`;
+
+  document.getElementById('reportModalOverlay').classList.add('open');
+}
+
+function closeReportModal() {
+  document.getElementById('reportModalOverlay').classList.remove('open');
+}
+
+// ====== DARK MODE AUTO-SCHEDULE ======
+let _autoThemeTimer = null;
+
+function toggleAutoTheme(enabled) {
+  localStorage.setItem('bugibud_auto_theme', enabled ? '1' : '0');
+  document.getElementById('autoThemeSlider').classList.toggle('on', enabled);
+  document.getElementById('autoThemeSettings').style.display = enabled ? '' : 'none';
+  document.getElementById('autoThemeToggle').checked = enabled;
+  if (enabled) startAutoThemeTimer(); else { clearInterval(_autoThemeTimer); _autoThemeTimer = null; }
+}
+
+function saveAutoTheme() {
+  const start = document.getElementById('darkModeStart').value;
+  const end   = document.getElementById('darkModeEnd').value;
+  localStorage.setItem('bugibud_dark_start', start);
+  localStorage.setItem('bugibud_dark_end', end);
+  applyAutoTheme();
+}
+
+function applyAutoTheme() {
+  const start = localStorage.getItem('bugibud_dark_start') || '20:00';
+  const end   = localStorage.getItem('bugibud_dark_end')   || '07:00';
+  const now   = new Date();
+  const cur   = now.getHours() * 60 + now.getMinutes();
+  const [sh, sm] = start.split(':').map(Number);
+  const [eh, em] = end.split(':').map(Number);
+  const sMin = sh * 60 + sm;
+  const eMin = eh * 60 + em;
+  const isDark = sMin > eMin
+    ? (cur >= sMin || cur < eMin)   // overnight: e.g. 20:00 → 07:00
+    : (cur >= sMin && cur < eMin);  // same-day
+  applyTheme(isDark ? 'dark' : 'light');
+}
+
+function startAutoThemeTimer() {
+  applyAutoTheme();
+  _autoThemeTimer = setInterval(applyAutoTheme, 60000); // check every minute
+}
+
+function initAutoTheme() {
+  const enabled = localStorage.getItem('bugibud_auto_theme') === '1';
+  const start   = localStorage.getItem('bugibud_dark_start') || '20:00';
+  const end     = localStorage.getItem('bugibud_dark_end')   || '07:00';
+  const startEl = document.getElementById('darkModeStart');
+  const endEl   = document.getElementById('darkModeEnd');
+  const toggle  = document.getElementById('autoThemeToggle');
+  if (startEl) startEl.value = start;
+  if (endEl)   endEl.value   = end;
+  if (toggle)  toggle.checked = enabled;
+  document.getElementById('autoThemeSlider')?.classList.toggle('on', enabled);
+  document.getElementById('autoThemeSettings').style.display = enabled ? '' : 'none';
+  if (enabled) startAutoThemeTimer();
+}
+
+// ====== RECURRING REMINDERS ======
+function toggleRecurringReminder(enabled) {
+  localStorage.setItem('bugibud_recurring_reminder', enabled ? '1' : '0');
+  document.getElementById('recurringReminderSlider').classList.toggle('on', enabled);
+  document.getElementById('recurringReminderToggle').checked = enabled;
+}
+
+function checkRecurringReminder() {
+  if (localStorage.getItem('bugibud_recurring_reminder') !== '1') return;
+  const key     = `bugibud_reminder_dismissed_${currentYear}_${currentMonth}`;
+  const dayOf   = new Date().getDate();
+  if (dayOf >= 1 && dayOf <= 5 && !localStorage.getItem(key)) {
+    document.getElementById('recurringBanner').style.display = '';
+  }
+}
+
+function dismissRecurringBanner() {
+  const key = `bugibud_reminder_dismissed_${currentYear}_${currentMonth}`;
+  localStorage.setItem(key, '1');
+  document.getElementById('recurringBanner').style.display = 'none';
+}
+
+function initRecurringReminder() {
+  const enabled = localStorage.getItem('bugibud_recurring_reminder') === '1';
+  const toggle  = document.getElementById('recurringReminderToggle');
+  if (toggle) toggle.checked = enabled;
+  document.getElementById('recurringReminderSlider')?.classList.toggle('on', enabled);
+  if (enabled) checkRecurringReminder();
+}
+
+function updateCurrencyPicker() {} // stub — currency picker not active
+
+// ====== THEME ======
 const THEMES = [
   { id: 'light',    icon: '☀️',  label: 'Classic',  metaColor: '#f5f4f1' },
   { id: 'dark',     icon: '🌙',  label: 'Dark',     metaColor: '#0f0f0f' },
@@ -3885,6 +5194,8 @@ function toggleTheme() { cycleTheme(); }
 // Init — Supabase SDK loads async, appBoot() fires on _sbScript.onload above
 updateMonthLabel();
 initTheme();
+initAutoTheme();
+initRecurringReminder();
 initOfflineBanner();
 </script>
 </body>
